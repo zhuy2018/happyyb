@@ -1,2 +1,2 @@
-# tqyb.github.io
-this is tqyb
+# ttyb.github.io
+this is ttyb
