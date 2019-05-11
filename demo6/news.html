@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="keywords" content="虚拟现实,唯见科技,唯镜,3D眼镜,VR眼镜,手机端VR头盔,虚拟现实眼镜,虚拟现实头盔" />
+<meta name="description" content="唯见科技有限公司（VRseen）是一家专注于虚拟现实（Virtual Reality, VR）的硬件生产，软件开发和内容分享平台运营的综合性科技公司。唯镜是国内首款手机端VR眼镜，搭配独立9轴传感器运动跟踪系统，提供更佳沉浸式体验。" />
+<title>唯见官网——新闻</title>
+<link href="css/basic.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/collection.js"></script>
+<script type="text/javascript">
+$(function (){
+	$.ajax({
+		type:'GET',
+		url:'http://beta.admin.api.vrseen.net/api/news/data',
+		dataType:'json',
+		success:function (data){
+			for( var i=0;i<data.data.length;i++ ){
+				var sHtml=""
+				var $news_list=$('.news_list');
+				sHtml+='<li><img src=" '+ data.data[i].thumbnail +' "><p>'+ data.data[i].title +'</p><p>'+ data.data[i].description +'</p><p>'+ data.data[i].date +'</p></li>';
+				$news_list.prepend( sHtml );
+			}	
+		}
+	});
+	
+});
+</script>
+</head>
+
+<body>
+<article class="page">
+  <section class="wrap">
+    <div class="header"></div>
+        
+	<div class="news">
+      <h1>新闻资讯</h1>
+      <ul class="news_list">
+      </ul>
+    </div>
+    
+    <footer class="footer"></footer>
+  </section>
+</article>
+<script type="text/javascript">
+//从第3个图片开始循环懒加载技术
+setTimeout(function (){
+	$(window).scroll(function (){
+		$('.news_list img').each(function (i, elem){
+			if( i>1 && $(elem).offset().top < $(window).height() + $(window).scrollTop() ){
+				$(elem).delay(500).css({
+					'opacity':1,
+					'transition':'0.8s'
+				});
+			}
+		});
+	});
+	
+}, 20);
+
+//定时器方法分开加载第一个和第二个图片，因为第一个和第二个图片高度都是大多数手机可视区高度
+OneTweo( 'img:eq(0)', 1300 );
+OneTweo( 'img:eq(1)', 2200 );
+function OneTweo(img, timer){
+	setTimeout(function (){
+		$('.news_list').find( img ).delay(300).css({
+			'opacity':1,
+			'transition':'0.8s'
+		});
+	}, timer);	
+}
+</script>
+</body>
+</html>

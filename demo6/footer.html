@@ -1,0 +1,35 @@
+<!--底部-->
+<p class="footp">
+  <a href="vrseenapp.html">唯镜APP</a>
+  <a href="http://store.vrseen.com">应用商店</a>
+  <a href="http://www.vrseen.com/vr">360° VR</a>
+  <a href="http://www.vrseen.com/forum/forum.php">论坛</a>
+  <a href="http://search.51job.com/list/%2B,%2B,%2B,%2B,%2B,%2B,%25BA%25BC%25D6%25DD%25CE%25A8%25BC%25FB%25BF%25C6%25BC%25BC%25D3%25D0%25CF%25DE%25B9%25AB%25CB%25BE,1,%2B.html?lang=c&stype=1&image_x=0&image_y=0">加入我们</a>
+  <a href="https://shop130996522.taobao.com/?spm=a313o.7775905.1998679131.d0011.upKyC0">购买</a>
+</p>
+<br />
+<div class="footer_div">
+  <p>客服电话 <a href="tel:400-860-0217">400-860-0217</a></p>
+  <p>版权所有杭州唯见科技有限公司 浙ICP 备15029763</p>
+</div>
+<a class="ewm" href="javascript:;"></a>
+<a class="weibo" href="http://m.weibo.cn/u/5663750784?"></a>
+
+<script type="text/javascript">
+//底部底部微信弹窗
+var hr = $(window).height();
+var $weixin=$('<div class="footer_weixin"><img src="images/ems-cnpl.jpg" /></div>');
+var $weixin_h=$('<div class="footer_weixin_h"></div>');
+$('.footer a.ewm').on('touchend', function ( event ){
+	if( $weixin && $weixin_h ){
+		$("body").prepend( $weixin_h ).prepend( $weixin ).css("overflow", "hidden");
+	}
+	event.stopPropagation();
+});
+$('body').on('touchend', function ( event ){
+	$("body").css("overflow", "");
+	$weixin_h.remove();
+	$weixin.remove()
+	event.stopPropagation();
+});
+</script>

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="唯见科技有限公司（VRseen）是一家专注于虚拟现实（Virtual Reality, VR）的硬件生产，软件开发和内容分享平台运营的综合性科技公司。唯镜是国内首款手机端VR眼镜，搭配独立9轴传感器运动跟踪系统，提供更佳沉浸式体验。" />
+<meta name="keywords" content="虚拟现实,唯见科技,唯镜,3D眼镜,VR眼镜,手机端VR头盔,虚拟现实眼镜,虚拟现实头盔。" />
+<title>唯见官网——淘宝购买</title>
+<link href="css/basic.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/collection.js"></script>
+<script type="text/javascript">
+$(function (){
+	var data = [{
+		 id: 1,
+		 url: 'images/1.png', //本地图片
+		 src: 'http://item.jd.com/2751165.html', //链接地址
+		 pirce1: '599'
+	 }, {
+		 id: 2,
+		 url: 'images/2.png', 
+		 src: 'https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-14170466862.37.ba4TnG&id=534681066910',
+		 pirce1: '599'
+	 }, {
+		 id: 3,
+		 url: 'images/11.jpg', 
+		 src: 'https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-14170466862.31.ba4TnG&id=522212408612',
+		 pirce1: '698'
+	 }, {
+		 id: 4,
+		 url: 'images/12.jpg', 
+		 src: 'https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-14170466862.43.ba4TnG&id=530829586369',
+		 pirce1: '698'
+	 }, {
+		 id: 5,
+		 url: 'images/5.png', 
+		 src: 'https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-14170466862.34.ba4TnG&id=525454522392',
+		 pirce1: '99'
+	 }, {
+		 id: 6,
+		 url: 'images/6.png', 
+		 src: 'https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-14170466862.25.ba4TnG&id=534359323679',
+		 pirce1: '39'
+	 }, {
+		 id: 7,
+		 url: 'images/7.png', 
+		 src: 'https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-14170466862.28.ba4TnG&id=534359855195',
+		 pirce1: '8.99'
+	 }, {
+		 id: 8,
+		 url: 'images/8.png', 
+		 src: 'https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-14170466862.28.ba4TnG&id=534359855195',
+		 pirce1: '20'
+	 }, {
+		 id: 9,
+		 url: 'images/9.png', 
+		 src: 'https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-14170466862.19.ba4TnG&id=534489264865',
+		 pirce1: '3'
+	 }, {
+		 id: 10,
+		 url: 'images/10.png', 
+		 src: 'https://item.taobao.com/item.htm?spm=a1z10.3-c.w4002-14170466862.22.ba4TnG&id=534359355921',
+		 pirce1: '2'
+	}];
+	var html='';
+	for( var i=0;i<data.length;i++ ){
+		html+=' <li><a href=" '+ data[i].src +' "><img src=" '+ data[i].url +' " /><p><span>优惠价:￥ '+ data[i].pirce1 +' </span><span><em>立即购买</em></span></p></a></li> ';
+	}
+	$('.tb_buy').prepend( html );
+});
+</script>
+</head>
+
+<body>
+<article class="page">
+  <section class="wrap">
+    <div class="header"></div>
+        
+	<ul class="tb_buy">
+    </ul>
+    
+    <footer class="footer"></footer>
+  </section>
+</article>
+</body>
+</html>

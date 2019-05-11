@@ -1,0 +1,64 @@
+<!--头部-->
+<div class="wrap_header">
+  <a href="index.html">logo</a>
+  <p>唯镜   为沉浸体验而生</p>
+  <a href="javascript:;"></a>
+</div>
+
+<div class="main_nav">
+  <a href="index.html">首页</a>
+  <div class="main_nav_cp">
+    <span>产品</span>
+    <p>
+      <a href="productweijing.html">唯镜</a>
+      <a href="vrseenmini.html">唯镜mini</a>
+      <a href="vrseenapp.html">唯镜APP</a>
+    </p>
+  </div>
+  <a href="tb_buy.html">淘宝购买</a>
+  <a href="vr_qj.html">VR直播</a>
+  <a href="http://m.store.vrseen.com/#/index">应用商店</a>
+  <a href="http://www.vrseen.com/vr/#/index">360° VR</a>
+  <a href="developers.html">开发者</a>
+  <a href="news.html">新闻</a>
+  <a href="about.html">关于我们</a>
+  <a href="http://www.vrseen.com/forum/forum.php">论坛</a>
+  <a href="https://shop130996522.taobao.com/?spm=a313o.7775905.1998679131.d0011.upKyC0">购买</a>
+  <a href="join.html">线下体验店</a>
+</div>
+<div class="main_nav_bg"></div>
+
+<script type="text/javascript">
+$(function (){
+	//头部右边划出效果
+	var btn=true;
+	var hr = $(window).height();
+	var $main_nav=$(".main_nav");
+	var $main_nav_bg=$('.main_nav_bg');
+	$main_nav.css("height",hr*0.9);
+	
+	//点右侧划出菜单
+	$('.wrap_header a:nth-of-type(2)').on('touchend', function() {
+		if( btn ){
+			$main_nav_bg.show();
+			$(this).attr('class', 'active');
+			$main_nav.fadeIn(100).animate({"right":"0"});
+			$(".page").css({"height":hr,"overflow":"hidden"});
+			$('.wrap').css("overflow","hidden");
+		};
+	});
+	//点任意位置菜单回去
+	$('.main_nav_bg').on('touchend', function (){
+		$main_nav_bg.hide();
+		$('.wrap_header > a:nth-of-type(2)').removeClass('active');
+		$main_nav.fadeIn(230).animate({"right":"-5rem"});
+		setTimeout(function (){ $main_nav.css('display', 'none') }, 300);
+		//$(".page").css({"height":"auto","overflow":"auto"});
+		//$('.wrap').css('position', 'inherit');
+	});
+	
+	$('.main_nav_cp').find('span').on('touchend',function (){
+		$(this).parent('.main_nav_cp').find('p').slideToggle(300);
+	});
+});
+</script>

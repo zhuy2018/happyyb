@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="唯见科技有限公司（VRseen）是一家专注于虚拟现实（Virtual Reality, VR）的硬件生产，软件开发和内容分享平台运营的综合性科技公司。唯镜是国内首款手机端VR眼镜，搭配独立9轴传感器运动跟踪系统，提供更佳沉浸式体验。" />
+<meta name="keywords" content="虚拟现实,唯见科技,唯镜,3D眼镜,VR眼镜,手机端VR头盔,虚拟现实眼镜,虚拟现实头盔。" />
+<title>唯见官网——产品 - 唯镜APP</title>
+<link href="css/basic.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/collection.js"></script>
+</head>
+
+<body>
+<article class="page">
+  <section class="wrap">
+    <div class="header"></div>
+        
+	<div class="vrseenapp">
+      <dl>
+        <dt><img src="images/APP1_img1.png"></dt>
+        <dd>唯镜APP</dd>
+        <dd>汇聚精彩VR内容</dd>
+        <dd><a href="http://www.vrseen.com/VRHome.apk" class="APP_load">下载 APP</a></dd>
+      </dl>
+      
+      <dl>
+        <dt><img src="images/APP2_img1.png"></dt>
+        <dd>全新视角  震撼体验</dd>
+        <dd>高清影视 | 全景资源 | VR游戏<br />VR资源 · 不断更新</dd>
+        <dd>手机&amp;VR模式, 安卓&amp;iOS系统<br />双管齐下</dd>
+      </dl>
+      
+      <dl>
+        <dt><img src="images/APP3_img1.png"></dt>
+        <dd><span>巨幕3D影院</span></dd>
+        <dd>巨幕3D · 震撼体验<br />大片免费观影</dd>
+      </dl>
+      
+      <dl>
+        <dt><img src="images/APP4_img1.png"></dt>
+        <dd>看天下,走世界</dd>
+        <dd>720°全景漫游<br />足不出户,天涯咫尺,世间美景,身临其境</dd>
+      </dl>
+      
+      <dl>
+        <dt><img src="images/APP5_img1.png"></dt>
+        <dd><span>虚拟游戏</span></dd>
+        <dd>第一视角, 沉浸其中<br />全新空间, 真实感受</dd>
+      </dl>
+      
+      <dl>
+        <dt><img src="images/APP6_img1.png"></dt>
+        <dd>海量片源库</dd>
+        <dd><span>高清影视 | 全景资源 | VR游戏<br />VR资源  · 不断更新</span></dd>
+      </dl>
+    </div>
+    
+    <footer class="footer"></footer>
+  </section>
+</article>
+<script type="text/javascript" src="js/size_animation.js"></script>
+<script type="text/javascript">
+$(function (){
+	var loding={
+		init:function (){
+			var arr=[
+				"images/APP1_img1.png",
+				"images/APP2_img1.png",
+				"images/APP3_img1.png",
+				"images/APP4_img1.png", 
+				"images/APP5_img1.png",
+				"images/APP6_img1.png"
+			];
+			var iNow=0;
+			for( var i=0;i<arr.length;i++ ){
+				var oimg=new Image();
+				oimg.src=arr[ i ];
+				oimg.onload=function (){
+					iNow++;
+					if( iNow==arr.length ){
+						add( '.vrseenapp dl','dd' );
+					}
+				}
+			}
+		}
+	};
+	loding.init();
+});
+</script>
+</body>
+</html>
