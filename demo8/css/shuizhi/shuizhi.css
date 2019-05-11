@@ -1,0 +1,191 @@
+@charset "UTF-8";
+body {
+  font-family: "黑体" !important;
+  overflow: hidden;
+}
+
+/*
+ * content_wrap开始
+ * */
+.next_btn {
+  width: 80px;
+  height: 30px;
+  position: absolute;
+  left: 22px;
+  bottom: 26px;
+  z-index: 100;
+  background: url("../../img/shuizhi/next1.png") no-repeat;
+  cursor: pointer;
+}
+
+.next_btn:hover {
+  background: url("../../img/shuizhi/next11.png") no-repeat;
+}
+
+.prev_btn {
+  width: 80px;
+  height: 30px;
+  position: absolute;
+  left: 22px;
+  bottom: 26px;
+  z-index: 100;
+  background: url("../../img/shuizhi/prev1.png") no-repeat;
+  cursor: pointer;
+}
+
+.prev_btn:hover {
+  background: url("../../img/shuizhi/prev11.png") no-repeat;
+}
+
+#stylelist {
+  position: absolute;
+  height: 30px;
+  line-height: 30px;
+  bottom: 26px;
+  right: 20px;
+  z-index: 100;
+  border-radius: 6px;
+}
+
+.content_wrap {
+  width: 1024px;
+  height: 768px;
+  color: #fff;
+  overflow: hidden;
+}
+.content_wrap .content_main {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 698px;
+  padding: 0 10px;
+  position: relative;
+}
+.content_wrap .content_main .title_tip {
+  width: 100%;
+  height: 40px;
+  color: #144479;
+  font-size: 20px;
+}
+.content_wrap .content_main .title_tip span {
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 10px 0 19px;
+  background: url("../../img/public/title_bg.png") no-repeat 0 center;
+}
+
+.content {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 647px;
+  background: url("../../img/shuizhi/ditu_bg.png") no-repeat;
+  background-size: 100% 100%;
+  padding: 3px;
+  position: relative;
+}
+.content .choose_box {
+  width: 100%;
+  height: 100%;
+}
+.content .choose_btn {
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 20px;
+  position: absolute;
+  left: 10px;
+  top: 268px;
+  z-index: 10;
+  cursor: pointer;
+  background: #1e518b;
+  color: #fff;
+}
+.content .more_btn {
+  background: #066377;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 20px;
+  position: absolute;
+  left: 22px;
+  top: 500px;
+  z-index: 10;
+  cursor: pointer;
+}
+.content .water_source {
+  width: 212px;
+  height: 494px;
+  padding: 0 10px;
+  background: rgba(13, 47, 85, 0.9);
+  position: absolute;
+  right: 8px;
+  top: 78px;
+}
+.content .water_source .jiankong {
+  height: 40px;
+  font-size: 16px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.water_rank .per_water {
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px dashed #8f9eaa;
+}
+.water_rank .per_water .water_number {
+  width: 20px;
+  height: 20px;
+  margin: 15px 15px 0 0;
+  background: #0071c6;
+  float: left;
+  text-align: center;
+}
+.water_rank .per_water .water_name {
+  width: 176px;
+  height: 20px;
+  color: #fff200;
+  font-size: 20px;
+  float: left;
+  line-height: 20px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+.water_rank .per_water .active {
+  background: url(../../img/shuizhi/dui.png) no-repeat right center;
+}
+
+/*label {
+  font-size: 18px;
+  float: left;
+  width: 197px;
+  height: 28px;
+  line-height: 28px;
+  margin-top: 15px;
+  input[type=checkbox] {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    float: right;
+    border: 2px #667a8e solid;
+    -webkit-appearance: none;
+    cursor: pointer !important;
+  }
+  label.active input[type=checkbox] {
+    border: 2px #5582a7 solid;
+  }
+  input[type=checkbox]:before {
+    position: absolute;
+    content: '';
+    width: 16px;
+    height: 16px;
+    top: 0px;
+  }
+  input[type=checkbox]:checked:before {
+    width: 22px;
+    height: 20px;
+    background: url(../../img/shuizhi/dui.png) no-repeat 0px 0px;
+  }
+}*/

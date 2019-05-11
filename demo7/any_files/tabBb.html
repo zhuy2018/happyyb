@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)http://218.205.68.159/laly/sys/sysUser/tabBb.do -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!-- jsp文件头和头部 -->
+		
+<!--<base href="http://218.205.68.159:80/laly/">--><base href=".">
+	
+	<title></title>
+	<meta name="description" content="overview &amp; stats">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- basic styles -->
+	<link href="./bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./font-awesome.css">
+
+	<!-- ace styles -->
+	<link rel="stylesheet" href="./ace.min.css">
+	<script type="text/javascript" src="./jquery-1.9.1.min.js.下载"></script>
+
+	<script type="text/javascript" src="./bootbox.min.js.下载"></script>	<!-- 确认窗口 -->
+
+	<!-- 树-->
+	<link rel="stylesheet" href="./zTreeStyle.css" type="text/css">
+	
+	
+	<script type="text/javascript" src="./jquery.ztree.core-3.5.js.下载"></script>
+	<script type="text/javascript" src="./jquery.ztree.excheck-3.5.js.下载"></script>
+	
+	<script type="text/javascript" src="./zDrag.js.下载"></script>
+	<script type="text/javascript" src="./zDialog.js.下载"></script>
+	<script type="text/javascript" src="./layer.js.下载"></script><link rel="stylesheet" href="./layer.css" id="layui_layer_skinlayercss" style="">
+	<script type="text/javascript" src="./jquery.tips.js.下载"></script>
+	
+	<script type="text/javascript" src="./WdatePicker.js.下载"></script><link href="./WdatePicker.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="./form.js.下载"></script>
+	
+	
+	
+	<script type="text/javascript">
+	/** 
+ * 时间对象的格式化; 
+ */  
+Date.prototype.format = function(format) {  
+    /* 
+     * eg:format="yyyy-MM-dd hh:mm:ss"; 
+     */  
+    var o = {  
+        "M+" : this.getMonth() + 1, // month  
+        "d+" : this.getDate(), // day  
+        "h+" : this.getHours(), // hour  
+        "m+" : this.getMinutes(), // minute  
+        "s+" : this.getSeconds(), // second  
+        "q+" : Math.floor((this.getMonth() + 3) / 3), // quarter  
+        "S" : this.getMilliseconds()  
+        // millisecond  
+    }  
+  
+    if (/(y+)/.test(format)) {  
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4  
+                        - RegExp.$1.length));  
+    }  
+  
+    for (var k in o) {  
+        if (new RegExp("(" + k + ")").test(format)) {  
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1  
+                            ? o[k]  
+                            : ("00" + o[k]).substr(("" + o[k]).length));  
+        }  
+    }  
+    return format;  
+} 
+
+function initData(){
+	if(null != document.getElementById("data")){
+	document.getElementById("data").innerHTML = '';
+	}
+	if(null != document.getElementById("chart")){
+	document.getElementById("chart").innerHTML = '';
+	}
+	
+	
+}
+
+	
+	</script>
+
+	</head>
+		<body><div class="container-fluid">
+			<div class="row-fluid">
+				<div id="ta1" style="">
+					<img src="./tabBb.png" style="width:1557px;height:800px;">
+				</div>
+				<div id="ta2" style="display: none;">
+					<img src="./tabBb.png" width="900px" height="500px">
+				</div>
+			</div>
+	</div>
+<script type="text/javascript">
+	var iWidth = window.screen.availWidth;
+	//console.log(iWidth);
+	if(iWidth > 1800){
+	    //console.log(1);
+		$("#ta1").show();
+		$("#ta2").hide();
+	}else{
+		$("#ta2").show();
+		$("#ta1").hide();
+	}
+</script>
+	
+
+
+</body></html>

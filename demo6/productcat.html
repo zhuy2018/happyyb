@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>优安APP - 商品品类</title>
+<link href="css/basic.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/content_width.js"></script>
+<script type="text/javascript">
+$(function (){
+	var _pageHeight=$('.page').innerHeight() - $('footer').outerHeight(true)-21;//最小高度
+	var _productcat_list=$('.productcat_list').height();                     //最大高度
+	//_pageHeight<_productcat_list ? $('.productcat ul.nav').css('height', _productcat_list ) : $('.productcat ul.nav').css('height', _pageHeight );
+	
+	if( _productcat_list>_pageHeight ){
+		$('.productcat ul.nav').css('height', _productcat_list );
+	}else{
+		$('.productcat ul.nav').css('height', _pageHeight );
+		$('.productcat').css('padding', '0px' );
+	}
+		
+	//切换
+	$('.productcat_list:gt(0)').hide();
+	var btn=$('.nav li a');
+	btn.click(function(){
+		$(this).addClass('active')
+			   .parent().siblings().children().removeClass();
+			   
+		$( '.productcat_list' ).empty();
+		var iIndex=btn.index(this);
+		switch( iIndex ){
+			case 0:
+				$( '.productcat_list' ).append( t0 );
+				break;
+			case 1:
+				$( '.productcat_list' ).append( t1 );
+				break;
+			case 2:
+				$( '.productcat_list' ).append( t2 );
+				break;
+			case 3:
+				$( '.productcat_list' ).append( t0 );
+				break;
+			case 4:
+				$( '.productcat_list' ).append( t1 );
+				break;
+			case 5:
+				$( '.productcat_list' ).append( t2 );
+				break;
+			case 6:
+				$( '.productcat_list' ).append( t0 );
+				break;
+			case 7:
+				$( '.productcat_list' ).append( t1 );
+				break;
+			case 8:
+				$( '.productcat_list' ).append( t2 );
+				break;
+			case 9:
+				$( '.productcat_list' ).append( t0 );
+				break;
+			case 10:
+				$( '.productcat_list' ).append( t1 );
+				break;
+		}
+
+		var _pageHeight=$('.page').innerHeight() - $('footer').outerHeight(true)-21;//最小高度
+		var _productcat_list=$('.productcat_list').height();                     //最大高度
+		if( _productcat_list>_pageHeight ){
+			$('.productcat ul.nav').css('height', _productcat_list );
+		}else{
+			$('.productcat ul.nav').css('height', _pageHeight );
+			$('.productcat').css('padding', '0px' );
+		}
+	});
+});
+
+var t0=' <div class="productcat_list_co"><div><p>冷冻牛肉</p><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F942457E63C94C080200000CA900000000.jpg"></a><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9C3C6FF9147C9921200000D6B00000000.jpg"></a></div><div><p>冷冻羊肉</p><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F93C44EDA92A303B6000000A1A00000000.jpg"></a><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9F9C986E24C5BA8E800000D8000000000.jpg"></a></div></div> ';
+
+var t1='<div class="productcat_list_co"><div><p>冷冻鱼类</p><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F92DDE7D1AFCE4C46800000A4F00000000.jpg"></a><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9F173E6F075550C8C00000BD100000000.jpg"></a></div><div><p>冷冻虾类</p><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9653FF12E1B4A011E0000099A00000000.jpg"></a><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9DACA28E483F7E65B00000D1B00000000.jpg"></a></div><div><p>冷冻蟹类</p><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9F7B42B762716BA5B00000DAB00000000.jpg"></a><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F946B5C78125FFB42E00000B8200000000.jpg"></a></div><div><p>冷冻蟹类</p><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9F7B42B762716BA5B00000DAB00000000.jpg"></a><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F946B5C78125FFB42E00000B8200000000.jpg"></a></div></div>';
+
+var t2='<div class="productcat_list_co"><div><a class="sg"href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F921E71F4782B862E20001553500000000.jpg"></a><p>水果类</p><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F93B5C68F167EF90ED000007C600000000.jpg"></a><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9D5E6A0DCDAA1D57400000B6F00000000.jpg"></a><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9D5E6A0DCDAA1D57400000B6F00000000.jpg"></a><a href="goods_details.html"><img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F93B5C68F167EF90ED000007C600000000.jpg"></a></div></div>';
+</script>
+</head>
+
+<body>
+<article class="page">
+  <section class="wrap">
+    <div class="wrap_header">
+      <span onClick="window.history.go(-1)"></span>
+      <a class="wrap_header_jt1" href="javascript:;"></a>
+      <a class="wrap_header_jt2" href="javascript:;"></a>
+      <span>优安鲜品</span>
+      <ul>
+        <li><a href="productcat.html">商品品类</a></li>
+        <li><a href="search.html">商品搜索</a></li>
+      </ul>
+    </div>
+    <div class="productcat">
+      <ul class="nav">
+        <li><a class="active">冷冻肉制品</a></li>
+        <li><a>冷冻海鲜</a></li>
+        <li><a>生鲜果蔬</a></li>
+        <li><a>乳制品</a></li>
+        <li><a>休闲食品</a></li>
+        <li><a>酒/饮料</a></li>
+        <li><a>冲饮食品</a></li>
+        <li><a>粮油制品</a></li>
+        <li><a>腌腊/干货制品</a></li>
+        <li><a>调味品/佐餐食品</a></li>
+        <li><a>即食制品/罐头食品</a></li>
+      </ul>
+      <div class="productcat_list">
+        
+        <div class="productcat_list_co">
+          <div>
+            <p>
+              冷冻牛肉
+            </p>
+            <a href="goods_details.html">
+              <img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F942457E63C94C080200000CA900000000.jpg">
+            </a>
+            <a href="goods_details.html">
+              <img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9C3C6FF9147C9921200000D6B00000000.jpg">
+            </a>
+          </div>
+          <div>
+            <p>
+              冷冻羊肉
+            </p>
+            <a href="goods_details.html">
+              <img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F93C44EDA92A303B6000000A1A00000000.jpg">
+            </a>
+            <a href="goods_details.html">
+              <img src="http://sfs.yaxp.com:8000/5B10B5C2CABEC8F9F9C986E24C5BA8E800000D8000000000.jpg">
+            </a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <footer>
+      <a class="footer" href="index.html">首页</a>
+      <div class="footer_a">
+        <a class="footer">优先推荐<em></em></a>
+        <ul>
+          <li><a href="list.html">本周热推</a></li>
+          <li><a href="list.html">新品热卖</a></li>
+          <li><a href="list.html">新品鉴</a></li>
+        </ul>
+      </div>
+      <a class="footer" href="login.html">购物车</a>
+      <div class="footer_a">
+        <a class="footer">个人中心<em></em></a>
+        <ul>
+          <li><a href="login.html">会员首页</a></li>
+          <li><a href="login.html">订单中心</a></li>
+          <li><a href="login.html">收货地址</a></li>
+        </ul>
+      </div>
+    </footer>
+  </section>
+</article>
+</body>
+</html>

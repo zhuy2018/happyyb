@@ -1,0 +1,541 @@
+
+function toThousands(num) {
+    var result = [ ], counter = 0;
+    num = (num || 0).toString().split('');
+    for (var i = num.length - 1; i >= 0; i--) {
+        counter++;
+        result.unshift(num[i]);
+        if (!(counter % 3) && i != 0) { result.unshift(','); }
+    }
+    return result.join('');
+}
+//景区选择
+//var areaList = eval(${arealist}).result;
+
+var gis_areatype = {'areatype_2':'景区','areatype_3':'板块','areatype_4':'景点','areatype_5':'子景点','areatype_6':'基站群'};
+var areaid_areatype = {'areatype_2':'','areatype_3':'','areatype_4':'','areatype_5':'','areatype_6':''};
+var areaList;
+var csjList;
+var cqyList;
+
+queryAreaList = function(){
+	if(document.getElementById("areaChoice")!= null||document.getElementById("csjChoice")!= null){
+		$.ajax({
+			type:"post",
+			url:"kpi/kpiZlsj/queryAreaList.do",
+			data:{},
+			timeout: 10000,
+			dataType: "json",
+			success:function(data,textStatus) {
+				areaList = data.areaList;
+				csjList = data.csjList;
+				openAreaList(2);
+				
+				openCsjList(1);
+			}
+		});
+		
+	}
+	
+	
+}
+
+queryCqyList = function(){
+	if(document.getElementById("areaChoice")!= null||document.getElementById("cqyChoice")!= null){
+		$.ajax({
+			type:"post",
+			url:"kpi/kpiZlsj/queryCqyList.do",
+			data:{},
+			timeout: 10000,
+			dataType: "json",
+			success:function(data,textStatus) {
+				areaList = data.areaList;
+				cqyList = data.cqyList;
+				openAreaList(2);
+				
+				openCqyList(1);
+			}
+		});
+		
+	}
+	
+}
+queryCqyList();
+queryCityList = function(){
+	
+	if(document.getElementById("areaChoice")!= null||document.getElementById("csjChoice")!= null){
+		$.ajax({
+			type:"post",
+			url:"kpi/kpiZlsj/queryCityList.do",
+			data:{},
+			timeout: 10000,
+			dataType: "json",
+			success:function(data,textStatus) {
+				areaList = data.areaList;
+				csjList = data.csjList;
+				openAreaLists(2);
+				
+				openCsjLists(1);
+			}
+		});
+		
+	}
+	
+	
+}
+queryCityList();
+
+openAreaList = function(areatype,onclickid){
+	if(null != document.getElementById("areaChoice")){
+	
+	var temp = "<table style='text-align:center;'><tr><td width=60px; style='font-size:14px;'>"+gis_areatype['areatype_'+areatype]+'：</td>';
+	var flag = 0;
+	if('' != areaid_areatype['areatype_'+(areatype-1)]&&document.getElementById("areaid_"+areaid_areatype['areatype_'+(areatype-1)])!= null){
+		document.getElementById("areaid_"+areaid_areatype['areatype_'+(areatype-1)]).style.color="";
+	}
+	if(null != onclickid&&document.getElementById("areaid_"+onclickid)!= null){
+		document.getElementById("areaid_"+onclickid).style.color="#0066FF";
+		areaid_areatype['areatype_'+(areatype-1)] = onclickid;
+		temp_areaid = onclickid;
+	}
+	$.each(areaList, function(i, mess){
+		if(mess.id == onclickid){
+			temp_areaname = mess.areaName;
+		}
+		
+		if(mess.areatype == areatype&&(onclickid == null||onclickid == mess.parentId)){
+			if(flag > 0&&flag%3 == 0){
+				temp += "</tr><tr><td></td>";
+			}
+			temp += "<td  style='width:136px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=openAreaList("+(mess.areatype+1)+","+mess.id+") id=areaid_"+mess.id+">"+mess.areaName+"</td>";
+			flag ++;
+		}
+	});
+	if(flag == 0){
+		temp = "<div id='arealist_"+(areatype+1)+"' ></div>";
+	}else{
+		
+		while(flag%3 != 0 ){
+			temp +="<td style='width:136px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;'> </td>";
+			flag ++;
+		}
+		temp += "</tr></table><div style='height:15px;'></div><div id='arealist_"+(areatype+1)+"' ></div>";
+		
+	}
+	
+	document.getElementById("arealist_"+areatype).innerHTML = temp;
+	if(flag == 0&&(areatype+1 <5)){
+		openAreaList(areatype+1,onclickid);
+	}
+	}
+}
+openAreaLists = function(areatype,onclickid){
+	if(null != document.getElementById("areaChoice")){
+	
+	var temp = "<table style='text-align:center;'><tr><td width=60px; style='font-size:14px;'>"+gis_areatype['areatype_'+areatype]+'：</td>';
+	var flag = 0;
+	if('' != areaid_areatype['areatype_'+(areatype-1)]&&document.getElementById("areaid_"+areaid_areatype['areatype_'+(areatype-1)])!= null){
+		document.getElementById("areaid_"+areaid_areatype['areatype_'+(areatype-1)]).style.color="";
+	}
+	if(null != onclickid&&document.getElementById("areaid_"+onclickid)!= null){
+		document.getElementById("areaid_"+onclickid).style.color="#0066FF";
+		areaid_areatype['areatype_'+(areatype-1)] = onclickid;
+		temp_areaid = onclickid;
+	}
+	$.each(areaList, function(i, mess){
+		if(mess.id == onclickid){
+			temp_areaname = mess.areaName;
+		}
+		
+		if(mess.areatype == areatype&&(onclickid == null||onclickid == mess.parentId)){
+			if(flag > 0&&flag%3 == 0){
+				temp += "</tr><tr><td></td>";
+			}
+			temp += "<td  style='width:136px;cursor: pointer;white-space: nowrap;' onclick=openAreaList("+(mess.areatype+1)+","+mess.id+") id=areaid_"+mess.id+"><span title='"+mess.areaName+"'>"+((mess.areaName.length>8?(mess.areaName.substring(0,8)+"…"):mess.areaName))+"</span></td>";
+			flag ++;
+		}
+	});
+	if(flag == 0){
+		temp = "<div id='arealist_"+(areatype+1)+"' ></div>";
+	}else{
+		
+		while(flag%3 != 0 ){
+			temp +="<td style='width:136px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;'> </td>";
+			flag ++;
+		}
+		temp += "</tr></table><div style='height:15px;'></div><div id='arealist_"+(areatype+1)+"' ></div>";
+		
+	}
+	
+	document.getElementById("arealist_"+areatype).innerHTML = temp;
+	if(flag == 0&&(areatype+1 <5)){
+		openAreaList(areatype+1,onclickid);
+	}
+	}
+}
+
+var csj_areatype = {'areatype_1':'省份','areatype_2':'城市'};
+var cityid_areatype = {'areatype_1':'','areatype_2':''};
+
+openCsjList = function(areatype,onclickid){
+	if(null != document.getElementById("csjChoice")){
+		temp_cityid = '';
+		temp_cityname = '';
+		if(areatype == 2){
+			temp_provid = '';
+			temp_provname = '';
+		}
+	if(null != document.getElementById("csjChoice")){
+//		if(null == areatype){	//全部
+//			csj_provid = '';
+//			csj_cityid = '';
+//			if(document.getElementById("csjlist_2") != null){
+//				document.getElementById("arealist_2").innerHTML = '';
+//			}
+//			if('' != cityid_areatype['areatype_1']&&document.getElementById("cityid_"+cityid_areatype['areatype_1'])!= null){
+//				document.getElementById("cityid_"+cityid_areatype['areatype_1']).style.color="";
+//			}
+//			document.getElementById("cityid_0").style.color="#0066FF";
+//			cityid_areatype['areatype_1'] = onclickid;
+//			return;
+//		}
+		
+		
+		var temp = "<table style='text-align:center;'><tr><td width=50px; style='font-size:14px;'>"+csj_areatype['areatype_'+areatype]+"：</td>";
+		var flag = 0;
+		if(areatype == 1){
+			temp += "<td width=50px; style='cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=openCsjList(2,0); id='cityid_0' style='font-size:14px;'>全部</td>";
+		flag = 1;
+		}
+		
+		if(document.getElementById("cityid_"+cityid_areatype['areatype_'+(areatype-1)])!= null){
+			document.getElementById("cityid_"+cityid_areatype['areatype_'+(areatype-1)]).style.color="";
+			
+		}
+		if(null != onclickid&&document.getElementById("cityid_"+onclickid)!= null){
+			document.getElementById("cityid_"+onclickid).style.color="#0066FF";
+			cityid_areatype['areatype_'+(areatype-1)] = onclickid;
+			
+			if(onclickid == 0){
+				temp_provname = '全部';
+				temp_provid = '';
+			}
+			
+		}
+		
+		$.each(csjList, function(i, mess){
+			if(mess.cityid == onclickid){
+				if(mess.lever == 2){
+					temp_cityname = mess.cityname;
+					temp_cityid = onclickid;
+				}else if(mess.lever == 1){
+					temp_provname = mess.cityname;
+					temp_provid = onclickid;
+				}
+			}
+			
+			if(mess.lever == areatype&&(onclickid == null||onclickid == mess.pid)){
+				
+				if(flag > 0&&flag%5 == 0){
+					temp += "</tr><tr><td></td>";
+				}
+				temp += "<td width=50 style='cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=openCsjList("+(mess.lever+1)+","+mess.cityid+") id=cityid_"+mess.cityid+">"+mess.cityname+"</td>";
+				flag ++;
+			}
+		});
+		if(flag == 0){
+			temp = "<div id='csjlist_"+(areatype+1)+"' ></div>";
+		}else{
+			while(flag%5 != 0 ){
+				temp +="<td style='width:50px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;'> </td>";
+				flag ++;
+			}
+			temp += "</tr></table><div style='height:15px;'></div><div id='csjlist_"+(areatype+1)+"' ></div>";
+			
+		}
+		
+		document.getElementById("csjlist_"+areatype).innerHTML = temp;
+		
+		if(flag == 0&&(areatype+1 <3)){
+			openCsjList(areatype+1,onclickid);
+		}
+		}
+	}
+}
+openCqyList = function(areatype,onclickid){
+	if(null != document.getElementById("cqyChoice")){
+		temp_cityid = '';
+		temp_cityname = '';
+		if(areatype == 2){
+			temp_provid = '';
+			temp_provname = '';
+			
+		}
+	if(null != document.getElementById("cqyChoice")){
+//		if(null == areatype){//全部
+//			cqy_provid = '';
+//			cqy_cityid = '';
+//			if(document.getElementById("cqylist_2") != null){
+//				document.getElementById("arealist_2").innerHTML = '';
+//			}
+//			if('' != cityid_areatype['areatype_1']&&document.getElementById("cityid_"+cityid_areatype['areatype_1'])!= null){
+//				document.getElementById("cityid_"+cityid_areatype['areatype_1']).style.color="";
+//			}
+//			document.getElementById("cityid_0").style.color="#0066FF";
+//			cityid_areatype['areatype_1'] = onclickid;
+//			
+//			return;
+//		}
+		
+		
+		var temp = "<table style='text-align:center;'><tr><td width=50px; style='font-size:14px;'>"+csj_areatype['areatype_'+areatype]+"：</td>";
+		var flag = 0;
+		if(areatype == 1){
+			temp += "<td width=50px; style='cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=openCqyList(2,0); id='cityid_0' style='font-size:14px;'>全部</td>";
+		flag = 1;
+		}
+		
+		if(document.getElementById("cityid_"+cityid_areatype['areatype_'+(areatype-1)])!= null){
+			document.getElementById("cityid_"+cityid_areatype['areatype_'+(areatype-1)]).style.color="";
+			
+		}
+		if(null != onclickid&&document.getElementById("cityid_"+onclickid)!= null){
+			document.getElementById("cityid_"+onclickid).style.color="#0066FF";
+			cityid_areatype['areatype_'+(areatype-1)] = onclickid;
+			
+			if(onclickid == 0){
+				temp_provname = '全部';
+				temp_provid = '';
+			}
+			
+		}
+		
+		$.each(cqyList, function(i, mess){
+			if(mess.cityid == onclickid){
+				if(mess.lever == 2){
+					temp_cityname = mess.cityname;
+					temp_cityid = onclickid;
+				}else if(mess.lever == 1){
+					temp_provname = mess.cityname;
+					temp_provid = onclickid;
+				}
+			}
+			
+			if(mess.lever == areatype&&(onclickid == null||onclickid == mess.pid)){
+				
+				if(flag > 0&&flag%5 == 0){
+					temp += "</tr><tr><td></td>";
+				}
+				temp += "<td width=50 style='cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=openCqyList("+(mess.lever+1)+","+mess.cityid+") id=cityid_"+mess.cityid+">"+mess.cityname+"</td>";
+				flag ++;
+			}
+		});
+		if(flag == 0){
+			temp = "<div id='cqylist_"+(areatype+1)+"' ></div>";
+		}else{
+			while(flag%5 != 0 ){
+				temp +="<td style='width:50px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;'> </td>";
+				flag ++;
+			}
+			temp += "</tr></table><div style='height:15px;'></div><div id='cqylist_"+(areatype+1)+"' ></div>";
+			
+		}
+		
+		document.getElementById("cqylist_"+areatype).innerHTML = temp;
+		
+		if(flag == 0&&(areatype+1 <3)){
+			openCqyList(areatype+1,onclickid);
+		}
+		}
+	}
+}
+openCsjLists = function(areatype,onclickid){
+	if(null != document.getElementById("csjChoice")){
+		temp_cityid = '';
+		temp_cityname = '';
+		if(areatype == 2){
+			temp_provid = '';
+			temp_provname = '';
+			
+		}
+	if(null != document.getElementById("csjChoice")){
+//		if(null == areatype){//全部
+//			csj_provid = '';
+//			csj_cityid = '';
+//			if(document.getElementById("csjlist_2") != null){
+//				document.getElementById("arealist_2").innerHTML = '';
+//			}
+//			if('' != cityid_areatype['areatype_1']&&document.getElementById("cityid_"+cityid_areatype['areatype_1'])!= null){
+//				document.getElementById("cityid_"+cityid_areatype['areatype_1']).style.color="";
+//			}
+//			document.getElementById("cityid_0").style.color="#0066FF";
+//			cityid_areatype['areatype_1'] = onclickid;
+//			
+//			return;
+//		}
+		
+		
+		var temp = "<table style='text-align:center;'><tr><td width=50px; style='font-size:14px;'>"+csj_areatype['areatype_'+areatype]+"：</td>";
+		var flag = 0;
+		if(areatype == 1){
+			temp += "<td width=50px; style='cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=openCsjList(2,0); id='cityid_0' style='font-size:14px;'>全部</td>";
+		flag = 1;
+		}
+		
+		if(document.getElementById("cityid_"+cityid_areatype['areatype_'+(areatype-1)])!= null){
+			document.getElementById("cityid_"+cityid_areatype['areatype_'+(areatype-1)]).style.color="";
+			
+		}
+		if(null != onclickid&&document.getElementById("cityid_"+onclickid)!= null){
+			document.getElementById("cityid_"+onclickid).style.color="#0066FF";
+			cityid_areatype['areatype_'+(areatype-1)] = onclickid;
+			
+			if(onclickid == 0){
+				temp_provname = '全部';
+				temp_provid = '';
+			}
+			
+		}
+		
+		$.each(csjList, function(i, mess){
+			if(mess.cityid == onclickid){
+				if(mess.lever == 2){
+					temp_cityname = mess.cityname;
+					temp_cityid = onclickid;
+				}else if(mess.lever == 1){
+					temp_provname = mess.cityname;
+					temp_provid = onclickid;
+				}
+			}
+			
+			if(mess.lever == areatype&&(onclickid == null||onclickid == mess.pid)){
+				
+				if(flag > 0&&flag%5 == 0){
+					temp += "</tr><tr><td></td>";
+				}
+				temp += "<td width=50 style='cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=openCsjList("+(mess.lever+1)+","+mess.cityid+") id=cityid_"+mess.cityid+">"+mess.cityname+"</td>";
+				flag ++;
+			}
+		});
+		if(flag == 0){
+			temp = "<div id='csjlist_"+(areatype+1)+"' ></div>";
+		}else{
+			while(flag%5 != 0 ){
+				temp +="<td style='width:50px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;'> </td>";
+				flag ++;
+			}
+			temp += "</tr></table><div style='height:15px;'></div><div id='csjlist_"+(areatype+1)+"' ></div>";
+			
+		}
+		
+		document.getElementById("csjlists_"+areatype).innerHTML = temp;
+		
+		if(flag == 0&&(areatype+1 <3)){
+			openCsjList(areatype+1,onclickid);
+		}
+		}
+	}
+}
+
+queryAreaList();
+
+///逗留小时
+hourList = function(){
+	if(null != document.getElementById("hourChoice")){
+	var temp = "<table style='text-align:center;'><tr><td width=70px; style='font-size:14px;'>逗留小时：</td><td width='50px;' style='cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=setHour('all') id='hourlist_all'>全部</td>";
+	var flag = 1;
+		for(var i = 1;i < 25;i++){
+			if(flag > 1&&flag%5 == 0){
+				temp += "</tr><tr><td></td>";
+			}
+			temp += "<td width='50px;'  style='height:30px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=setHour("+i+") id=hourlist_"+i+">"+i+"</td>";
+			flag ++;
+		}
+	
+		temp += "</tr></table><div style='height:15px;'></div>";
+		
+	
+	document.getElementById("hourlist").innerHTML = temp;
+	}
+}
+
+
+setHour = function(flag){
+	if(temp_hour == ''){
+		document.getElementById("hourlist_all").style.color="";
+	
+	}else{
+		document.getElementById("hourlist_"+temp_hour).style.color="";
+	}
+	
+	document.getElementById("hourlist_"+flag).style.color="#0066FF";
+	if(flag != 'all'){
+		temp_hour = flag;
+	}else{
+		temp_hour = '';
+	}
+	
+}
+
+
+hourList();
+
+
+//排名
+topList = function(){
+	if(null != document.getElementById("topChoice")){
+	var temp = "<table style='text-align:center;'><tr><td width=70px; style='font-size:14px;cursor: pointer;'  onclick=setTop('all') id=toplist_all>全部</td>";
+	var flag = 5;
+		for(var i = 6;i < 21;i++){
+			if(flag > 6&&flag%5 == 0){
+				temp += "</tr><tr><td></td>";
+			}
+			temp += "<td width='60px;'  style='height:30px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=setTop("+i+") id=toplist_"+i+">前"+i+"</td>";
+			flag ++;
+		}
+	
+		temp += "</tr></table><div style='height:15px;'></div>";
+		
+	
+	document.getElementById("toplist").innerHTML = temp;
+	}
+}
+
+
+topLists = function(){ 
+	if(null != document.getElementById("topLists")){
+	var temp = "<table style='text-align:center;'><tr><td width=70px; style='font-size:14px;cursor: pointer;'  onclick=setTop('all') id=toplist_all>全部</td>";
+	var flag = 0;
+		for(var i = 2;i <= 9;i++){
+			if(flag > 2&&flag%4 == 0){
+				temp += "</tr><tr><td></td>";
+			}
+			temp += "<td width='60px;'  style='height:30px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=setTop("+i+") id=toplist_"+i+">景点数"+i+"</td>";
+			flag ++;
+		}
+	
+		temp += "</tr></table><div style='height:15px;'></div>";
+		
+	
+	document.getElementById("topLists").innerHTML = temp;
+	}
+}
+
+
+setTop = function(flag){
+	if(temp_toppm == ''){
+		document.getElementById("toplist_all").style.color="";
+	}else{
+		document.getElementById("toplist_"+temp_toppm).style.color="";
+	}
+	document.getElementById("toplist_"+flag).style.color="#0066FF";
+	if(flag != 'all'){
+		temp_toppm = flag;
+	}else{
+		temp_toppm = '';
+	}
+	
+}
+
+topLists();
+topList();

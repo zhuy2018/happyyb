@@ -1,0 +1,39 @@
+/*---------------重置样式----------*/
+html, body, ul, dl, li, dd, dt, p, h1, h2, h3, h4, h5, h6, form, img, span, input, tr, td, a{
+    margin: 0;
+    padding: 0;
+    /*-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+	font-family: "微软雅黑",Arail,Tabhoma;
+	color:#333;*/
+}
+li {list-style:none;}
+a {text-decoration:none;}
+h1, h2, h3, h4, h5, h6, b, strong{font-weight:normal;}
+img{display:block;border:0;}
+i,em{font-style:normal;}
+input{border:0;outline:none;}
+button{outline:none;}
+.fl {float:left;}
+.fr {float: right;}
+.clearfix:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.tac { text-align: center;}
+/*----------- font ---------------*/
+.ft14 { font-size: 14px; }
+.ft16 { font-size: 16px; }
+.ft18 { font-size: 18px; }
+.ft20 { font-size: 20px; }
+.ft22 { font-size: 22px; }
+.ft24 { font-size: 24px; }
+.ft26 { font-size: 26px; }
+.ft28 { font-size: 28px; }
+.ft30 { font-size: 30px; }
+.ft32 { font-size: 32px; }
+.ft34 { font-size: 34px; }
+.ft36 { font-size: 36px; }
+.ft40 { font-size: 40px; }

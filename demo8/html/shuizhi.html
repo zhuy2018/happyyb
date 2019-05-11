@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><!-- 告诉IE使用最新的引擎渲染网页， -->
+    <meta name="renderer" content="webkit"><!-- 360安全浏览器，默认打开 极速模式。 -->
+    <!--#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.-->
+    <title>环保行为督察系统</title>
+    <style>
+        /*去除百度地图版权*/
+        .anchorBL{
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/public/common.css">
+    <link rel="stylesheet" href="../css/topBar/topBar.css">
+    <link rel="stylesheet" href="../css/shuizhi/shuizhi.css">
+</head>
+<body>
+<!--下一步按钮-->
+<a class="next_btn" href="shuizhi3.html"></a>
+<!--上一步按钮-->
+<!--<a class="prev_btn" href="shuizhi3.html"></a>-->
+<!--<select id="stylelist" onchange="changeMapStyle(this.value)">
+    <option value="normal">默认地图样式</option>
+    <option value="light">清新蓝风格</option>
+    <option value="googlelite">精简风格</option>
+    <option value="mapStyle">默认风格</option>
+    <option value="midnight">午夜蓝风格</option>
+    <option value="bluish">清新蓝绿风格</option>
+    <option value="grayscale">高端灰风格</option>
+    <option value="dark">黑夜风格</option>
+</select>-->
+<div class="content_wrap">
+    <!--头部导航开始-->
+    <div class="topBar">
+		<div class="logo">环保行为督察系统</div>
+		<ul class="topMain">
+			<li><a href="../index.html">首页</a></li>
+			<li class="active"><a href="huanbao.html">环保应用</a></li>
+			<li><a href="xingwei.html">行为督察</a></li>
+			<li><a href="xingwei2.html">人群分析</a></li>
+			<li><a href="#">更多功能</a></li>
+		</ul>
+		<div class="login_box">
+			<div class="user_name">
+				你好,系统管理员
+			</div>
+		</div>
+	</div>
+    <!--头部导结束-->
+    <div class="content_main">
+        
+        <div class="title_tip">
+            <!--<span>监控场景</span>-->
+            <span>监控水源</span>
+        </div>
+        <div class="content">
+            <div class="choose_box" id="mymap"></div>
+            <!--<div class="choose_btn" onclick="alert(overlays.length)">范围<br/>选择</div>-->
+            <div class="choose_btn"  onclick="draw(BMAP_DRAWING_RECTANGLE)">范围<br/>选择</div>
+            <!--<div class="more_btn" onclick="clearAll()">重新<br/>选择</div>-->
+            <div class="water_source" style="display: none;">
+                <div class="jiankong">监控水源</div>
+                <div class="water_rank">
+                    <!--只能选择一个水库-->
+                    <div class="per_water">
+                        <div class="water_number">1</div>
+                        <!--<label for="baishaxi">白沙溪 <input id="baishaxi" type="checkbox"></label>-->
+                        <div class="water_name active">青山水库</div>
+                    </div>
+                    <div class="per_water">
+                        <div class="water_number">2</div>
+                        <div class="water_name">南苕溪</div>
+                    </div>
+                    <div class="per_water">
+                        <div class="water_number">3</div>
+                        <div class="water_name">锦溪</div>
+                    </div>
+                    <div class="per_water">
+                        <div class="water_number">4</div>
+                        <div class="water_name">马溪</div>
+                    </div>
+                    <div class="per_water">
+                        <div class="water_number">5</div>
+                        <div class="water_name">东湖</div>
+                    </div>
+                    <div class="per_water">
+                        <div class="water_number">6</div>
+                        <div class="water_name">大柴山湾水库</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4c37887dd000b1e543a1add699d05e83"></script>
+<!--加载鼠标绘制工具-->
+<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+
+<script type="text/javascript" src="../js/Heatmap_min.js" ></script>
+<script type="text/javascript" src="http://lbsyun.baidu.com/custom/stylelist.js"></script>
+<script src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script src="../js/public/autoSize.js"></script>
+<script src="../js/shuizhi/shuizhi.js"></script>
+</body>
+</html>

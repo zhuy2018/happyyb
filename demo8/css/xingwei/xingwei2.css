@@ -1,0 +1,287 @@
+@charset "UTF-8";
+body {
+  font-family: "黑体" !important;
+  overflow: hidden;
+}
+
+/*
+ * content_wrap开始
+ * */
+.content_wrap {
+  width: 1024px;
+  height: 768px;
+  color: #fff;
+  overflow: hidden;
+}
+.content_wrap .content_main {
+  height: 100%;
+  padding: 0 10px;
+}
+
+.enter {
+  width: 400px;
+  height: 70px;
+  line-height: 70px;
+  margin: 0 auto;
+}
+.enter li {
+  float: left;
+  width: 200px;
+  height: 70px;
+}
+.enter li a {
+  width: 172px;
+  height: 24px;
+  padding-left: 28px;
+  font-size: 24px;
+  color: #2b4166;
+  background-size: 22px 44px;
+  background-position: 0 2px;
+  background-repeat: no-repeat;
+}
+.enter li a:hover {
+  color: #6bd9ff;
+  background-position: 0 -22px;
+}
+.enter li:nth-child(1) a {
+  background-image: url("../../img/xingwei/enter1.png");
+}
+.enter li:nth-child(2) a {
+  background-image: url("../../img/xingwei/enter2.png");
+}
+.enter .now_active a {
+  color: #6bd9ff;
+  background-position: 0 -22px;
+}
+
+.content {
+  width: 100%;
+  height: 688px;
+  position: relative;
+}
+.content .per_title {
+  font-size: 22px;
+  line-height: 50px;
+  color: #144479;
+  text-align: center;
+}
+.content .img1 {
+  position: absolute;
+  top: 97px;
+  left: 191px;
+  z-index: 100;
+}
+.content .img2 {
+  position: absolute;
+  top: 261px;
+  left: 10px;
+  z-index: 100;
+}
+.content .img3 {
+  position: absolute;
+  top: 436px;
+  left: 10px;
+  z-index: 100;
+}
+.content .img4 {
+  position: absolute;
+  top: 600px;
+  left: 202px;
+  z-index: 100;
+}
+
+.lei_shuju {
+  width: 600px;
+  height: 30px;
+  margin: 5px auto;
+}
+.lei_shuju li {
+  width: 76px;
+  height: 26px;
+  margin-right: 5px;
+  text-align: center;
+  float: left;
+  font-size: 16px;
+  line-height: 26px;
+  color: #063f7f;
+  border: 2px solid #063f7f;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #fff;
+}
+.lei_shuju li:hover {
+  background: #063f7f;
+  color: #fff;
+}
+.lei_shuju li.active {
+  background: #063f7f;
+  color: #fff;
+}
+
+.main_top {
+  width: 100%;
+  height: 319px;
+  margin-bottom: 10px;
+}
+
+.main_top .t_left {
+  width: 328px;
+  height: 100%;
+  background: url(../../img/xingwei/box_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 10px;
+  float: left;
+  background-size: 100% 100%;
+}
+
+.main_top .t_left .sex_percent {
+  width: 100%;
+  height: 266px;
+  position: relative;
+}
+
+.main_top .t_left .sex_percent #sex_percent {
+  width: 100%;
+  height: 100%;
+}
+
+.main_top .t_left .sex_percent .double_png {
+  width: 90px;
+  height: 97px;
+  background: url(../../img/xingwei/maleGirl.png) no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  z-index: 10;
+}
+
+.main_top .t_center {
+  width: 328px;
+  height: 100%;
+  background: url(../../img/xingwei/box_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 10px;
+  margin: 0 10px;
+  float: left;
+  background-size: 100% 100%;
+  position: relative;
+}
+
+.main_top .t_center #from {
+  width: 100%;
+  height: 266px;
+  float: left;
+}
+
+.main_top .t_center #citydetail {
+  width: 78px;
+  height: 160px;
+  float: left;
+  color: #fff;
+  background: rgba(6, 92, 146, 0.8);
+  position: absolute;
+  right: 17px;
+  bottom: 10px;
+}
+
+#citydetail li {
+  font-size: 12px;
+  line-height: 16px;
+  text-align: left;
+  text-indent: 5px;
+}
+
+.main_top .t_right {
+  width: 328px;
+  height: 100%;
+  background: url(../../img/xingwei/box_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 10px;
+  float: right;
+  background-size: 100% 100%;
+}
+
+.main_top .t_right #age_chart {
+  width: 100%;
+  height: 266px;
+}
+
+.main_bot {
+  width: 100%;
+  height: 319px;
+}
+
+.main_bot .b_left {
+  width: 328px;
+  height: 100%;
+  background: url(../../img/xingwei/box_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 10px;
+  float: left;
+  background-size: 100% 100%;
+}
+
+.main_bot .b_left #source {
+  width: 100%;
+  height: 266px;
+}
+
+.main_bot .b_center {
+  width: 328px;
+  height: 100%;
+  background: url(../../img/xingwei/box_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 10px;
+  margin: 0 10px;
+  float: left;
+  background-size: 100% 100%;
+}
+
+.main_bot .b_center #work {
+  width: 100%;
+  height: 266px;
+}
+
+.main_bot .b_right {
+  width: 328px;
+  height: 100%;
+  background: url(../../img/xingwei/box_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 10px;
+  float: right;
+  background-size: 100% 100%;
+}
+
+.main_bot .b_right #consume {
+  width: 100%;
+  height: 266px;
+}

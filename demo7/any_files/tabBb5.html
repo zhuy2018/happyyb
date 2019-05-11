@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)http://218.205.68.159/laly/dataanalysis/mobileLsTsclkl/index.do -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--<base href="http://218.205.68.159:80/laly/">--><base href=".">
+	<!-- jsp文件头和头部 -->
+	
+<!--<base href="http://218.205.68.159:80/laly/">--><base href=".">
+	
+	<title></title>
+	<meta name="description" content="overview &amp; stats">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- basic styles -->
+	<link href="./bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./font-awesome.css">
+
+	<!-- ace styles -->
+	<link rel="stylesheet" href="./ace.min.css">
+	<script type="text/javascript" src="./jquery-1.9.1.min.js.下载"></script>
+
+	<script type="text/javascript" src="./bootbox.min.js.下载"></script>	<!-- 确认窗口 -->
+
+	<!-- 树-->
+	<link rel="stylesheet" href="./zTreeStyle.css" type="text/css">
+	
+	
+	<script type="text/javascript" src="./jquery.ztree.core-3.5.js.下载"></script>
+	<script type="text/javascript" src="./jquery.ztree.excheck-3.5.js.下载"></script>
+	
+	<script type="text/javascript" src="./zDrag.js.下载"></script>
+	<script type="text/javascript" src="./zDialog.js.下载"></script>
+	<script type="text/javascript" src="./layer.js.下载"></script><link rel="stylesheet" href="./layer.css" id="layui_layer_skinlayercss" style="">
+	<script type="text/javascript" src="./jquery.tips.js.下载"></script>
+	
+	<script type="text/javascript" src="./WdatePicker.js.下载"></script><link href="./WdatePicker.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="./form.js.下载"></script>
+	
+	
+	
+	<script type="text/javascript">
+	/** 
+ * 时间对象的格式化; 
+ */  
+Date.prototype.format = function(format) {  
+    /* 
+     * eg:format="yyyy-MM-dd hh:mm:ss"; 
+     */  
+    var o = {  
+        "M+" : this.getMonth() + 1, // month  
+        "d+" : this.getDate(), // day  
+        "h+" : this.getHours(), // hour  
+        "m+" : this.getMinutes(), // minute  
+        "s+" : this.getSeconds(), // second  
+        "q+" : Math.floor((this.getMonth() + 3) / 3), // quarter  
+        "S" : this.getMilliseconds()  
+        // millisecond  
+    }  
+  
+    if (/(y+)/.test(format)) {  
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4  
+                        - RegExp.$1.length));  
+    }  
+  
+    for (var k in o) {  
+        if (new RegExp("(" + k + ")").test(format)) {  
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1  
+                            ? o[k]  
+                            : ("00" + o[k]).substr(("" + o[k]).length));  
+        }  
+    }  
+    return format;  
+} 
+
+function initData(){
+	if(null != document.getElementById("data")){
+	document.getElementById("data").innerHTML = '';
+	}
+	if(null != document.getElementById("chart")){
+	document.getElementById("chart").innerHTML = '';
+	}
+	
+	
+}
+
+	
+	</script>
+
+	<link rel="stylesheet" href="./css.css">
+	<script type="text/javascript" src="./highcharts.js.下载"></script>
+	
+	<script type="text/javascript" src="./highcharts-more.js.下载"></script>
+	<script type="text/javascript" src="./highcharts-themes.js.下载"></script>
+	<script type="text/javascript" src="./exporting.js.下载"></script>
+	<style type="text/css">
+	html,body{
+		height: 100%;/*设置html和body的width和height为100%，可使全屏生效*/
+		width: 100%;
+		min-width: 600px;
+		min-height: 400px;
+		color:#63666d;
+		font-size: 14px;
+		font-family: 黑体;
+		margin: 0px; /*设置上下左右的相对位置为0，可避免超出范围出现滚动条*/
+		overflow:hidden;
+	}
+	</style>
+	<script type="text/javascript">
+	var scenesname = '白水涧村';
+	var kpiId = 1006;
+	var startTime = '';
+	var endTime = '';
+	var startTime2 = '';
+	var endTime2 = '';
+	//临时参数
+	var displayid = '';
+	var temp_scenesname = '';
+	
+	//景区 控件
+	function scenesOnclick(onclickid){
+		$('#'+onclickid).css({'display':'none'});
+		getScenesSelect();
+		scenesname = temp_scenesname;
+		if(scenesname != ''){	
+			$('#displayscenesvalue').html(scenesname);
+		}else{
+			$('#displayscenesvalue').html('请选择村落..');
+			layer.alert('请选择村落！');
+			return false;
+		}
+		getData();
+	}
+	
+	function displayOnclick(onclickid){
+		if($('#'+onclickid).css("display") == 'none'){
+			if(displayid!=''){
+				$('#'+displayid).css({'display':'none'});
+			}
+			$('#'+onclickid).css({'display':'block'});
+			displayid = onclickid;
+		}else{
+			$('#'+onclickid).css({'display':'none'});
+		}
+	}
+	
+	function cancel(onclickid){
+		$('#'+onclickid).css({'display':'none'});
+	}
+	function changeKpiid(onclickid){
+		if(null == onclickid){
+			onclickid = 'timeChoice'+kpiId;
+		}else{
+			onclickid = 'timeChoice'+onclickid;
+		}
+		if($('#'+onclickid).css("display") == 'none'){
+			if(displayid!=''){
+				$('#'+displayid).css({'display':'none'});
+			}
+			$('#'+onclickid).css({'display':'block'});
+			displayid = onclickid;
+		}else{
+			$('#'+onclickid).css({'display':'none'});
+		}
+	}
+	
+	//时间控件
+	function timeOnclick(onclickid){
+		if(displayid!=''){
+			$('#'+displayid).css({'display':'none'});
+		}
+		$('#kpiId_'+kpiId).css({'color':'','background':'#f5f7f7'});
+		kpiId = onclickid;
+		
+		$('#kpiId_'+kpiId).css({'color':'#ffffff','background':'#5776a3'});
+		$('#timeChoice'+onclickid).css({'display':'none'});//隐藏弹出面板
+		
+		if(kpiId == 1008){ //季度
+			startTime = $('#startTime'+onclickid+'_1').val(); //年
+			startTime2 = $('#startTime'+onclickid+'_2').val(); //开始季
+			endTime2 =  $('#endTime'+onclickid+'_2').val(); //结束季
+			if(startTime == ''||startTime2 == '' || endTime2 == ''){
+				layer.alert('请填写日期条件！');
+				return;
+			}
+			//判断结束季是否小于开始季：
+			if(endTime2 < startTime2){
+				layer.alert('结束季必须小于等于开始季！');
+				return;
+			}
+			$('#displaytimevalue').html(startTime+'_'+$('#startTime'+onclickid+'_2'+' option:selected').text()+' ~ '+$('#endTime'+onclickid+'_2'+' option:selected').text());
+		}else{
+			startTime = $('#startTime'+onclickid).val();
+			endTime = $('#endTime'+onclickid).val();
+			if(startTime > endTime){
+				layer.alert('开始日期不能大于结束日期！');
+				return;
+			}
+			$('#displaytimevalue').html(startTime+' ~ '+endTime);//设置显示值
+		}
+		getData();
+	}
+	</script>
+</head>
+<body id="body" style="background: rgb(153, 153, 153); width: 1620px;">
+	<div id="divBody" style="margin-left: 15px; margin-right: 15px; height: 100%; width: 1590px;">
+	
+		<!-- 村落景区 -->
+		<div style=" z-index:99;margin: -52px 0px 15px 0px;" class="relative l">
+			<a class="time" onclick="displayOnclick(&#39;scenesChoice&#39;);">
+				<span><font style="width:182px;font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;" class="calendar" id="displayscenesvalue">白水涧村</font></span>
+			</a>
+			<div id="scenesChoice" style="width: 400px; left: 0;" class="timetxt hide panone">
+				<div style="margin:10px;" id="sceneslist"><table style="text-align:center;"><tbody><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="50px;" style="text-align:left;cursor: pointer;" onclick="setScenes(&#39;scenesAll&#39;)" id="sceneslist_all">全选</td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(0)" id="sceneslist_0"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="100" value="白水涧村"> <label class="lbl" for="100" title="白水涧村">白水涧村</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(1)" id="sceneslist_1"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="101" value="大峡谷村"> <label class="lbl" for="101" title="大峡谷村">大峡谷村</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(2)" id="sceneslist_2"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="102" value="耕织图村落-百园村"> <label class="lbl" for="102" title="耕织图村落-百园村">耕织图村落-百园村</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(3)" id="sceneslist_3"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="103" value="耕织图村落-凌口村"> <label class="lbl" for="103" title="耕织图村落-凌口村">耕织图村落-凌口村</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(4)" id="sceneslist_4"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="104" value="耕织图村落-观山村"> <label class="lbl" for="104" title="耕织图村落-观山村">耕织图村落-观山村</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(5)" id="sceneslist_5"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="105" value="红叶指南村村落-指南村"> <label class="lbl" for="105" title="红叶指南村村落-指南村">红叶指南村村落-指南村</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(6)" id="sceneslist_6"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="106" value="龙门秘境村落-大山村"> <label class="lbl" for="106" title="龙门秘境村落-大山村">龙门秘境村落-大山村</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(7)" id="sceneslist_7"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="107" value="龙门秘境村落-龙上村"> <label class="lbl" for="107" title="龙门秘境村落-龙上村">龙门秘境村落-龙上村</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(8)" id="sceneslist_8"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="108" value="龙门秘境村落-石门村"> <label class="lbl" for="108" title="龙门秘境村落-石门村">龙门秘境村落-石门村</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(9)" id="sceneslist_9"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="109" value="太湖源头村落-白沙村"> <label class="lbl" for="109" title="太湖源头村落-白沙村">太湖源头村落-白沙村</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(10)" id="sceneslist_10"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="110" value="太阳公社村落-太阳村"> <label class="lbl" for="110" title="太阳公社村落-太阳村">太阳公社村落-太阳村</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(11)" id="sceneslist_11"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="111" value="太阳公社村落-上庄村"> <label class="lbl" for="111" title="太阳公社村落-上庄村">太阳公社村落-上庄村</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(12)" id="sceneslist_12"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="112" value="太阳公社村落-双庙村"> <label class="lbl" for="112" title="太阳公社村落-双庙村">太阳公社村落-双庙村</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(13)" id="sceneslist_13"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="113" value="天目山村落"> <label class="lbl" for="113" title="天目山村落">天目山村落</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(14)" id="sceneslist_14"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="114" value="湍口温泉村落"> <label class="lbl" for="114" title="湍口温泉村落">湍口温泉村落</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(15)" id="sceneslist_15"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="115" value="忠孝文化村落-新峰村"> <label class="lbl" for="115" title="忠孝文化村落-新峰村">忠孝文化村落-新峰村</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(16)" id="sceneslist_16"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="116" value="忠孝文化村落-杨溪村"> <label class="lbl" for="116" title="忠孝文化村落-杨溪村">忠孝文化村落-杨溪村</label></td></tr></tbody></table></div>
+				<div class="opeDiv after">
+					<small class="l" style="display: none; margin-left: 30px;"></small>
+					<a class="r Confirm" onclick="scenesOnclick(&#39;scenesChoice&#39;);">确定</a>
+					<a class="r Cancel" onclick="cancel(&#39;scenesChoice&#39;);">取消</a>
+				</div>
+			</div>
+		</div>
+		<!-- 时间控件选择区 -->
+		<div style="z-index:99;margin:-52px 0px 15px 15px;" class="relative l">
+			<a class="time" onclick="changeKpiid();">
+				<span><font style="width:182px;font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;" class="calendar" id="displaytimevalue">2017-11-22 ~ 2017-11-27</font></span>
+			</a>
+			
+			<!-- 日 -->
+			<div id="timeChoice1006" style="width: 365px; left: 0; " class="timetxt hide panone">
+				<div style="margin:30px;"> 
+					从<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-bottom:0px;margin-left:10px;margin-right:5px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM-dd&#39;,maxDate:&#39;%y-%M-%d&#39;})" id="startTime1006" type="text">
+					到<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-left:10px;margin-bottom:0px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM-dd&#39;,minDate:&#39;#F{$dp.$D(\&#39;startTime1006\&#39;)}&#39;,maxDate:&#39;%y-%M-%d&#39;})" id="endTime1006" type="text">
+						
+				</div>
+				
+				<div class="opeDiv after">
+					<small class="l" style="display: none; margin-left: 30px;"></small>
+					<a class="r Confirm" onclick="timeOnclick(1006);">确定</a>
+					<a class="r Cancel" onclick="cancel(&#39;timeChoice1006&#39;);">取消</a>
+				</div>
+			</div>
+			<!-- 月 -->
+			<div id="timeChoice1007" style="width: 365px; left: 0; " class="timetxt hide panone">
+				<div style="margin:30px;"> 
+					从<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-bottom:0px;margin-left:10px;margin-right:5px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM&#39;,maxDate:&#39;%y-%M&#39;})" id="startTime1007" type="text">
+					到<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-left:10px;margin-bottom:0px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM&#39;,minDate:&#39;#F{$dp.$D(\&#39;startTime1007\&#39;)}&#39;,maxDate:&#39;%y-%M&#39;})" id="endTime1007" type="text">
+						
+				</div>
+				
+				<div class="opeDiv after">
+					<small class="l" style="display: none; margin-left: 30px;"></small>
+					<a class="r Confirm" onclick="timeOnclick(1007);">确定</a>
+					<a class="r Cancel" onclick="cancel(&#39;timeChoice1007&#39;);">取消</a>
+				</div>
+			</div>
+			<!-- 季 -->
+			<div id="timeChoice1008" style="width: 450px; left: 0; font-family: 微软雅黑, 宋体, 黑体;" class="timetxt hide panone">
+				<div style="margin:30px;"> 
+				<table><tbody><tr>
+					<td><input class="Wdate" style="width: 100px;height:22px;margin-bottom:0px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy&#39;,maxDate:&#39;%y&#39;})" id="startTime1008_1" type="text"></td>
+					
+					<td style="padding-left: 5px; padding-right: 5px;">从
+						<select name="startTime1008_2" id="startTime1008_2" style="width:100px;color:#63666d;">
+						  <option value="01" style="color:#63666d;">1季度</option>
+						  <option value="04" style="color:#63666d;">2季度</option>
+						  <option value="07" style="color:#63666d;">3季度</option>
+						  <option value="10" style="color:#63666d;">4季度</option>
+						</select> 
+					</td>
+					
+					<td style="padding-left: 5px; padding-right: 5px;">到
+						<select name="endTime1008_2" id="endTime1008_2" style="width:100px;">
+							<option value="01" style="color:#63666d;">1季度</option>
+							<option value="04" style="color:#63666d;">2季度</option>
+							<option value="07" style="color:#63666d;">3季度</option>
+							<option value="10" style="color:#63666d;">4季度</option>
+						</select>
+					</td>
+					</tr></tbody></table>
+				</div>
+				
+				<div class="opeDiv after">
+					<small class="l" style="display: none; margin-left: 30px;"></small>
+					<a class="r Confirm" onclick="timeOnclick(1008);">确定</a>
+					<a class="r Cancel" onclick="cancel(&#39;timeChoice1008&#39;);">取消</a>
+				</div>
+			</div>
+		</div>
+		
+		<!--  图表  按钮 迁移  -->
+		<div style="width:350px;float:left; margin:-52px 0px 15px 15px;">
+			<table>
+				<tbody><tr>
+					<td style="text-align:center;width:70px;height:36px;background:#5776a3;color:#ffffff;border-radius: 5px 0px 0px 5px;cursor:pointer;border:1px solid #c4cdd8;line-height:36px;font-size: 16px;float:left;" id="kpiId_1006" onclick="timeOnclick(1006);">&nbsp;日&nbsp;</td>
+					<td style="text-align:center;width:70px;height:36px;background:#f5f7f7;cursor:pointer;border:1px solid #c4cdd8;line-height:36px;font-size: 16px;float:left;" id="kpiId_1007" onclick="timeOnclick(1007);">&nbsp;月&nbsp;</td>
+					<td style="text-align:center;width:70px;height:36px;background:#f5f7f7;cursor:pointer;border-radius: 0px 5px 5px 0px;border:1px solid #c4cdd8;line-height:36px; font-size: 16px;float:left;" id="kpiId_1008" onclick="timeOnclick(1008);">&nbsp;季&nbsp;</td>
+				</tr>
+			</tbody></table>
+		</div>
+		<!-- 图形展示区 -->
+		<div style="width:100%;margin-top:65px;height:100%;">
+			<div style="background:#5776a3;width:100%;height:39px;border-radius: 5px 5px 0px 0px;border:1px solid #c4cdd8;">
+				<span style="display:inline-block;width:17px;height:17px;background:url(img/reportForms/line_bg.png) no-repeat;margin: 11px 0 0 12px;"></span>
+				<span style="line-height:39px; margin-left:5px;font-size: 18px; font-family: 微软雅黑, 宋体, 黑体;color:#fff;">特色村落历史客流量分析</span>
+				
+				<!--   点击某一个按钮为其添加class  .activeBtn ; 其他兄弟元素去掉class  .activeBtn。  -->
+				<span id="tableBtn" title="统计表格"></span>
+				<span id="lineBtn" class="activeBtn" title="统计图表"></span>
+
+			</div>
+			<div id="chart" style="height: 650px; width: 100%; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(255, 255, 255) rgb(196, 205, 216) rgb(196, 205, 216); border-image: initial;"></div>
+			<!-- 表格展示区 -->
+			<div id="tableDiv" style="width:100%;display: none;height:82%;">
+				<div style="width:100%;margin:0px;padding:0px;max-height:100%;overflow-x: hidden;overflow-y: auto;">
+					<div id="alldata" class="row-fluid" style="width: 1590px; height: 100%; margin: 0px; padding: 0px;">
+						<div class="span12" id="data"><table style="border:1px solid #c4cdd8;" class="table table-bordered table-hover "><thead><tr><th style="font-weight:normal;">&nbsp;</th><th style="font-weight:normal;">&nbsp;</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div>
+					</div>
+				</div>
+				<!-- 表格分页 -->
+				<div id="bbpage" style="background: url(&quot;img/sys/thbg.png&quot;); width: 1590px; height: 39px; border-radius: 0px; border: 1px solid rgb(196, 205, 216);">
+					<span id="pageNum" style="float:right;line-height:39px; font-size: 14px;margin-right:15px;">
+					</span>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+<script type="text/javascript" src="./mobileLsTsclkl.js.下载"></script>
+<script type="text/javascript">
+//设置初始时间
+//日
+var currdate = new Date();
+currdate.setDate(currdate.getDate()-1);
+endTime = currdate.format("yyyy-MM-dd");
+var currdate1 = new Date();
+currdate1.setDate(currdate1.getDate()-6);
+startTime = currdate1.format("yyyy-MM-dd");
+$('#displaytimevalue').html(startTime+' ~ '+endTime);	
+$('#startTime1006').val(startTime);
+$('#endTime1006').val(endTime);
+//月
+var sdate = new Date();
+var edate = new Date();
+sdate.setMonth(sdate.getMonth() - 5, 1);
+edate.setMonth(edate.getMonth() - 1, 1);
+$('#startTime1007').val(sdate.format("yyyy-MM"));
+$('#endTime1007').val(edate.format("yyyy-MM"));
+//季度
+var now = new Date(); //当前日期
+var nowDay = now.getDate(); //当前日
+var nowMonth = now.getMonth(); //当前月
+var nowYear = now.getFullYear(); //当前年
+$('#startTime1008_1').val(nowYear);
+if (nowMonth >= 2 && nowMonth <= 4) { //第一季度
+	$('#startTime1008_1').val(nowYear);
+	$('#startTime1008_2').val('01'); //01
+	$('#endTime1008_2').val('01');
+
+} else if (nowMonth >= 5 && nowMonth <= 7) { //第二季度
+	$('#startTime1008_1').val(nowYear);
+	$('#startTime1008_2').val('01'); //04
+	$('#endTime1008_2').val('04');
+
+} else if (nowMonth >= 8 && nowMonth <= 10) { //第三季度
+	$('#startTime1008_1').val(nowYear);
+	$('#startTime1008_2').val('01'); //07
+	$('#endTime1008_2').val('07');
+
+} else if (nowMonth >= 11 || nowMonth <= 1) { //第四季度
+	$('#startTime1008_1').val(nowYear);
+	$('#startTime1008_2').val('01'); //10
+	$('#endTime1008_2').val('10');
+}
+var scenes = {"result":[{"scenesName":"白水涧村","scenesId":"571824"},{"scenesName":"大峡谷村","scenesId":"571825"},{"scenesName":"耕织图村落-百园村","scenesId":"571826"},{"scenesName":"耕织图村落-凌口村","scenesId":"571827"},{"scenesName":"耕织图村落-观山村","scenesId":"571828"},{"scenesName":"红叶指南村村落-指南村","scenesId":"571829"},{"scenesName":"龙门秘境村落-大山村","scenesId":"571830"},{"scenesName":"龙门秘境村落-龙上村","scenesId":"571831"},{"scenesName":"龙门秘境村落-石门村","scenesId":"571832"},{"scenesName":"太湖源头村落-白沙村","scenesId":"571833"},{"scenesName":"太阳公社村落-太阳村","scenesId":"571834"},{"scenesName":"太阳公社村落-上庄村","scenesId":"571835"},{"scenesName":"太阳公社村落-双庙村","scenesId":"571836"},{"scenesName":"天目山村落","scenesId":"571837"},{"scenesName":"湍口温泉村落","scenesId":"571838"},{"scenesName":"忠孝文化村落-新峰村","scenesId":"571839"},{"scenesName":"忠孝文化村落-杨溪村","scenesId":"571840"}]};
+var scenesYkrsList = {"result":"","xData":[],"tabledata":[{"obj0":"时间 / 地区","obj1":"白水涧村"}],"count":2};
+
+$("#tableBtn").click(function(){
+	$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+	$("#tableDiv").css({'display':'block'});
+	$("#chart").css({'display':'none'});
+});
+$("#lineBtn").click(function(){
+	$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+	$("#chart").css({'display':'block'});
+	$("#tableDiv").css({'display':'none'});
+});
+
+//控制页最小放缩大小
+function changeSize(){
+	var bwidth = document.documentElement.clientWidth;
+	var hmain = document.getElementById("body");
+	var divmain = document.getElementById("divBody");
+	//var divdata = document.getElementById("data");
+	var alldata = document.getElementById("alldata");
+	hmain.style.width = bwidth+'px';
+	divmain.style.width = (bwidth-30)+'px';
+	//divdata.style.width = (bwidth-60)+'px';
+	alldata.style.width = (bwidth-30)+'px';
+	document.getElementById("bbpage").style.width=(bwidth-30)+'px';
+	if($(window).height()-300 > 350){
+		$('#chart').height($(window).height()-300);
+	}else{
+		$('#chart').height(350);
+	}
+}
+changeSize();
+window.onresize=function(){  
+	changeSize();
+};
+</script>
+
+<div class="layui-layer-shade" id="layui-layer-shade1" times="1" style="z-index:19891014; background-color:#000; opacity:0.3; filter:alpha(opacity=30);"></div><div class="layui-layer layui-anim layui-layer-dialog " id="layui-layer1" type="dialog" times="1" showtime="0" contype="string" style="z-index: 19891015; width: 360px; top: 445px; left: 630px;"><div class="layui-layer-title" style="cursor: move;" move="ok">信息</div><div class="layui-layer-content">没有相关数据！</div><span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:;"></a></span><div class="layui-layer-btn"><a class="layui-layer-btn0">确定</a></div></div></body></html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><!-- 告诉IE使用最新的引擎渲染网页， -->
+    <meta name="renderer" content="webkit"><!-- 360安全浏览器，默认打开 极速模式。 -->
+    <!--#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.-->
+    <title>环保行为督察系统</title>
+    <style>
+        /*去除百度地图版权*/
+        .anchorBL{
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/public/common.css">
+    <link rel="stylesheet" href="../css/topBar/topBar.css">
+    <link rel="stylesheet" href="../css/shuizhi/shuizhi2.css">
+</head>
+<body>
+<!--下一步按钮-->
+<a class="next_btn" href="shuizhi5.html"></a>
+<!--上一步按钮-->
+<a class="prev_btn" href="shuizhi3.html"></a>
+<!--<select id="stylelist" onchange="changeMapStyle(this.value)">
+     <option value="normal">默认地图样式</option>
+    <option value="light">清新蓝风格</option>
+    <option value="googlelite">精简风格</option>
+    <option value="mapStyle">默认风格</option>
+    <option value="midnight">午夜蓝风格</option>
+    <option value="bluish">清新蓝绿风格</option>
+    <option value="grayscale">高端灰风格</option>
+    <option value="dark">黑夜风格</option>
+</select>-->
+<div class="content_wrap">
+    <!--头部导航开始-->
+    <div class="topBar">
+		<div class="logo">环保行为督察系统</div>
+		<ul class="topMain">
+			<li><a href="../index.html">首页</a></li>
+			<li class="active"><a href="huanbao.html">环保应用</a></li>
+			<li><a href="xingwei.html">行为督察</a></li>
+			<li><a href="xingwei2.html">人群分析</a></li>
+			<li><a href="#">更多功能</a></li>
+		</ul>
+		<div class="login_box">
+			<div class="user_name">
+				你好,系统管理员
+			</div>
+		</div>
+	</div>
+    <!--头部导结束-->
+    <div class="content_main">
+        <div class="title_tip">
+            <span>监控水源</span>
+            <span>监控场景</span>
+            <span>监控范围</span>
+        </div>
+        <div class="content">
+            <div class="choose_box" id="mymap"></div>
+            <div class="water_source">
+                <div class="local">青山水库</div>
+                <div class="per_choose">
+                    <div class="choose_tip">上下游</div>
+                    <div class="input_choose">
+                        <label for="shang"><input id="shang" type="checkbox" checked/><span>上游</span></label>
+                        <label for="xia"><input id="xia" type="checkbox" checked/><span>下游</span></label>
+                        <label for="quan"><input id="quan" type="checkbox" /><span>全范围</span></label>
+                        <!--<input id="shang" type="radio" name="shangxiayou" checked/><label for="shang">上游</label>
+                        <input id="xia" type="radio" name="shangxiayou"/><label for="xia">下游</label>
+                        <input id="quan" type="radio" name="shangxiayou"/><label for="quan">全范围</label>-->
+                    </div>
+                </div>
+                <div class="per_choose">
+                    <div class="choose_tip">时间</div>
+                    <div class="input_choose">
+                        <label for="baitian"><input id="baitian" type="checkbox" checked/><span>白天</span></label>
+                        <label for="yewan"><input id="yewan" type="checkbox" /><span>夜晚</span></label>
+                        <label for="quantian"><input id="quantian" type="checkbox" /><span>全天</span></label>
+                       <!-- <input id="baitian" type="radio" name="shijian" checked/><label for="baitian">白天</label>
+                        <input id="yewan" type="radio" name="shijian"/><label for="yewan">夜晚</label>
+                        <input id="quantian" type="radio" name="shijian"/><label for="quantian">全天</label>-->
+                    </div>
+                </div>
+                <div class="per_choose" style="height:110px;">
+                    <div class="choose_tip">天气</div>
+                    <div class="input_choose">
+                        <label for="liang_tian" style="margin-right:120px;"><input id="liang_tian" type="checkbox" checked/><span>良好天气</span></label>
+                        <label for="yu_tian"><input id="yu_tian" type="checkbox" /><span>雨雪天</span></label>
+                        <label for="zai_tian" style="width:228px;"><input id="zai_tian" type="checkbox" /><span>灾害天气(暴雨、台风)</span></label>
+                        <label for="other_tian"><input id="other_tian" type="checkbox" /><span>不限</span></label>
+                        <!--<input id="liang_tian" type="radio" name="weather" checked/><label for="liang_tian" style="margin-right:104px;margin-bottom:10px;">良好天气</label>
+                        <input id="yu_tian" type="radio" name="weather"/><label for="yu_tian" style="margin-right:0px;margin-bottom:10px;">雨雪天</label>
+                        <input id="zai_tian" type="radio" name="weather"/><label for="zai_tian" style="margin-right:-4px;">灾害天气(暴雨、台风)</label>
+                        <input id="other_tian" type="radio" name="weather"/><label for="other_tian">不限</label>-->
+                    </div>
+                </div>
+                <div class="per_choose">
+                    <div class="choose_tip">节假日</div>
+                    <div class="input_choose">
+                        <label for="work"><input id="work" type="checkbox" checked/><span>工作日</span></label>
+                        <label for="holiday"><input id="holiday" type="checkbox" /><span>节假日</span></label>
+                        <label for="other_jie"><input id="other_jie" type="checkbox" /><span>不限</span></label>
+                        <!--<input id="work" type="radio" name="jiejia" checked/><label for="work">工作日</label>
+                        <input id="holiday" type="radio" name="jiejia"/><label for="holiday">节假日</label>
+                        <input id="other_jie" type="radio" name="jiejia"/><label for="other_jie">不限</label>-->
+                    </div>
+                </div>
+                <div class="per_choose" style="height:106px">
+                    <div class="choose_tip">周边范围</div>
+                    <div class="input_choose">
+                        <input id="range1" type="radio" name="range" checked/><label for="range1" style="margin-right:68px;margin-bottom:10px;">500米</label>
+                        <input id="range2" type="radio" name="range"/><label for="range2" style="margin-right:0px;margin-bottom:10px;">1公里</label>
+                        <input id="range3" type="radio" name="range"/><label for="range3" style="margin-right:68px;">2公里</label>
+                        <input id="range4" type="radio" name="range"/><label for="range4">5公里</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4c37887dd000b1e543a1add699d05e83"></script>
+
+<script type="text/javascript" src="../js/Heatmap_min.js" ></script>
+<script type="text/javascript" src="http://lbsyun.baidu.com/custom/stylelist.js"></script>
+<script src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script src="../js/public/autoSize.js"></script>
+<script src="../js/shuizhi/shuizhi2.js"></script>
+</body>
+<script>
+
+</script>
+</html>

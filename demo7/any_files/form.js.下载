@@ -1,0 +1,250 @@
+﻿/**
+ * 说明：验证出错的信息需要在字段中添加msg属性,
+ * 需要必填验证的字段需要在字段html中添加 required="true" 属性。
+ * 需要做其他验证的字段需要在字段html中添加 typeStyle="1"; "1"验证邮箱格式，"2"验证手机号码+电话号格式，"3"验证经纬度格式，"4"只能输入数字
+ * 需要做字段长度验证的需要在字段html中添加 max="20"(最大长度) min="6"(最小长度)
+ * @author 王小波
+ * @date 2015-11-04
+ */
+
+/**检查表单*/
+function checkForm(form) {
+	var result = true;
+	var eles = form.elements;
+	for(i = 0; i < eles.length; i ++) {
+		if(checkRequired(eles[i]) == false) {
+			//检查是否必须
+			addError(eles[i],"required");
+			result = false;
+		}
+		if(checkMaxLength(eles[i]) == false) {
+			//检查字段最大长度
+			addError(eles[i],"maxLength");
+			result = false;
+		}
+		if(checkMinLength(eles[i]) == false) {
+			//检查字段最小长度
+			addError(eles[i],"minLength");
+			result = false;
+		}
+		if(checkAll(eles[i]) == false) {
+			//检查字段其他格式
+			var type = eles[i].getAttribute("typeStyle");
+			addError(eles[i],type);
+			result = false;
+		}
+	}
+	//如果表单验证通过进入提交状态，显示提交效果。
+	if(result){
+		layer.load();
+	}
+	return result;
+}
+
+function addError(ele,type) {
+	var id = ele.getAttribute("id");
+	var maxLengths = ele.getAttribute("max");
+	var minLengths = ele.getAttribute("min");
+	if(type == "required"){
+		$("#"+id).tips({/**添加字段为空错误信息*/
+			 side:3,
+		     msg:ele.getAttribute("msg")+"必填",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}else if(type == "maxLength"){/**添加字段长度最多错误信息*/
+		$("#"+id).tips({
+			 side:3,
+		     msg:ele.getAttribute("msg")+"最多"+maxLengths+"位",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}else if(type == "minLength"){/**添加字段长度最少错误信息*/
+		$("#"+id).tips({
+			 side:3,
+		     msg:ele.getAttribute("msg")+"最少"+minLengths+"位",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}else if(type == 1){/**添加字段邮箱格式错误信息*/
+		$("#"+id).tips({
+			 side:3,
+		     msg:"邮箱不符合规范",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}else if(type == 2){/**添加字段手机号码+电话号格式错误信息*/
+		$("#"+id).tips({
+			 side:3,
+		     msg:"手机号码不符合规范",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}else if(type == 3){/**添加字段经纬度格式*/
+		$("#"+id).tips({
+			 side:3,
+		     msg:"经纬度输入错误",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}else if(type == 4){/**添加字段只能输入数字*/
+		$("#"+id).tips({
+			 side:3,
+		     msg:"只能输入数字",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}else if(type == 5){/**添加字段身份证*/
+		$("#"+id).tips({
+			 side:3,
+		     msg:"身份证有误",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}else if(type == 6){/**添加字段电话号格式错误信息*/
+		$("#"+id).tips({
+			 side:3,
+		     msg:"电话号码不符合规范",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}else if(type == 7){/**告警字段格式错误信息*/
+		$("#"+id).tips({
+			 side:3,
+		     msg:"必须输入1到150之间的百分数",
+		     bg:'#AE81FF',
+		     time:3
+	   	});
+		$("#"+id).focus();
+	}
+}
+
+/**检查字段是否必填*/
+function checkRequired(ele) {
+	var req = ele.getAttribute("required");
+	if(req == "true") {
+		var value = ele.value;	
+		if(value == null || value == "") {
+			return false;
+		}
+	}
+	return true;
+}
+
+/**检查字段最大长度*/
+function checkMaxLength(ele) {
+	var maxLength = ele.getAttribute("max");
+	var value = ele.value;	
+	if(maxLength != "" && maxLength != null && value != "" && value != null) {
+		if(value.length > maxLength) {
+			return false;
+		}
+	}
+	return true;
+}
+/**检查字段最小长度*/
+function checkMinLength(ele) {
+	var minLength = ele.getAttribute("min");
+	var value = ele.value;	
+	if(minLength != "" && minLength != null && value != "" && value != null) {
+		if(value.length < minLength) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function checkAll(ele) {
+	/**检查字段邮箱格式*/
+	var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+	/**检查字段手机号码+电话号格式*/
+	var pngex = /(\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$/; 
+	/**检查字段经纬度格式*/
+	var mogex = /^(?!0$)(?!0\.0)[1-9]?[0-9]{1,3}(\.\d{1,5})?$/;
+	/**检查字段只能输入数字*/
+	var regex = /^\d*$/;
+	/**检查字段身份证格式*/
+	var exg=/^([0-9]{17}[0-9X]{1})|([0-9]{15})$/;
+	/**检查告警字段*/
+	var gaojing=/^([1-9]%)$|^([1-9][0-9]%)$|^(1[0-4][0-9]%)$|^(150%)$/;
+	var type = ele.getAttribute("typeStyle");
+	if(type == 1){			//验证邮箱格式
+		var value = ele.value;	
+		if(value != "" && value != null && !myreg.test(value)){
+			return false;
+	    }
+		return true;
+	}else if(type == 2){	//验证手机号码+电话号格式
+		var value = ele.value;	
+		if(value != "" && value != null && !pngex.test(value)){
+			return false;
+	    }
+		return true;
+	}else if(type == 3){	//验证经纬度格式
+		var value = ele.value;	
+		if(value != "" && value != null && !mogex.test(value)){
+			return false;
+	    }
+		return true;
+	}else if(type == 4){	//只能输入数字
+		var value = ele.value;	
+		if(value != "" && value != null && !regex.test(value)){
+			return false;
+	    }
+		return true;
+	}else if(type == 5){	//只能输入数字
+		var value = ele.value;	
+		if(value != "" && value != null && !exg.test(value)){
+			return false;
+	    }
+		return true;
+	}else if(type == 6){	//验证电话号格式 (跟手机号码一样)
+		var value = ele.value;	
+		if(value != "" && value != null && !pngex.test(value)){
+			return false;
+	    }
+		return true;
+	}else if(type == 7){	//验证告警字段输入是否正确
+		var value = ele.value;	
+		if(value != "" && value != null && !gaojing.test(value)){
+			return false;
+	    }
+		return true;
+	}
+}
+$(document).ready(function() {
+	var doc = document, inputs = doc.getElementsByTagName('input'), supportPlaceholder = 'placeholder' in doc
+			.createElement('input'), placeholder = function(input) {
+		var text = input.getAttribute('placeholder'), defaultValue = input.defaultValue;
+		if (defaultValue == '') {
+			input.value = text
+		}
+		input.onfocus = function() {
+			if (input.value === text) {
+				this.value = ''
+			}
+		};
+		input.onblur = function() {
+			if (input.value === '') {
+				this.value = text
+			}
+		}
+	};
+	if (!supportPlaceholder) {
+		for (var i = 0, len = inputs.length; i < len; i++) {
+			var input = inputs[i], text = input.getAttribute('placeholder');
+			if (input.type === 'text' && text) {
+				placeholder(input)
+			}
+		}
+	}
+});

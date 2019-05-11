@@ -1,0 +1,260 @@
+@charset "UTF-8";
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: "微软雅黑";
+  overflow: hidden;
+}
+
+/*
+ 
+ * content_wrap开始
+ * */
+.content_wrap {
+  width: 1920px;
+  height: 1080px;
+  background: url(../img/bg.png) no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+  position: relative;
+}
+.content_wrap .content_main {
+  height: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 10px;
+  position: relative;
+}
+.content_wrap .content_main .title {
+  text-align: center;
+  line-height: 58px;
+  font-size: 28px;
+  color: #fff;
+}
+.content_wrap .content_main .main_top {
+  width: 100%;
+  height: 472px;
+  margin-bottom: 15px;
+}
+.content_wrap .content_main .main_top .t_left {
+  width: 625px;
+  height: 479px;
+  background: url(../img/realtimeVisitor/top_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  float: left;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .main_top .t_left .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 18px 0 10px;
+}
+.content_wrap .content_main .main_top .t_left .sex_percent {
+  width: 500px;
+  height: 300px;
+  margin: 50px auto 0;
+  position: relative;
+}
+.content_wrap .content_main .main_top .t_left .sex_percent #sex_percent {
+  width: 100%;
+  height: 100%;
+}
+.content_wrap .content_main .main_top .t_left .sex_percent #male_num {
+  width: 91px;
+  height: 86px;
+  color: #fff;
+  background: url(../img/index/male.png) no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 39px 0 0 16px;
+  font-size: 20px;
+  z-index: 1;
+}
+.content_wrap .content_main .main_top .t_left .sex_percent #girl_num {
+  width: 91px;
+  height: 86px;
+  color: #fff;
+  position: absolute;
+  background: url(../img/index/girl.png) no-repeat;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 39px 0 0 20px;
+  font-size: 20px;
+  z-index: 1;
+}
+.content_wrap .content_main .main_top .t_left .sex_percent .double_png {
+  width: 90px;
+  height: 97px;
+  background: url(../img/index/maleGirl.png) no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1;
+}
+.content_wrap .content_main .main_top .t_center {
+  width: 630px;
+  height: 479px;
+  background: url(../img/realtimeVisitor/top_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  margin: 0 10px;
+  float: left;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .main_top .t_center .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 18px 0 10px;
+}
+.content_wrap .content_main .main_top .t_center #people_age {
+  width: 100%;
+  height: 330px;
+  margin: 50px auto 0;
+}
+.content_wrap .content_main .main_top .t_right {
+  width: 625px;
+  height: 479px;
+  background: url(../img/realtimeVisitor/top_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  float: right;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .main_top .t_right .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 18px 0 10px;
+}
+.content_wrap .content_main .main_top .t_right #consume {
+  width: 100%;
+  height: 330px;
+  margin: 50px auto 0;
+}
+.content_wrap .content_main .main_bot {
+  width: 100%;
+  height: 479px;
+}
+.content_wrap .content_main .main_bot .b_left {
+  width: 625px;
+  height: 479px;
+  background: url(../img/realtimeVisitor/top_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  float: left;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .main_bot .b_left .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 18px 0 10px;
+}
+.content_wrap .content_main .main_bot .b_left #source {
+  width: 100%;
+  height: 410px;
+  margin: 10px auto 0;
+}
+.content_wrap .content_main .main_bot .b_center {
+  width: 630px;
+  height: 479px;
+  background: url(../img/realtimeVisitor/top_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  margin: 0 10px;
+  float: left;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .main_bot .b_center .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 18px 0 10px;
+}
+.content_wrap .content_main .main_bot .b_center #provice {
+  width: 100%;
+  height: 410px;
+  margin: 10px auto 0;
+}
+.content_wrap .content_main .main_bot .b_right {
+  width: 625px;
+  height: 479px;
+  background: url(../img/realtimeVisitor/top_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  float: right;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .main_bot .b_right .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 18px 0 10px;
+}
+.content_wrap .content_main .main_bot .b_right #visit {
+  width: 100%;
+  height: 410px;
+  margin: 10px auto 0;
+}

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>乡村游客占比</title>
+	<link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/plugins/idangerous.swiper.css"/><!--左右切换-->
+<link rel="stylesheet" type="text/css" href="../css/common.css"/><!--公共 清除默认 样式表-->
+	<link rel="stylesheet" type="text/css" href="../css/topBar.css"/><!--头部导航栏样式表-->
+	<link rel="stylesheet" type="text/css" href="../css/xinag_barbot.css"/>
+<link rel="stylesheet" type="text/css" href="../css/villageVisitor.css"/>
+</head>
+<body>
+
+	<div class="content_wrap">
+		<div class="JQueryiframe"></div>
+		<!--上方导航 开始-->
+		<div class="top_bar">
+			<h3 class="top_title">临安旅游大数据平台</h3>
+			<ul class="top_main">
+				<li><a href="../index.html">综合信息</a></li>
+				<li><a href="subject.html">专题分析</a></li>
+				<li class="active"><a href="villageSubject.html">乡村旅游</a></li>
+				<li><a href="../any.html">数据分析</a></li>
+				<li><a href="热力图.html">热力图</a></li>
+				<span class="bot_line"></span>
+			</ul>
+			<div class="login_box">
+				<div class="user_name">
+					你好,管理员
+					<!--<img src="" alt="" />-->
+				</div>
+				<div class="choose_box">
+					<span class="exit_box">退出</span>
+					<!--<span class="edit_box">修改资料</span>-->
+				</div>
+			</div>
+		</div>
+		<!--上方导航 结束-->
+		<div class="content_main">
+			<div class="title">乡村游客占比</div>
+			<div class="main_top">
+				<div class="t_left">
+					<div class="per_title">乡村游客占比查询
+						<div class="tab_wrap">
+							<!-- active 表示 当前选择状态 -->
+							<div id="shishi_btn" class="per_tab active">实时</div>
+							<div id="lishi_btn" class="per_tab">历史</div>
+						</div>
+					</div>
+					<div class="main_choose">
+						<div class="shishi">
+							<p>当前实时数据时间</p>
+							<div id="now_time">2017-09-13&nbsp;&nbsp;&nbsp;15:45:08</div>
+							<p>当前实时乡村游客人数</p>
+							<div id="now_number">45,672,584</div>
+						</div>
+						<div class="lishi">
+							<div class="lei_choose">
+								<div class="lei_tip">类型：</div>
+								<ul class="choose1">
+									<!-- active 表示 当前选择状态 -->
+									<li id="day_btn" class="active">按日期查询</li>
+									<li id="month_btn">按月份查询</li>
+								</ul>
+							</div>
+							<div class="year_choose">
+								<div class="year_tip">年份：</div>
+								<div class="choose2">
+									<div id="arrows2">
+										<a id="arrow-left2" class="prev2"></a>
+										<a id="arrow-right2" class="next2"></a>
+									</div>
+									<div class="swiper-container scroll2">
+										<ul class="swiper-wrapper">
+											<li class="swiper-slide swiper-no-swiping">2017</li>
+											<li class="swiper-slide swiper-no-swiping">2016</li>
+											<li class="swiper-slide swiper-no-swiping">2015</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="month_choose">
+								<div class="month_tip">月份：</div>
+								<ul class="month_wrap">
+									<li class="active">1月</li>
+									<li>2月</li>
+									<li>3月</li>
+									<li>4月</li>
+									<li>5月</li>
+									<li>6月</li>
+									<li>7月</li>
+									<li>8月</li>
+									<li>9月</li>
+									<li>10月</li>
+									<li>11月</li>
+									<li>12月</li>
+								</ul>
+							</div>
+							<div class="day_choose">
+								<div class="day_tip">日期：</div>
+								<ul class="day_wrap">
+									<li class="active">1</li>
+									<li>2</li>
+									<li>3</li>
+									<li>4</li>
+									<li>5</li>
+									<li>6</li>
+									<li>7</li>
+									<li>8</li>
+									<li>9</li>
+									<li>10</li>
+									<li>11</li>
+									<li>12</li>
+									<li>13</li>
+									<li>14</li>
+									<li>15</li>
+									<li>16</li>
+									<li>17</li>
+									<li>18</li>
+									<li>19</li>
+									<li>20</li>									
+									<li>21</li>
+									<li>22</li>
+									<li>23</li>
+									<li>24</li>
+									<li>25</li>
+									<li>26</li>
+									<li>27</li>
+									<li>28</li>
+									<li>29</li>
+									<li>30</li>
+									<li>31</li>
+								</ul>
+							</div>
+							<div id="searchBtn">查  询</div>
+						</div>
+					</div>
+				</div>
+				<div class="t_center">
+					<div class="per_title">乡村游客占比</div>
+					<div id="center_percent"></div>
+				</div>
+				<div class="t_right">
+					<div class="per_title">乡村游客分类占比分析</div>
+					<div id="right_percent"></div>
+				</div>
+			</div>
+			<div class="main_bot">
+				<div class="b_left">
+					<div class="per_title">乡村游客分类占比统计</div>
+					<div id="bot_percent"></div>
+				</div>
+			</div>
+			<div class="bar_bot">
+				<ul>
+					<li>
+						<a href="villageCount.html">
+							<span class="">乡村旅游游客量统计</span>
+						</a>
+					</li>
+					<li>
+						<a href="villageVisitor.html" class="active">
+							<span class="">乡村游客占比</span>
+						</a>
+					</li>
+					<li>
+						<a href="citizenTS.html">
+							<span class="">乡村游市民游客统计</span>
+						</a>
+					</li>
+					<li>
+						<a href="citizenVisitor.html">
+							<span class="">市民游客乡村游占比</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="firstStop.html">
+							<span class="">乡村游首站游客分析</span>
+						</a>
+					</li>
+					<li>
+						<a href="prevTs.html">
+							<span class="">特色村落之前游玩景点</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
+<script type="text/javascript" src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/plugins/idangerous.swiper.min.js"></script><!-- 左上 按钮 左右切换 的控件-->
+<script type="text/javascript" src="../js/plugins/echarts-all.js"></script>
+<script type="text/javascript" src="../js/autoSize.js"></script>
+<script type="text/javascript" src="../js/topBar.js"></script>
+<script type="text/javascript" src="../js/activity.js"></script>
+<script type="text/javascript" src="../js/villageVisitor.js"></script>
+<script>
+
+
+//点击 实时
+$("#shishi_btn").click(function(){
+	$(this).addClass("active").siblings().removeClass("active");
+	$(".main_choose .shishi").show().siblings().hide();
+})
+//点击 历史
+$("#lishi_btn").click(function(){
+	$(this).addClass("active").siblings().removeClass("active");
+	$(".main_choose .lishi").show().siblings().hide();
+	// 左上 实现  年份 切换
+	var mySwiper2 = new Swiper('.scroll2',{
+	    loop: false,
+	    effect : 'flip',
+	    noSwiping:true,//不允许  滑动slide 配合class名一起使用才有用
+	});
+	$('#arrow-left2').on('click', function(e){
+	    e.preventDefault();
+	    mySwiper2.swipeNext();
+//	    console.log($(".scroll2 .swiper-slide-visible").html());//当前选择的年份！！！
+	    
+	})
+	$('#arrow-right2').on('click', function(e){
+	    e.preventDefault();
+	    mySwiper2.swipePrev();
+//	    console.log($(".scroll2 .swiper-slide-visible").html());//当前选择的年份！！！
+	})
+	
+})
+//按月 还是  按日期  
+$("#day_btn").click(function(){
+	$(this).addClass("active").siblings().removeClass("active");
+	$(".day_choose").css("visibility","visible");
+})
+$("#month_btn").click(function(){
+	$(this).addClass("active").siblings().removeClass("active");
+	$(".day_choose").css("visibility","hidden");
+})
+</script>
+</body>
+</html>

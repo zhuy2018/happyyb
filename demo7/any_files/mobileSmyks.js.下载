@@ -1,0 +1,223 @@
+var clientWidth = window.screen.width;
+
+var st; //开始时间
+var et; //结束时间
+var title; //标题
+var titles; //标题 
+
+var resultdata;//结果数据集
+var count; //数量
+var result;//结果数据集
+jQuery(function($) {
+	if(mobileSmykList != null && mobileSmykList != ""){
+		resultdata = mobileSmykList;
+		st = $('#startTime1006').val();
+		et = $('#endTime1006').val();
+		
+		//控制分辨率
+		if(clientWidth > 1800){
+			title = '<span style="font-size: 24px;font-weight:bold;">'+st+'至'+et+'市民游客数统计分析图(日)</span>';
+		}else{
+			title = '<b>'+st+'至'+et+'市民游客数统计分析图(日)</b>';
+		}
+		titles = st+'至'+et+'市民游客数统计分析图(日)';
+		count = resultdata.count; //数量
+		result = resultdata.result;
+		showChart();
+	}
+});
+
+function getData (){
+	st = startTime;
+	et = endTime;
+	//控制分辨率
+	if(clientWidth > 1800){
+		if(kpiId == '1006'){ //日
+			title = '<span style="font-size: 24px;font-weight:bold;">'+st+'至'+et+'市民游客数统计分析图(日)</span>';
+			titles = st+'至'+et+'市民游客数统计分析图(日)';
+		}else{//月
+			title = '<span style="font-size: 24px;font-weight:bold;">'+st+'月至'+et+'月市民游客数统计分析图(月)</span>';
+			titles = st+'月至'+et+'月市民游客数统计分析图(月)';
+		}
+	}else{
+		if(kpiId == '1006'){ //日
+			title = '<b>'+st+'至'+et+'月市民游客数统计分析图(日)</b>';
+			titles = st+'至'+et+'市民游客数统计分析图(日)';
+		}else{//月
+			title = '<b>'+st+'月至'+et+'月市民游客数统计分析图(月)</b>';
+			titles = st+'月至'+et+'月市民游客数统计分析图(月)';
+		}
+	}
+	var url = 'dataanalysis/mobileSmyks/queryMobileSmyksList.do';
+	var postData = {"timeStart":st,"timeEnd":et,"type":kpiId};
+	$.post(url,postData,function(data){
+		if(data != null){//
+			resultdata = data.mobileSmykList;
+			result = resultdata.result;
+			count = resultdata.count; //数量
+			showChart();
+		}
+	});
+}
+
+function showChart (){
+	if((result == null || result.length <= 0)){
+		$("#chart").empty();
+		var emptyHtml = '<table style="border:1px solid #c4cdd8;" class="table table-bordered table-hover "><thead><tr>'
+						+ '<th style="font-weight:normal;">&nbsp;</th><th style="font-weight:normal;">&nbsp;</th></tr></thead>'
+						+ '<tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>';
+		document.getElementById("data").innerHTML = emptyHtml;
+		layer.alert('没有相关数据！');
+		return;
+	}
+	Highcharts.setOptions({
+		global : {
+			useUTC : false
+		}
+	});
+	var etdata = [];
+	var ettemp = {};
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	
+	ettemp['obj0'] = '日期';
+	ettemp['obj1'] = '市民游客数';
+	etdata.push(ettemp);
+	
+	table += '<thead><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+	table += '<td style="text-align:center;">日期</td>';
+	table += '<td style="text-align:center;">市民游客数</td>';
+	table += '</tr></thead>';
+	
+	//用于X轴的时间：
+	var xdata = [];
+	var adata=[];//Y轴数据
+	var leged = false;
+	
+	$.each(result, function(i, mess){
+		leged = true;
+		xdata.push((mess['lasttime'] == null?0:mess['lasttime']));
+		adata.push(Number(mess['counts'] == null?0:mess['counts']));
+		
+		ettemp = {};
+		table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+		table += '<td style="text-align:center;">'+(mess['lasttime'] == null?0:mess['lasttime'])+'</td>';
+		table += '<td style="text-align:center;">'+toThousands(mess['counts'] == null?0:mess['counts'])+'</td>';
+		table += '</tr>';
+
+		ettemp['obj0'] = (mess['lasttime'] == null?0:mess['lasttime']);
+		ettemp['obj1'] = toThousands(mess['counts'] == null?0:mess['counts']);
+		etdata.push(ettemp);
+	});
+	table += '</table>';
+	
+	var etstr = '{"result":'+JSON.stringify(etdata)+',"count":'+count+'}';	//导出
+	var chart = new Highcharts.Chart({
+	    chart: {
+			animation: Highcharts.svg, // don't animate in old IE
+		    marginRight: 30,
+		    renderTo: 'chart',
+		    type: 'spline' //column 柱 / spline 线 
+	    },
+	    title: {
+	        text: title
+	    },
+	    legend: {
+	    	enabled: leged
+	    },
+	    credits:{  //右下角地址
+	        text:''  
+	    },
+	    xAxis: {
+	    	categories: xdata,
+	    	labels: {
+	 			style: {
+	    			color: '#000000'
+	 			}
+	 		}
+	    },
+	    yAxis: {
+	        title: {
+	            text: '市民游客数'
+	        },
+	        labels: {
+	            format: '{value}',
+	            style: {
+	   				color: '#000000'
+	   			}
+	        },
+	        min:0,
+	        plotLines: [{
+	            value: 0,
+	            width: 1,
+	            color: '#808080'
+	        }]
+	        
+	    },
+	    tooltip: {
+	    	backgroundColor: '#999999',   // 背景颜色
+	    	borderColor: 'ffffff',         // 边框颜色
+			borderRadius: 5,             // 边框圆角
+			animation: true,               // 是否启用动画效果
+	        useHTML: true,
+	        shared: true, //共享提示框
+		   	formatter: function() {
+	    		var temp ='<div style="color:#ffffff">';
+					temp += '<div style="padding:0px 0px 8px 10px; font-size:14px;width:100%;">'+(this.points[0].x)+'</div>';
+			        for(var i = 0 ;i < this.points.length; i++){
+			        	temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+						temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+						temp += '		<span style="margin-left:8px;">'+(this.points[i].series.name)+'</span>';
+						temp += '		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:'+this.points[i].series.color+';">&nbsp;</span>';
+						temp += '		<span style="heigt:8px;font-size:13px;margin-left:8px;margin-right:8px;">'+toThousands(this.points[i].y)+'</span>';
+						temp += '	</div>';
+			        	temp += '</div>';
+			        }
+					temp += '	</div>';
+		        	temp += '</div>';
+ 	 			return temp;
+			}
+	    },
+	    plotOptions: {
+	    	column: {
+			   	 pointPadding: 0.4,
+			     borderWidth: 0
+    		},
+	   	 	series: {
+		        cursor: 'pointer',  
+		        marker: {
+		            enabled: true //false false的时候就不会突出显示点 
+		        }
+	    	}
+	    },
+	    
+	    exporting:{
+	           enabled:true,
+	           filename:titles,  
+	           type:'image/png',
+	           exporttable:etstr,
+	           sourceWidth:(screen.availWidth - 365),
+	           url:'kpi/export/export.do'
+	       }, 
+	       
+	      series: [{
+		       	name: '市民游客',
+		        data:adata,
+		        connectNulls:true,
+		        dataLabels: { //显示数量
+		            enabled: false 
+		        }
+	      }]
+	});
+	document.getElementById("data").innerHTML = table;
+}
+
+function toThousands(num) {
+    var result = [ ], counter = 0;
+    num = (num || 0).toString().split('');
+    for (var i = num.length - 1; i >= 0; i--) {
+        counter++;
+        result.unshift(num[i]);
+        if (!(counter % 3) && i != 0) { result.unshift(','); }
+    }
+    return result.join('');
+}

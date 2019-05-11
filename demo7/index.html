@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><!-- 告诉IE使用最新的引擎渲染网页， -->
+<meta name="renderer" content="webkit"><!-- 360安全浏览器，默认打开 极速模式。 -->
+<!--#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.-->
+
+<title>综合信息</title>
+<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" media="screen" />
+<link rel="stylesheet" type="text/css" href="css/plugins/idangerous.swiper.css"/><!-- 轮播图-->
+<link rel="stylesheet" type="text/css" href="css/common.css"/>	<!--公共 清除默认 样式表-->
+<link rel="stylesheet" type="text/css" href="css/topBar.css"/>	<!--头部导航栏样式表-->
+<link rel="stylesheet" type="text/css" href="css/index.css"/>
+</head>
+<body>
+
+	<!--内容区域开始-->
+	<div class="content_wrap">
+		<div class="JQueryiframe"></div>
+		<!--上方导航 开始-->
+		<div class="top_bar">
+			<h3 class="top_title">旅游大数据平台</h3>
+			<ul class="top_main">
+				<li class="active"><a href="index.html">综合信息</a></li>
+				<li><a href="html/subject.html">专题分析</a></li>
+				<li><a href="html/villageSubject.html">乡村旅游</a></li>
+				<li><a href="any.html">数据分析</a></li>
+				<li><a href="html/热力图.html">热力图</a></li>
+				<span class="bot_line"></span>
+			</ul>
+			<div class="login_box">
+				<div class="user_name">
+					你好,管理员
+					<!--<img src="" alt="" />-->
+				</div>
+				<div class="choose_box">
+					<span class="exit_box">退出</span>
+					<!--<span class="edit_box">修改资料</span>-->
+				</div>
+			</div>
+		</div>
+		<!--上方导航 结束-->
+		<div class="content_main">
+			<!--左边内容开始-->
+			<div class="main_left">
+				<div class="l_top">
+					<div class="per_title">天气情况</div>
+					<div class="wei_one">
+						<div class="fu_o">
+							<div class="fu_number">
+								<ul id="spotNumber" class="spot_number">
+									<li><span>pm<br/>2.5</span><span>35.2</span></li>
+									<li><span>一氧<br/>化碳</span><span>2.2</span></li>
+								</ul>
+							</div>
+							<ul id="spotName" class="spot_name">
+								<li>空气指数</li>
+							</ul>
+						</div>
+						<div class="weather">
+							<div class="three_day">
+								<!-- class名 .duoyun .sunshine .yu .xue 代表 阴天、晴、雨、雪 -->
+								<div class="today duoyun" title="多云">
+									<div class="temperature">8-14℃</div>
+									<p>今天</p>
+								</div>
+								<div class="tomorrow sunshine" title="晴">
+									<div class="temperature">10-16℃</div>
+									<p>明天</p>
+								</div>
+								<div class="day_after duoyun" title="多云">
+									<div class="temperature">7-15℃</div>
+									<p>后天</p>
+								</div>
+							</div>
+							<div class="shidu">
+								<p>湿度：60%</p>
+								<p>风力：三级    风向：偏东风</p>
+								<p>空气质量：轻度污染</p>
+							</div>
+						</div>
+					</div>
+					<div class="per_title">人流量分析</div>
+					<div class="wei_two">
+						<div class="people">
+							<div class="people_title">昨日人流量</div>
+							<p class="last_people">29,833</p>
+						</div>
+						<div class="people">
+							<div class="people_title">实时人流量</div>
+							<p class="now_people">35,339</p>
+						</div>
+						<div class="people">
+							<div class="people_title">今年人流量</div>
+							<p class="year_people">3,621,231</p>
+						</div>
+					</div>
+				</div>
+				<!--<div class="l_bot">
+					<div class="per_title">上周银联监测企业刷卡额(29500家)</div>
+					<div id="continer1"></div>
+				</div>-->
+				<div class="swiper-container scroll_one">
+					<ul  class="swiper-wrapper">
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="l_bot">
+								<div class="per_title">上周银联监测企业刷卡额</div>
+								<div class="continer1"></div>
+							</div>
+						</li>
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="l_bot">
+								<div class="per_title">各景区通过OTA购票量</div>
+								<div class="continer55"></div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--中间内容开始-->
+			<div class="main_center">
+				<div class="c_top">
+					<div class="per_title">上月境内游客客源城市排名</div>
+					<div id="continer2"></div>
+					<div class="city_rank">
+						<ul id="citydetail" class="city_detail">
+							<li>杭州:&nbsp;&nbsp;9.96%</li>
+							<li>上海:&nbsp;&nbsp;1%</li>
+							<li>金华:&nbsp;&nbsp;0.41%</li>
+							<li>绍兴:&nbsp;&nbsp;0.25%</li>
+							<li>苏州:&nbsp;&nbsp;0.25%</li>
+							<li>宁波:&nbsp;&nbsp;0.23%</li>
+							<li>嘉兴:&nbsp;&nbsp;0.22%</li>
+							<li>衢州:&nbsp;&nbsp;0.16%</li>
+							<li>湖州:&nbsp;&nbsp;0.14%</li>
+							<li>深圳:&nbsp;&nbsp;0.14%</li>
+						</ul>
+					</div>
+					<div id="toReli" title="热力图"></div>
+				</div>
+				<div class="c_top">
+					<div class="per_title">游客分布热力图</div>
+					<div id="relitu"></div>
+					<div class="controlBar">
+						<div class="barTop">
+							<div id="timeArea">2017-07-25 16:55</div>
+							<div id="chooseDay">
+								<ul class="dayWrap">
+									<!-- 点击某个时间按钮，添加class名 nowTime 来添加选中的背景色 -->
+									<li class="nowTime">实时</li>
+									<li>今日</li>
+									<li>昨日</li>
+									<li>近七天</li>
+								</ul>
+							</div>
+						</div>
+						<div class="barBot">
+							<div class="timeLine">
+								<span id="circle"></span>
+							</div>
+							<!-- 播放时 添加class名.play; 暂停时 添加class名.pause; -->
+							<input type="button" id="playBtn" class="pause" />
+						</div>
+					</div>
+					<div id="tabBtn" title="切换"></div>
+				</div>
+				<!--<div class="c_bot">
+					<div class="per_title">实时车流量</div>
+
+				</div>-->
+				<!-- 中下内容 -->
+				<div class="swiper-container scroll_two">
+					<ul  class="swiper-wrapper">
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="c_bot">
+								<div class="per_title">上月游玩时长占比</div>
+								<div class="duration">
+									<div class="per_time">
+										<div class="time_title">
+											<p>一日游</p>
+											<p class="one_day">40%</p>
+										</div>
+										<div class="percent_line">
+											<!-- 使小圆点的 样式left 值为 537*百分比 即可 -->
+											<div class="one_percent"></div>
+										</div>
+									</div>
+									<div class="per_time">
+										<div class="time_title">
+											<p>二日游</p>
+											<p class="two_day">50%</p>
+										</div>
+										<div class="percent_line">
+											<!-- 小圆点的 left 值为 537*百分比 -->
+											<div class="two_percent"></div>
+										</div>
+									</div>
+									<div class="per_time">
+										<div class="time_title">
+											<p>三日游</p>
+											<p class="three_day">10%</p>
+										</div>
+										<div class="percent_line">
+											<!-- 小圆点的 left 值为 537*百分比 -->
+											<div class="three_percent"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="t_center">
+								<div class="per_title">上月市民外来游客景区偏好</div>
+								<div class="people_like"></div>
+							</div>
+						</li>
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="t_right">
+								<div class="per_title">上月热门景区</div>
+								<div class="spot_search"></div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--右边内容开始-->
+			<div class="main_right">
+				<!-- 右上 内容 -->
+				<div class="swiper-container scroll_three">
+					<ul  class="swiper-wrapper">
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="t_left  ">
+								<div class="per_title">上月男女游客比例</div>
+								<div class="sex_percent">
+									<div class="sex_percent1"></div>
+									<div class="male_num">52.8%</div>
+									<div class="girl_num">47.2%</div>
+									<div class="double_png"></div>
+								</div>
+							</div>
+						</li>
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="t_center">
+								<div class="per_title">上月年龄分布</div>
+								<div class="people_age"></div>
+							</div>
+						</li>
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="t_right  ">
+								<div class="per_title">上月消费水平</div>
+								<div class="consume"></div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="swiper-container scroll_four">
+					<ul  class="swiper-wrapper">
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="t_center">
+								<div class="per_title">实时乡村游客占比</div>
+								<div class="center_percent"></div>
+							</div>
+						</li>
+						<li class="swiper-slide swiper-no-swiping">
+							<div class="t_right">
+								<div class="per_title">实时乡村游客分类占比分析</div>
+								<div class="right_percent"></div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--内容区域结束-->
+	
+<script type="text/javascript" src="js/plugins/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/plugins/geoCoord.js"></script>
+<script type="text/javascript" src="js/plugins/echarts-all.js"></script>
+<script type="text/javascript" src="js/plugins/idangerous.swiper.min.js"></script>
+<script type="text/javascript" src="js/topBar.js"></script>		<!--上方导航的显示与隐藏-->
+<script type="text/javascript" src="js/autoSize.js"></script>	<!--大屏自适应屏幕-->
+<script type="text/javascript" src="js/index.js"></script>	<!--当前页面数据渲染-->
+<script type="text/javascript" src="js/index1.js"></script>
+<script type="text/javascript" src="js/l_bot.js"></script>
+<script type="text/javascript" src="js/c_bot.js"></script>
+<script type="text/javascript" src="js/r_top.js"></script>
+<script type="text/javascript" src="js/r_bot.js"></script>
+
+</body>
+</html>

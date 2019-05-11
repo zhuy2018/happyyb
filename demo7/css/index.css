@@ -1,0 +1,712 @@
+@charset "UTF-8";
+body {
+  font-family: "微软雅黑";
+  overflow: hidden;
+}
+
+/*
+ 
+ * content_wrap开始
+ * */
+.content_wrap {
+  width: 1920px;
+  height: 1080px;
+  background: url(../img/bg.png) no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+.content_wrap .content_main {
+  width: 99%;
+  height: 98%;
+  margin: 0.5% 0.5%;
+  background: url(../img/bg1.png) no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+}
+.content_wrap .content_main .main_left {
+  width: 560px;
+  height: 100%;
+  float: left;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding-top: 26px;
+  margin-left: 36px;
+}
+.content_wrap .content_main .main_left .l_top {
+  height: 476px;
+  margin-bottom: 50px;
+}
+.content_wrap .content_main .main_left .l_top .per_title:nth-child(1) {
+  background: url(../img/index/title_bg.png) no-repeat 2px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 36px;
+  margin-bottom: 25px;
+}
+.content_wrap .content_main .main_left .l_top .per_title:nth-child(3) {
+  background: url(../img/index/title_bg.png) no-repeat 2px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 36px;
+  margin: 16px 0px 10px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one {
+  height: 186px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .fu_o {
+  width: 187px;
+  height: 186px;
+  float: left;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .fu_o .fu_number {
+  width: 100%;
+  height: 119px;
+  margin-bottom: 20px;
+  background: url(../img/index/fu_co.png) no-repeat;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 26px;
+  color: #fff;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .fu_o .fu_number ul {
+  height: 119px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .fu_o .fu_number ul li {
+  height: 119px;
+  font-size: 32px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .fu_o .fu_number ul li span:nth-child(1){
+  float:left;
+  margin: 30px 0px 0 27px;
+  font-size: 18px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .fu_o .fu_number ul li span:nth-child(2){
+  float:right;
+  width:114px;
+  height: 119px;
+  line-height:119px;
+  font-size: 30px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .fu_o ul {
+  height: 30px;
+  overflow: hidden;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .fu_o ul li {
+  font-size: 20px;
+  height: 30px;
+  line-height: 30px;
+  color: #fff;
+  text-align: center;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather {
+  width: 373px;
+  height: 186px;
+  float: left;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day {
+  height: 102px;
+  background: url(../img/index/three_day.png) no-repeat center center;
+  text-align: center;
+  color: #fff;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .today {
+  width: 131px;
+  height: 100%;
+  float: left;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .today .temperature {
+  font-size: 16px;
+  margin: 56px 0 10px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .today p {
+  font-size: 12px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .tomorrow {
+  width: 129px;
+  height: 100%;
+  float: left;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .tomorrow .temperature {
+  font-size: 16px;
+  margin: 56px 0 10px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .tomorrow p {
+  font-size: 12px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .day_after {
+  width: 112px;
+  height: 100%;
+  float: left;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .day_after .temperature {
+  font-size: 16px;
+  margin: 56px 0 10px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .day_after p {
+  font-size: 12px;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .duoyun {
+  background: url(../img/index/duoyun.png) no-repeat top center;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .three_day .sunshine {
+  background: url(../img/index/sunshine.png) no-repeat top center;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .shidu {
+  height: 66px;
+  padding: 12px 0 0 54px;
+  font-size: 16px;
+  line-height: 16px;
+  color: #fff;
+  background: url(../img/index/tuoyuan.png) no-repeat 32px bottom;
+}
+.content_wrap .content_main .main_left .l_top .wei_one .weather .shidu p:nth-child(2) {
+  line-height: 36px;
+}
+.content_wrap .content_main .main_left .l_top .wei_two {
+  height: 160px;
+  color: #fff;
+}
+.content_wrap .content_main .main_left .l_top .wei_two .people {
+  width: 182px;
+  height: 100%;
+  float: left;
+  background: url(../img/index/people_bg.png) no-repeat;
+}
+.content_wrap .content_main .main_left .l_top .wei_two .people .people_title {
+  font-size: 16px;
+  line-height: 16px;
+  padding-left: 65px;
+  margin: 50px 0 32px;
+}
+.content_wrap .content_main .main_left .l_top .wei_two .people p {
+  font-size: 32px;
+  text-align: center;
+}
+.content_wrap .content_main .main_left .l_top .wei_two .people:nth-child(2) {
+  margin: 0 7px;
+}
+
+.content_wrap .content_main .main_left .scroll_one {
+  width:100%;
+  height: 474px;
+}
+.content_wrap .content_main .main_left .l_bot {
+  height: 474px;
+}
+.content_wrap .content_main .main_left .l_bot .per_title {
+  background: url(../img/index/title_bg.png) no-repeat 2px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 36px;
+  margin-bottom: 16px;
+}
+.content_wrap .content_main .main_left .l_bot .continer1{
+  width: 560px;
+  height: 440px;
+}
+.content_wrap .content_main .main_left .l_bot .continer55{
+  width: 560px;
+  height: 440px;
+}
+
+
+/*center*/
+.content_wrap .content_main .main_center {
+  width: 592px;
+  height: 100%;
+  padding-top: 26px;
+  margin: 0 35px 0 65px;
+  float: left;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+}
+.content_wrap .content_main .main_center .c_top:nth-child(1) {
+  height: 476px;
+  margin-bottom: 50px;
+  position: relative;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(1) .per_title {
+  background: url(../img/index/title_bg.png) no-repeat 2px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 36px;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(1) #continer2 {
+  width: 434px;
+  height: 340px;
+  margin-top: 72px;
+  float: left;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(1) #toReli {
+  width: 30px;
+  height: 30px;
+  background: url(../img/index/to_reliBtn.png) no-repeat;
+  position: absolute;
+  right: 0px;
+  bottom: 5px;
+  z-index: 5;
+  cursor: pointer;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(1) .city_rank {
+  width: 117px;
+  height: 260px;
+  margin-top: 100px;
+  background: url(../img/index/city_rank.png) no-repeat;
+  float: right;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(1) .city_rank ul {
+  color: #fff;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(1) .city_rank ul li {
+  font-size: 14px;
+  line-height: 26px;
+  text-align: left;
+  text-indent: 20px;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) {
+  height: 476px;
+  margin-bottom: 50px;
+  position: relative;
+  display: none;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .per_title {
+  background: url(../img/index/title_bg.png) no-repeat 2px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 36px;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) #relitu {
+  width: 103%;
+  height: 455px;
+  background: url(../img/relitu/reli.png) no-repeat;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) #tabBtn {
+  width: 30px;
+  height: 30px;
+  background: url(../img/index/in_reliBtn.png) no-repeat;
+  position: absolute;
+  right: -17px;
+  bottom: 5px;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar {
+  width: 560px;
+  height: 68px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  color: #fff;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barTop {
+  width: 100%;
+  height: 24px;
+  margin-bottom: 4px;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barTop #timeArea {
+  width: 176px;
+  height: 100%;
+  background: rgba(0, 51, 87, 0.8);
+  font-size: 16px;
+  line-height: 24px;
+  float: left;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barTop #chooseDay {
+  width: 166px;
+  height: 22px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 1px;
+  font-size: 12px;
+  float: right;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barTop #chooseDay .dayWrap {
+  width: 100%;
+  height: 100%;
+  background: #667a8e;
+  float: left;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barTop #chooseDay .dayWrap li {
+  width: 40px;
+  height: 100%;
+  line-height: 20px;
+  border-right: 1px solid #fff;
+  text-align: center;
+  cursor: pointer;
+  float: left;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barTop #chooseDay .dayWrap li:last-child {
+  border-right: 0;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barTop #chooseDay .dayWrap .nowTime {
+  background: #216290;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barBot {
+  width: 100%;
+  height: 40px;
+  background: rgba(0, 51, 87, 0.8);
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barBot .timeLine {
+  width: 505px;
+  height: 21px;
+  float: left;
+  margin: 15px 0 0 10px;
+  background: url(../img/index/in_timeLine.png) no-repeat;
+  position: relative;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barBot .timeLine #circle {
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: url(../img/index/in_circle.png) no-repeat;
+  position: absolute;
+  top: -5px;
+  left: 0px;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barBot #playBtn {
+  float: right;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin: 5px 5px 0 0;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barBot .pause {
+  background: url(../img/index/in_pause.png) no-repeat;
+}
+.content_wrap .content_main .main_center .c_top:nth-child(2) .controlBar .barBot .play {
+  background: url(../img/index/in_play.png) no-repeat;
+}
+/*中下*/
+.content_wrap .content_main .main_center .scroll_two {
+  width:100%;
+  height: 474px;
+}
+.content_wrap .content_main .main_center .c_bot {
+  height: 474px;
+}
+.content_wrap .content_main .main_center .c_bot .per_title {
+  background: url(../img/title_bg.png) no-repeat 2px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 36px;
+  margin-bottom: 60px;
+}
+/* 游玩时长占比 */
+.content_wrap .content_main .scroll_two .c_bot .duration {
+  margin-top: 25px;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .per_time {
+  width: 100%;
+  height: 73px;
+  margin-bottom: 50px;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .per_time .time_title {
+  width: 80px;
+  height: 73px;
+  float: left;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .per_time .time_title p:nth-child(1) {
+  line-height: 24px;
+  font-size: 18px;
+  margin: 10px 0 10px 0;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .per_time .time_title .one_day {
+  font-size: 26px;
+  line-height: 26px;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .per_time .time_title .two_day {
+  font-size: 26px;
+  line-height: 26px;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .per_time .time_title .three_day {
+  font-size: 26px;
+  line-height: 26px;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .per_time .percent_line {
+  width: 503px;
+  height: 73px;
+  float: right;
+  background: url(../img/realtimeVisitor/line_bg.png) no-repeat 0 37px;
+  background-size: 100% 19px;
+  position: relative;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .one_percent {
+  width: 72px;
+  height: 72px;
+  background: rgba(46, 169, 173, 0.9);
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 161px;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .two_percent {
+  width: 54px;
+  height: 54px;
+  background: rgba(155, 141, 191, 0.9);
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 222px;
+}
+.content_wrap .content_main .scroll_two .c_bot .duration .three_percent {
+  width: 40px;
+  height: 40px;
+  background: rgba(80, 153, 203, 0.9);
+  border-radius: 50%;
+  position: absolute;
+  top: 17px;
+  left: 33px;
+}
+/* 市民外来游客景区偏好 */
+.content_wrap .content_main .scroll_two .t_center {
+  width: 100%;
+  height: 479px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  margin: 0 10px;
+  float: left;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .scroll_two .t_center .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 0px 0 10px;
+}
+.content_wrap .content_main .scroll_two .t_center .people_like {
+  width: 100%;
+  height: 440px;
+  margin: 0 auto;
+}
+/* 热门景区 */
+.content_wrap .content_main .scroll_two .t_right {
+  width: 100%;
+  height: 479px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  float: right;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .scroll_two .t_right .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 0px 0 10px;
+}
+.content_wrap .content_main .scroll_two .t_right .spot_search {
+  width: 100%;
+  height: 440px;
+}
+
+.content_wrap .content_main .main_right {
+  width: 580px;
+  height: 100%;
+  float: right;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 26px 20px 0 0;
+}
+.content_wrap .content_main .main_right .scroll_three {
+  width:100%;
+  height: 476px;
+  margin-bottom: 50px;
+}
+/* 男女游客比例 */
+.content_wrap .content_main .scroll_three .t_left {
+  width: 100%;
+  height: 479px;
+}
+.content_wrap .content_main .scroll_three .t_left .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 0px 0 10px;
+}
+.content_wrap .content_main .scroll_three .t_left .sex_percent {
+  width: 500px;
+  height: 350px;
+  margin: 50px auto 0;
+  position: relative;
+}
+.content_wrap .content_main .scroll_three .t_left .sex_percent .sex_percent1 {
+  width: 100%;
+  height: 100%;
+}
+.content_wrap .content_main .scroll_three .t_left .sex_percent .male_num {
+  width: 91px;
+  height: 86px;
+  color: #fff;
+  background: url(../img/index/male.png) no-repeat;
+  position: absolute;
+  top: 0;
+  left: 60px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 39px 0 0 16px;
+  font-size: 18px;
+  z-index: 1;
+}
+.content_wrap .content_main .scroll_three .t_left .sex_percent .girl_num {
+  width: 91px;
+  height: 86px;
+  color: #fff;
+  position: absolute;
+  background: url(../img/index/girl.png) no-repeat;
+  bottom: 0;
+  right: 60px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 39px 0 0 20px;
+  font-size: 18px;
+  z-index: 1;
+}
+.content_wrap .content_main .scroll_three .t_left .sex_percent .double_png {
+  width: 90px;
+  height: 97px;
+  background: url(../img/index/maleGirl.png) no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1;
+}
+/* 年龄分布 */
+.content_wrap .content_main .scroll_three .t_center {
+  width: 560px;
+  height: 479px;
+}
+.content_wrap .content_main .scroll_three .t_center .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 0px 0 10px;
+}
+.content_wrap .content_main .scroll_three .t_center .people_age {
+  width: 100%;
+  height: 380px;
+  margin: 50px auto 0;
+}
+/* 消费水平 */
+.content_wrap .content_main .scroll_three .t_right {
+  width: 560px;
+  height: 479px;
+}
+.content_wrap .content_main .scroll_three .t_right .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 0px 0 10px;
+}
+.content_wrap .content_main .scroll_three .t_right .consume {
+  width: 100%;
+  height: 410px;
+  margin: 20px auto 0;
+}
+
+
+
+.content_wrap .content_main .main_right .scroll_four {
+  width:100%;
+  height: 474px;
+}
+/* 乡村游客占比 */
+.content_wrap .content_main .scroll_four .t_center {
+  width: 560px;
+  height: 479px;
+}
+.content_wrap .content_main .scroll_four .t_center .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 0px 0 10px;
+}
+.content_wrap .content_main .scroll_four .t_center .center_percent {
+  width: 100%;
+  height: 440px;
+}
+
+/* 乡村游客分类占比分析 */
+.content_wrap .content_main .scroll_four .t_right {
+  width: 560px;
+  height: 479px;
+}
+.content_wrap .content_main .scroll_four .t_right .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 0px 0 10px;
+}
+.content_wrap .content_main .scroll_four .t_right .right_percent {
+  width: 100%;
+  height: 440px;
+}

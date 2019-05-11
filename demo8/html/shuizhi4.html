@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><!-- 告诉IE使用最新的引擎渲染网页， -->
+    <meta name="renderer" content="webkit"><!-- 360安全浏览器，默认打开 极速模式。 -->
+    <!--#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.-->
+    <title>环保宣传-水源防护</title>
+    <link rel="stylesheet" href="../css/public/common.css">
+    <link rel="stylesheet" href="../css/topBar/topBar.css">
+    <link rel="stylesheet" href="../css/shuizhi/shuizhi4.css">
+</head>
+<body>
+<!--下一步按钮-->
+<a class="next_btn" href="shuizhi5.html"></a>
+<!--上一步按钮-->
+<a class="prev_btn" href="shuizhi2.html"></a>
+<div class="content_wrap">
+    <!--头部导航开始-->
+    <div class="topBar">
+        <div class="logo">环保行为督察系统</div>
+        <ul class="topMain">
+            <li><a href="../index.html"></a></li>
+            <li class="active"><a href="huanbao.html"></a></li>
+            <li><a href="xingwei.html"></a></li>
+            <li><a href="xingwei2.html"></a></li>
+            <li><a href="#"></a></li>
+        </ul>
+        <div class="login_box">
+            <div class="user_name">
+                你好,系统管理员
+            </div>
+        </div>
+    </div>
+    <!--头部导结束-->
+    <div class="content_main">
+        <div class="title_tip">
+            <span>监控场景</span>
+            <span>监控水源</span>
+            <span>监控范围</span>
+            <span>监控内容</span>
+        </div>
+        <div class="content">
+            <div class="per_content">
+                <div class="con_before">短信模版类型</div>
+                <select name="" id="massage_sel">
+                    <option value="水源地保护">水源防护</option>
+                    <option value="水源地保护">水源防护1</option>
+                    <option value="水源地保护">水源防护2</option>
+                    <option value="水源地保护">水源防护3</option>
+                </select>
+            </div>
+            <div class="per_content">
+                <div class="con_before">上游短信内容</div>
+                <textarea class="message_con">温馨提醒:您已进入饮用水源一级保护区,敬请遵守相关法律法规,禁止游泳、垂钓、非法捕捞等一切污染水源行为，违者将依法查处。</textarea>
+            </div>
+            <div class="per_content">
+                <div class="con_before">下游短信内容</div>
+                <textarea class="message_con">温馨提醒:您已进入饮用水源一级保护区,敬请遵守相关法律法规,禁止烧烤、抛撒垃圾等污染水源行为,违者将依法查处。</textarea>
+            </div>
+            <div class="per_content">
+                <div class="con_before">监控时间</div>
+                <input class="time_input" type="date" value="2017-11-01" />
+                -
+                <input class="time_input" type="date" value="2017-12-31" />
+            </div>
+            <div class="per_content">
+                <div class="con_before">短信总量</div>
+                <input type="text" class="message_num" value="50000">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script src="../js/public/autoSize.js"></script>
+<script>
+    $(".per_view").click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+</script>
+</body>
+</html>

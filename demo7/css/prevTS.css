@@ -1,0 +1,233 @@
+@charset "UTF-8";
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: "微软雅黑";
+  overflow: hidden;
+}
+
+/*
+ 
+ * content_wrap开始
+ * */
+.content_wrap {
+  width: 1920px;
+  height: 1080px;
+  background: url(../img/bg.png) no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+  position: relative;
+}
+.content_wrap .content_main {
+  height: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 10px;
+  position: relative;
+}
+.content_wrap .title {
+  text-align: center;
+  line-height: 58px;
+  font-size: 28px;
+  color: #fff;
+}
+.content_wrap .main {
+  width: 100%;
+  height: 958px;
+  padding-top: 10px;
+  color: #fff;
+  background: url(../img/prevTS/bg_all.png) no-repeat;
+}
+.content_wrap .main .top_choose {
+  width: 1214px;
+  height: 25px;
+  margin: 0px auto 21px;
+}
+.content_wrap .main .top_choose .year_choose {
+  width: 258px;
+  height: 20px;
+  float: left;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  line-height: 20px;
+}
+.content_wrap .main .top_choose .year_choose .year_tip {
+  width: 54px;
+  height: 20px;
+  float: left;
+  text-align: left;
+}
+.content_wrap .main .top_choose .year_choose .choose2 {
+  float: left;
+  width: 134px;
+  height: 20px;
+  position: relative;
+}
+.content_wrap .main .top_choose .year_choose .choose2 #arrows2 a {
+  display: block;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 10;
+  position: absolute;
+  bottom: 0;
+}
+.content_wrap .main .top_choose .year_choose .choose2 #arrow-left2 {
+  background: url(../img/weather/prev.png) no-repeat;
+  left: 0;
+}
+.content_wrap .main .top_choose .year_choose .choose2 #arrow-right2 {
+  background: url(../img/weather/next.png) no-repeat;
+  right: 0;
+}
+.content_wrap .main .top_choose .year_choose .choose2 .scroll2 {
+  width: 100%;
+  height: 100%;
+}
+.content_wrap .main .top_choose .year_choose .choose2 .scroll2 ul {
+  width: 100%;
+  height: 100%;
+}
+.content_wrap .main .top_choose .year_choose .choose2 .scroll2 ul li {
+  width: 134px;
+  height: 20px;
+  text-align: center;
+}
+.content_wrap .main .top_choose .month_choose {
+  width: 947px;
+  height: 25px;
+  float: left;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  line-height: 20px;
+}
+.content_wrap .main .top_choose .month_choose .month_tip {
+  width: 54px;
+  height: 25px;
+  line-height: 25px;
+  float: left;
+  text-align: left;
+}
+.content_wrap .main .top_choose .month_choose .month_wrap {
+  width: 876px;
+  height: 25px;
+  float: left;
+}
+.content_wrap .main .top_choose .month_choose .month_wrap li {
+  width: 40px;
+  height: 23px;
+  line-height: 23px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 0 30px 0px 0;
+  background: #070d20;
+  border: 1px solid #070d20;
+  float: left;
+  cursor: pointer;
+}
+.content_wrap .main .top_choose .month_choose .month_wrap li.active {
+  background: #19496f;
+  border: 1px solid #0f767d;
+}
+.content_wrap .main .top_choose .month_choose .month_wrap li:hover {
+  background: #19496f;
+  border: 1px solid #0f767d;
+}
+.content_wrap .main .main_ul {
+  width: 1870px;
+  height: 908px;
+  margin: 0 auto;
+}
+.content_wrap .main .main_ul .per_main {
+  width: 350px;
+  height: 426px;
+  float: left;
+  margin: 0 30px 40px 0;
+}
+.content_wrap .main .main_ul .per_main:nth-child(1) {
+  background: url(../img/prevTS/baishuijian.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .per_main:nth-child(2) {
+  background: url(../img/prevTS/daxiagu.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .per_main:nth-child(3) {
+  background: url(../img/prevTS/gengzhitu.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .per_main:nth-child(4) {
+  background: url(../img/prevTS/hongye.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .per_main:nth-child(5) {
+  margin-right: 0;
+  background: url(../img/prevTS/longmen.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .per_main:nth-child(6) {
+  background: url(../img/prevTS/taihuyuan.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .per_main:nth-child(7) {
+  background: url(../img/prevTS/taiyang.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .per_main:nth-child(8) {
+  background: url(../img/prevTS/tianmushan.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .per_main:nth-child(9) {
+  background: url(../img/prevTS/tuankou.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .per_main:nth-child(10) {
+  margin-right: 0;
+  background: url(../img/prevTS/zhongxiao.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .rank_ul {
+  width: 350px;
+  height: 164px;
+}
+.content_wrap .main .main_ul .rank_ul li {
+  width: 110px;
+  height: 164px;
+  float: left;
+  margin-right: 10px;
+}
+.content_wrap .main .main_ul .rank_ul li .spot_name {
+  width: 110px;
+  height: 44px;
+  padding-top: 15px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 44px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+.content_wrap .main .main_ul .rank_ul li .number_tip, .content_wrap .main .main_ul .rank_ul li .percent_tip {
+  text-indent: 16px;
+  font-size: 12px;
+  line-height: 12px;
+  padding-top: 10px;
+}
+.content_wrap .main .main_ul .rank_ul li .number {
+  text-indent: 16px;
+  line-height: 26px;
+  font-size: 22px;
+}
+.content_wrap .main .main_ul .rank_ul li .percent {
+  text-indent: 16px;
+  line-height: 26px;
+  font-size: 22px;
+}
+.content_wrap .main .main_ul .rank_ul li:nth-child(1) {
+  background: url(../img/prevTS/theFirst.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .rank_ul li:nth-child(2) {
+  background: url(../img/prevTS/theSecond.png) no-repeat center bottom;
+}
+.content_wrap .main .main_ul .rank_ul li:nth-child(3) {
+  margin-right: 0px;
+  background: url(../img/prevTS/theThird.png) no-repeat center bottom;
+}

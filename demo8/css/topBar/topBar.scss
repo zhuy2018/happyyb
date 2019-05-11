@@ -1,0 +1,79 @@
+.topBar{
+  width: 100%;
+  height:70px;
+  background:#0d5ab1;
+  .logo{
+    width: 224px;
+    height:100%;
+    float: left;
+    font-size: 26px;
+    line-height: 70px;
+    font-weight: bold;
+    color:#fff;
+    padding-left: 72px;
+    background: url(../../img/topBar/logo.png) no-repeat 20px 15px;
+  }
+  .topMain{
+    width:550px;
+    height:70px;
+    float: left;
+    li a{
+      box-sizing: border-box;
+      float: left;
+      width:110px;
+      height:70px;
+      padding-top: 40px;
+      text-align: center;
+      font-size: 18px;
+      line-height: 18px;
+      color:#9bbad9;
+    }
+    li a:hover{
+        color:#fff;
+    }
+    .active a{
+        color:#fff;
+    }
+    li:nth-child(1) a{
+      background: url(../../img/topBar/title1.png) no-repeat center 13px;
+    }
+    li:nth-child(1).active a,li:nth-child(1) a:hover{
+      background:#063f7f url(../../img/topBar/title11.png) no-repeat center 13px;
+    }
+    li:nth-child(2) a{
+      background: url(../../img/topBar/title2.png) no-repeat center 13px;
+    }
+    li:nth-child(2).active a,li:nth-child(2) a:hover{
+      background:#063f7f url(../../img/topBar/title22.png) no-repeat center 13px;
+    }
+    li:nth-child(3) a{
+      background: url(../../img/topBar/title3.png) no-repeat center 13px;
+    }
+    li:nth-child(3).active a,li:nth-child(3) a:hover{
+      background:#063f7f url(../../img/topBar/title33.png) no-repeat center 13px;
+    }
+    li:nth-child(4) a{
+      background: url(../../img/topBar/title4.png) no-repeat center 13px;
+    }
+    li:nth-child(4).active a,li:nth-child(4) a:hover{
+      background:#063f7f url(../../img/topBar/title44.png) no-repeat center 13px;
+    }
+    li:nth-child(5) a{
+      background: url(../../img/topBar/title5.png) no-repeat center 13px;
+    }
+    li:nth-child(5).active a,li:nth-child(5) a:hover{
+      background:#063f7f url(../../img/topBar/title55.png) no-repeat center 13px;
+    }
+  }
+  .login_box{
+    width:155px;
+    height:70px;
+    float: right;
+    .user_name{
+      line-height: 70px;
+      font-size: 14px;
+      color:#fff;
+      background: url(../../img/topBar/user.png) no-repeat 114px center;
+    }
+  }
+}

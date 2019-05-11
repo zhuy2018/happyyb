@@ -1,0 +1,192 @@
+body {
+    color: #7a889b;
+    font-family: Arial,"Microsoft Yahei";
+    font-size: 12px;
+}
+
+.l {
+    float: left !important;
+}
+
+.relative {
+    left: 0;
+    position: relative;
+    top: 0;
+    z-index: 2;
+}
+
+
+input, select, button, div {
+    outline: medium none;
+}
+* {
+    border: medium none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+
+.time, .maintop .dropselect {
+    background: rgba(0, 0, 0, 0) url("../img/kpi/addbut_bg.png") repeat scroll 0 0;
+    border: 1px solid #a6aeb7;
+    border-radius: 5px;
+    color: #616d73;
+    display: block;
+    float: left;
+    font-size: 14px;
+    height: 36px;
+    line-height: 36px;
+}
+
+a, a:active {
+    cursor: pointer;
+    outline: medium none;
+}
+* {
+    border: medium none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+a:hover,a:active{
+	color:#616D73; text-decoration:none;
+}
+
+.time span, .maintop .dropselect h4 {
+    background: rgba(0, 0, 0, 0) url("../img/kpi/timeAroww.png") no-repeat scroll right top;
+    display: inline-block;
+    font-size: 14px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 53px 0 10px;
+}
+* {
+    border: medium none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+
+.time:hover,.time.hover,.buttonDiv .dropselect.over,.buttonDiv .dropselect.current{
+	background:#e8ecf1; text-decoration:none;
+}
+
+.time font {
+    display: block;
+    font-size: 14px;
+    height: 36px;
+    line-height: 36px;
+    text-shadow: 1px 1px 1px #fff;
+}
+* {
+    border: medium none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+
+.l.relative .timetxt {
+    left: 0;
+}
+.timetxt.panone {
+    padding: 0;
+}
+.timetxt {
+    background: #f2f5f7 none repeat scroll 0 0;
+    border: 1px solid #a1a5a8;
+    border-radius: 5px;
+    position: absolute;
+    top: 46px;
+    z-index: 9999995;
+}
+
+.after::after {
+    clear: both;
+    content: "";
+    display: block;
+    height: 0;
+}
+
+a.Cancel.r {
+    margin-left: 10px;
+}
+
+
+a.Cancel, a.CancelonCL, a.maxCancel, a.maxCancelbut, a.Confirm, a.maxConfirm, a.maxConfirmbut {
+    box-shadow: 0 1px 0 #bacad1;
+}
+a.but, .product_but, a.Cancel, a.CancelonCL, a.Confirm, a.button4, .Contrasttime, a.button, a.maxConfirm, a.maxCancel, a.maxConfirmbut, a.maxCancelbut, a.pic_but {
+    background: rgba(0, 0, 0, 0) url("../img/kpi/button_bg.png") repeat scroll 0 0;
+    text-align:center;
+    color: #616d73;
+    cursor: pointer;
+    display: block;
+	width:43px;
+    height: 29px;
+    line-height: 29px;
+    margin-top: 8px;
+    padding: 0 10px;
+    text-decoration: none;
+}
+
+a.Confirm, a.maxConfirm, a.maxConfirmbut {
+    /* background: rgba(0, 0, 0, 0) url("../img/kpi/Confirm.png") repeat scroll 0 0; */
+    background:#305282;
+    border-color: #305282;
+    border-radius: 5px;
+    color: #fff;
+}
+.opeDiv a {
+    margin: 0 13px 13px 0;
+}
+.r {
+    float: right !important;
+}
+
+
+a:hover.Confirm,a:hover.maxConfirm,a:hover.maxConfirmbut{
+	/* background:#1A4CE0;
+	border-radius: 5px; */
+}
+
+a:hover.Cancel,a:hover.CancelonCL,a:hover.maxCancel,a:hover.maxCancelbut{
+	/* background:#d0d4d8; 
+	color:#5F6A73;
+	border-radius: 5px; */
+}
+.headList{
+	width:100%;
+	height:75px;
+	/* background:#eaf1f6; */
+	/* border-bottom:1px solid #d4dee8; */
+}
+
+
+/* 数据分析  切换时  按钮转换 */
+#tableBtn{
+	float: right;
+	width:27px;
+	height:27px;
+	margin-right:10px;
+	margin-top: 7px;
+	background:url(../img/reportForms/table_btn.png) no-repeat;cursor:pointer;
+}
+#lineBtn{
+	float: right;
+	width:27px;
+	height:27px;
+	margin-right:10px;
+	margin-top: 7px;
+	background:url(../img/reportForms/line_btn.png) no-repeat;cursor:pointer;
+}
+.activeBtn{
+	background-position:0px -27px!important;
+}

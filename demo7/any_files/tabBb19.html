@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)http://218.205.68.159/laly/pushData/tcScenes/index.do -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--<base href="http://218.205.68.159:80/laly/">--><base href=".">
+	<!-- jsp文件头和头部 -->
+	
+<!--<base href="http://218.205.68.159:80/laly/">--><base href=".">
+	
+	<title></title>
+	<meta name="description" content="overview &amp; stats">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- basic styles -->
+	<link href="./bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./font-awesome.css">
+
+	<!-- ace styles -->
+	<link rel="stylesheet" href="./ace.min.css">
+	<script type="text/javascript" src="./jquery-1.9.1.min.js.下载"></script>
+
+	<script type="text/javascript" src="./bootbox.min.js.下载"></script>	<!-- 确认窗口 -->
+
+	<!-- 树-->
+	<link rel="stylesheet" href="./zTreeStyle.css" type="text/css">
+	
+	
+	<script type="text/javascript" src="./jquery.ztree.core-3.5.js.下载"></script>
+	<script type="text/javascript" src="./jquery.ztree.excheck-3.5.js.下载"></script>
+	
+	<script type="text/javascript" src="./zDrag.js.下载"></script>
+	<script type="text/javascript" src="./zDialog.js.下载"></script>
+	<script type="text/javascript" src="./layer.js.下载"></script><link rel="stylesheet" href="./layer.css" id="layui_layer_skinlayercss" style="">
+	<script type="text/javascript" src="./jquery.tips.js.下载"></script>
+	
+	<script type="text/javascript" src="./WdatePicker.js.下载"></script><link href="./WdatePicker.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="./form.js.下载"></script>
+	
+	
+	
+	<script type="text/javascript">
+	/** 
+ * 时间对象的格式化; 
+ */  
+Date.prototype.format = function(format) {  
+    /* 
+     * eg:format="yyyy-MM-dd hh:mm:ss"; 
+     */  
+    var o = {  
+        "M+" : this.getMonth() + 1, // month  
+        "d+" : this.getDate(), // day  
+        "h+" : this.getHours(), // hour  
+        "m+" : this.getMinutes(), // minute  
+        "s+" : this.getSeconds(), // second  
+        "q+" : Math.floor((this.getMonth() + 3) / 3), // quarter  
+        "S" : this.getMilliseconds()  
+        // millisecond  
+    }  
+  
+    if (/(y+)/.test(format)) {  
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4  
+                        - RegExp.$1.length));  
+    }  
+  
+    for (var k in o) {  
+        if (new RegExp("(" + k + ")").test(format)) {  
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1  
+                            ? o[k]  
+                            : ("00" + o[k]).substr(("" + o[k]).length));  
+        }  
+    }  
+    return format;  
+} 
+
+function initData(){
+	if(null != document.getElementById("data")){
+	document.getElementById("data").innerHTML = '';
+	}
+	if(null != document.getElementById("chart")){
+	document.getElementById("chart").innerHTML = '';
+	}
+	
+	
+}
+
+	
+	</script>
+
+	<link rel="stylesheet" href="./css.css">
+	<script type="text/javascript" src="./highcharts.js.下载"></script>
+	
+	<script type="text/javascript" src="./highcharts-more.js.下载"></script>
+	<script type="text/javascript" src="./highcharts-themes.js.下载"></script>
+	<script type="text/javascript" src="./exporting.js.下载"></script>
+	<style type="text/css">
+	html,body{
+		height: 100%;/*设置html和body的width和height为100%，可使全屏生效*/
+		width: 100%;
+		min-width: 600px;
+		min-height: 400px;
+		color:#63666d;
+		font-size: 14px;
+		font-family: 黑体;
+		margin: 0px; /*设置上下左右的相对位置为0，可避免超出范围出现滚动条*/
+		overflow: hidden;
+	}
+	</style>
+	<script type="text/javascript">
+	//提交参数
+	var scenesname = '临安市';
+	//临时参数
+	var displayid = '';
+	var temp_scenesname = '';
+	
+	//景区 控件
+	function scenesOnclick(onclickid){
+		$('#'+onclickid).css({'display':'none'});
+		getScenesSelect();
+		scenesname = temp_scenesname;
+		if(scenesname != ''){	
+			$('#displayscenesvalue').html(scenesname);
+		}else{
+			$('#displayscenesvalue').html('请选择景区..');
+			layer.alert('请选择景区！');
+			return false;
+		}
+		getData();
+	}
+	
+	
+	
+	function displayOnclick(onclickid){
+		if($('#'+onclickid).css("display") == 'none'){
+			if(displayid!=''){
+				$('#'+displayid).css({'display':'none'});
+			}
+			$('#'+onclickid).css({'display':'block'});
+			displayid = onclickid;
+		}else{
+			$('#'+onclickid).css({'display':'none'});
+		}
+	}
+	
+	function cancel(onclickid){
+		$('#'+onclickid).css({'display':'none'});
+	}
+	
+	</script>
+</head>
+<body id="body" style="background: rgb(153, 153, 153); width: 1620px;">
+	<div id="divBody" style="margin-left: 15px; margin-right: 15px; height: 100%; width: 1590px;">
+	
+		<!-- 景区 -->
+		<div style=" z-index:99;margin: -52px 0px 15px 0px;" class="relative l">
+			<a class="time" onclick="displayOnclick(&#39;scenesChoice&#39;);">
+				<span><font style="width:182px;font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;" class="calendar" id="displayscenesvalue">临安市</font></span>
+			</a>
+			<div id="scenesChoice" style="width: 400px; left: 0;" class="timetxt hide panone">
+				<div style="margin:10px;" id="sceneslist"><table style="text-align:center;"><tbody><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="50px;" style="text-align:left;cursor: pointer;" onclick="setScenes(&#39;scenesAll&#39;)" id="sceneslist_all">全选</td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(0)" id="sceneslist_0"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="100" value="临安市"> <label class="lbl" for="100" title="临安市">临安市</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(1)" id="sceneslist_1"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="101" value="白水涧"> <label class="lbl" for="101" title="白水涧">白水涧</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(2)" id="sceneslist_2"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="102" value="大明山"> <label class="lbl" for="102" title="大明山">大明山</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(3)" id="sceneslist_3"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="103" value="东天目山"> <label class="lbl" for="103" title="东天目山">东天目山</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(4)" id="sceneslist_4"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="104" value="河桥古镇"> <label class="lbl" for="104" title="河桥古镇">河桥古镇</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(5)" id="sceneslist_5"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="105" value="红叶指南"> <label class="lbl" for="105" title="红叶指南">红叶指南</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(6)" id="sceneslist_6"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="106" value="临安八百里风情岛"> <label class="lbl" for="106" title="临安八百里风情岛">临安八百里..</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(7)" id="sceneslist_7"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="107" value="玲珑山"> <label class="lbl" for="107" title="玲珑山">玲珑山</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(8)" id="sceneslist_8"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="108" value="柳溪江"> <label class="lbl" for="108" title="柳溪江">柳溪江</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(9)" id="sceneslist_9"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="109" value="龙井峡"> <label class="lbl" for="109" title="龙井峡">龙井峡</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(10)" id="sceneslist_10"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="110" value="钱王陵园"> <label class="lbl" for="110" title="钱王陵园">钱王陵园</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(11)" id="sceneslist_11"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="111" value="青山湖"> <label class="lbl" for="111" title="青山湖">青山湖</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(12)" id="sceneslist_12"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="112" value="清凉峰旅游度假区"> <label class="lbl" for="112" title="清凉峰旅游度假区">清凉峰旅游..</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(13)" id="sceneslist_13"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="113" value="瑞晶石花洞"> <label class="lbl" for="113" title="瑞晶石花洞">瑞晶石花洞</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(14)" id="sceneslist_14"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="114" value="神龙川"> <label class="lbl" for="114" title="神龙川">神龙川</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(15)" id="sceneslist_15"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="115" value="十门峡"> <label class="lbl" for="115" title="十门峡">十门峡</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(16)" id="sceneslist_16"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="116" value="太湖源"> <label class="lbl" for="116" title="太湖源">太湖源</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(17)" id="sceneslist_17"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="117" value="天目大峡谷"> <label class="lbl" for="117" title="天目大峡谷">天目大峡谷</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(18)" id="sceneslist_18"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="118" value="天目源"> <label class="lbl" for="118" title="天目源">天目源</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(19)" id="sceneslist_19"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="119" value="湍口众安氡温泉"> <label class="lbl" for="119" title="湍口众安氡温泉">湍口众安氡..</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(20)" id="sceneslist_20"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="120" value="西径山"> <label class="lbl" for="120" title="西径山">西径山</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(21)" id="sceneslist_21"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="121" value="天目山"> <label class="lbl" for="121" title="天目山">天目山</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(22)" id="sceneslist_22"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="122" value="月亮湾"> <label class="lbl" for="122" title="月亮湾">月亮湾</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(23)" id="sceneslist_23"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="123" value="浙西大龙湾"> <label class="lbl" for="123" title="浙西大龙湾">浙西大龙湾</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(24)" id="sceneslist_24"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="124" value="浙西大峡谷"> <label class="lbl" for="124" title="浙西大峡谷">浙西大峡谷</label></td></tr></tbody></table></div>
+				<div class="opeDiv after">
+					<small class="l" style="display: none; margin-left: 30px;"></small>
+					<a class="r Confirm" onclick="scenesOnclick(&#39;scenesChoice&#39;);">确定</a>
+					<a class="r Cancel" onclick="cancel(&#39;scenesChoice&#39;);">取消</a>
+				</div>
+			</div>
+		</div>
+			
+		
+		<!-- 图形展示区 -->
+		<div style="width:100%;margin-top:65px;height:100%;">
+			<div style="background:#5776a3;width:100%;height:39px;border-radius: 5px 5px 0px 0px;border:1px solid #c4cdd8;">
+				<span style="display:inline-block;width:17px;height:17px;background:url(img/reportForms/line_bg.png) no-repeat;margin: 11px 0 0 12px;"></span>
+				<span style="line-height:39px; margin-left:5px;font-size: 18px; font-family: 微软雅黑, 宋体, 黑体;color:#fff;">客流量分析</span>
+				<!--   点击某一个按钮为其添加class  .activeBtn ; 其他兄弟元素去掉class  .activeBtn。  -->
+				<span id="tableBtn" title="统计表格"></span>
+				<span id="lineBtn" class="activeBtn" title="统计图表"></span>
+				
+			</div>
+			<div id="chart" style="height: 650px; width: 100%; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(255, 255, 255) rgb(196, 205, 216) rgb(196, 205, 216); border-image: initial;"></div>
+			<!-- 表格展示区 -->
+			<div id="tableDiv" style="width:100%;display: none;height:82%;">
+				<div style="width:100%;margin:0px;padding:0px;max-height:100%;overflow-x: hidden;overflow-y: auto;">
+					<div id="alldata" class="row-fluid" style="width: 1590px; height: 100%; margin: 0px; padding: 0px;">
+						<div class="span12" id="data"><table style="border:1px solid #c4cdd8;" class="table table-bordered table-hover "><thead><tr><th style="font-weight:normal;">&nbsp;</th><th style="font-weight:normal;">&nbsp;</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div>
+					</div>
+				</div>
+				<!-- 表格分页 -->
+				<div id="bbpage" style="background: url(&quot;img/sys/thbg.png&quot;); width: 1590px; height: 39px; border-radius: 0px; border: 1px solid rgb(196, 205, 216);">
+					<span id="pageNum" style="float:right;line-height:39px; font-size: 14px;margin-right:15px;">
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript" src="./scenes.js.下载"></script>
+<script type="text/javascript">
+
+	var scenes = {"result":[{"scenesName":"临安市","scenesId":"5718"},{"scenesName":"白水涧","scenesId":"571801"},{"scenesName":"大明山","scenesId":"571802"},{"scenesName":"东天目山","scenesId":"571803"},{"scenesName":"河桥古镇","scenesId":"571804"},{"scenesName":"红叶指南","scenesId":"571805"},{"scenesName":"临安八百里风情岛","scenesId":"571806"},{"scenesName":"玲珑山","scenesId":"571807"},{"scenesName":"柳溪江","scenesId":"571808"},{"scenesName":"龙井峡","scenesId":"571809"},{"scenesName":"钱王陵园","scenesId":"571810"},{"scenesName":"青山湖","scenesId":"571811"},{"scenesName":"清凉峰旅游度假区","scenesId":"571812"},{"scenesName":"瑞晶石花洞","scenesId":"571813"},{"scenesName":"神龙川","scenesId":"571814"},{"scenesName":"十门峡","scenesId":"571815"},{"scenesName":"太湖源","scenesId":"571816"},{"scenesName":"天目大峡谷","scenesId":"571817"},{"scenesName":"天目源","scenesId":"571818"},{"scenesName":"湍口众安氡温泉","scenesId":"571819"},{"scenesName":"西径山","scenesId":"571820"},{"scenesName":"天目山","scenesId":"571821"},{"scenesName":"月亮湾","scenesId":"571822"},{"scenesName":"浙西大龙湾","scenesId":"571823"},{"scenesName":"浙西大峡谷","scenesId":"571854"}]};
+	var scenesYkrsList = {"result":"","tabledata":[{"obj0":"时间 / 地区","obj1":"临安市"}],"count":2};
+
+	$("#tableBtn").click(function() {
+		$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+		$("#tableDiv").css({
+			'display' : 'block'
+		});
+		$("#chart").css({
+			'display' : 'none'
+		});
+	});
+	$("#lineBtn").click(function() {
+		$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+		$("#chart").css({
+			'display' : 'block'
+		});
+		$("#tableDiv").css({
+			'display' : 'none'
+		});
+	});
+
+	//控制页最小放缩大小
+	function changeSize() {
+		var bwidth = document.documentElement.clientWidth;
+		var hmain = document.getElementById("body");
+		var divmain = document.getElementById("divBody");
+		//var divdata = document.getElementById("data");
+		var alldata = document.getElementById("alldata");
+		hmain.style.width = bwidth + 'px';
+		divmain.style.width = (bwidth - 30) + 'px';
+		//divdata.style.width = (bwidth-60)+'px';
+		alldata.style.width = (bwidth - 30) + 'px';
+		document.getElementById("bbpage").style.width = (bwidth - 30) + 'px';
+		if ($(window).height() - 300 > 350) {
+			$('#chart').height($(window).height() - 300);
+		} else {
+			$('#chart').height(350);
+		}
+	}
+	changeSize();
+	window.onresize = function() {
+		changeSize();
+	};
+</script>
+
+<div class="layui-layer-shade" id="layui-layer-shade1" times="1" style="z-index:19891014; background-color:#000; opacity:0.3; filter:alpha(opacity=30);"></div><div class="layui-layer layui-anim layui-layer-dialog " id="layui-layer1" type="dialog" times="1" showtime="0" contype="string" style="z-index: 19891015; top: 400.5px; left: 680px;"><div class="layui-layer-title" style="cursor: move;" move="ok">信息</div><div class="layui-layer-content">没有相关数据！</div><span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:;"></a></span><div class="layui-layer-btn"><a class="layui-layer-btn0">确定</a></div></div></body></html>

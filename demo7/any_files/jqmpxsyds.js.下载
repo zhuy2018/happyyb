@@ -1,0 +1,2532 @@
+var clientWidth = window.screen.width;
+var jqname; //景区名称
+var jxsname; //经销商名称
+var QDjxsname; //渠道用的
+var titleName; //图片标题
+
+var st; //开始时间
+var et; //结束时间
+var sjidu; //开始季度
+var titles; //导出 - 标题
+var resultdata;//主景点后台查询后的结果数据集
+
+var coiunt; //第一级使用
+var counts; //数量
+var countss; //数量
+
+var tabledatas;
+var tabledatass;
+
+var result; //第一级使用
+var results;
+
+var flag = 0;//标识在哪层
+//报表导出变量
+var etstrO = {};
+
+////////分页处理参数start//////////
+var totalPage = 1;//总页数（初始为1）
+var pageSize = 7;//每页码显示几列数据(第一列和最生一个合计列不算)
+var currentPage = 1;	//当前页（初始为1）
+var showStar = 1;//显示分页起始页（初始为1）
+var pageStr='';//分页String
+
+var figureRefresh = true; //每次翻页不用刷新图形
+
+jQuery(function($) {
+	if(defaultList != null && defaultList != ""){
+		resultdata = defaultList;
+		
+		if(clientWidth > 1800){
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'景区门票数据统计报表(日)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'景区门票数据统计报表(日)';
+		}else{
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'景区门票数据统计报表(日)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'景区门票数据统计报表(日)';
+		}
+		
+		count = resultdata.count; //数量
+		result = resultdata.result;
+		flag = 0;
+		showJqmpSum();
+	}
+});
+
+//jQuery(function($) {
+//	if(defaultList != null && defaultList != ""){
+//		resultdata = defaultList;
+//		
+//		if(clientWidth > 1800){
+//			title = '<span style="font-size: 24px;font-weight:bold;">'+startTime+'至'+endTime+'景区门票数据统计报表(日)</span>';
+//			titles = startTime+'至'+endTime+'景区门票线上预定统计报表(日)';
+//		}else{
+//			title = '<b>'+startTime+'至'+endTime+'景区门票数据统计报表(日)</b>';
+//			titles = startTime+'至'+endTime+'景区门票数据统计报表(日)';
+//		}
+//		
+//		counts = resultdata.count; //数量
+//		tabledatas = resultdata.tabledata;
+//		countss = resultdata.counts; //数量
+//		tabledatass = resultdata.tabledatas;
+//		results = resultdata.result;
+//		flag = 0;
+//		showChart();
+//	}
+//});
+
+
+getData = function(){
+	figureRefresh = true;
+	if(qc == '1001'){ //售票数量
+		document.getElementById("jqs").style.display="";
+		document.getElementById("jxs").style.display="none";
+		//屏蔽售票渠道：
+		document.getElementById("QDjxs").style.display="none";
+	}else{ //售票渠道
+		//隐藏售票数量：
+		document.getElementById("jqs").style.display="none";
+		document.getElementById("jxs").style.display="none";
+		
+		//显示售票渠道：
+		document.getElementById("QDjxs").style.display="";
+	}
+	
+	
+	
+	st = startTime;
+	et = endTime;
+//	console.info(jqname+' -- '+jxsname);
+	if(startTime2 == '01'){
+		jiduTemp = '第一季度';
+	}else if(startTime2 == '04'){
+		jiduTemp = '第二季度';
+	}else if(startTime2 == '07'){
+		jiduTemp = '第三季度';
+	}else if(startTime2 == '10'){
+		jiduTemp = '第四季度';
+	}
+	
+	//必须分开写：
+	if(endTime2 == '01'){
+		jiduEndTemp = '第一季度';
+	}else if(endTime2 == '04'){
+		jiduEndTemp = '第二季度';
+	}else if(endTime2 == '07'){
+		jiduEndTemp = '第三季度';
+	}else if(endTime2 == '10'){
+		jiduEndTemp = '第四季度';
+	}
+	if(clientWidth > 1800){
+		if(kpiId == '1007'){ //月
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'月至'+et+'月景区门票数据统计报表(月)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'月至'+et+'月景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】景区门票数据统计报表(季)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年至'+et+'年景区门票数据统计报表(年)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年至'+et+'年景区门票数据统计报表(年)';
+		}else{
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'至'+et+'景区门票数据统计报表(日)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'至'+et+'景区门票数据统计报表(日)';
+		}
+	}else{
+		if(kpiId == '1007'){ //月
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'月至'+et+'月景区门票数据统计报表(月)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'月至'+et+'月景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】景区门票数据统计报表(季)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年至'+et+'年景区门票数据统计报表(年)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年至'+et+'年景区门票数据统计报表(年)';
+		}else{
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'至'+et+'景区门票数据统计报表(日)</b>';	
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'至'+et+'景区门票数据统计报表(日)';
+		}
+	}
+	
+	//售票数量：
+	if(qc == '1001'){
+		//如果有分页，屏蔽分页：
+		document.getElementById("pageNum").style.display="none";
+		
+		var url = 'kpi/sendinfoTickets/queryJqmpSum.do';
+		var postData = {"scenesName":jqname,"timeStart":st,"timeEnd":et,"sjidu":startTime2,"ejidu":endTime2,"kpiId":kpiId};
+		$.post(url,postData,function(data){
+			if(data != null){
+				resultdata = data.scenis;
+				count = resultdata.count; //数量
+				result = resultdata.result;
+				flag = 0;
+				showJqmpSum();
+			}
+		});
+	}else{
+		//如果有分页，展开分页：
+		document.getElementById("pageNum").style.display="block";
+		var url = 'kpi/sendinfoTickets/queryChannelSum.do';
+		var postData = {"distributor":QDjxsname,"timeStart":st,"timeEnd":et,"sjidu":startTime2,"ejidu":endTime2,"kpiId":kpiId};
+		$.post(url,postData,function(data){
+			if(data != null){
+				resultdata = data.scenis.data;
+				
+				count = resultdata.count; //数量
+				result = resultdata.result; //数据
+				tabledata = resultdata.tabledata;
+//				flag = 0;
+				showQdJxsSum(1);
+			}
+		});
+	}
+	
+}
+
+
+
+var jiduTemp;
+var jiduEndTemp;
+getData2 = function(time){
+	figureRefresh = true;
+//	st = startTime;
+//	et = endTime;
+	//季度格式改变，传入后台：
+	if(kpiId == '1008'){
+		st = startTime; //
+		et = time; //该et作为季度名称传入后台
+	}else{
+		st = time;
+		et = time;
+	}
+	
+	
+	document.getElementById("jqs").style.display="";
+	document.getElementById("jxs").style.display="none";
+	
+	if(startTime2 == '01'){
+		jiduTemp = '第一季度';
+	}else if(startTime2 == '04'){
+		jiduTemp = '第二季度';
+	}else if(startTime2 == '07'){
+		jiduTemp = '第三季度';
+	}else if(startTime2 == '10'){
+		jiduTemp = '第四季度';
+	}
+	
+	//必须分开写：
+	if(endTime2 == '01'){
+		jiduEndTemp = '第一季度';
+	}else if(endTime2 == '04'){
+		jiduEndTemp = '第二季度';
+	}else if(endTime2 == '07'){
+		jiduEndTemp = '第三季度';
+	}else if(endTime2 == '10'){
+		jiduEndTemp = '第四季度';
+	}
+	if(clientWidth > 1800){
+		if(kpiId == '1007'){ //月
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'月至'+et+'月景区门票数据统计报表(月)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'月至'+et+'月景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年【'+et+'】至【'+et+'】景区门票数据统计报表(季)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年【'+et+'】至【'+et+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年至'+et+'年景区门票数据统计报表(年)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年至'+et+'年景区门票数据统计报表(年)';
+		}else{
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'至'+et+'景区门票数据统计报表(日)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'至'+et+'景区门票数据统计报表(日)';
+		}
+	}else{
+		if(kpiId == '1007'){ //月
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'月至'+et+'月景区门票数据统计报表(月)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'月至'+et+'月景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年【'+et+'】至【'+et+'】景区门票数据统计报表(季)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年【'+et+'】至【'+et+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年至'+et+'年景区门票数据统计报表(年)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'年至'+et+'年景区门票数据统计报表(年)';
+		}else{
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'至'+et+'景区门票数据统计报表(日)</b>';	
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+st+'至'+et+'景区门票数据统计报表(日)';
+		}
+		
+	}
+	
+	if(jqname != null){
+		var ssss=jqname.split(",");
+		if(ssss.length == 1){
+			var url = 'kpi/sendinfoTickets/querysendinfoTicketsLine.do';
+			var postData = {"scenesName":jqname,"distributor":jxsname,"timeStart":st,"timeEnd":et,"sjidu":startTime2,"ejidu":endTime2,"kpiId":kpiId};
+			$.post(url,postData,function(data){
+				if(data != null){
+					resultdata = data.scenis;
+					counts = resultdata.count; //数量
+					tabledatas = resultdata.tabledata;
+					countss = resultdata.counts; //数量
+					tabledatass = resultdata.tabledatas;
+					results = resultdata.result;
+					flag = 1;
+					showLine(1);
+				}else{
+					 tabledatas = null;
+				}
+			});
+		}else{
+			var url = 'kpi/sendinfoTickets/querysendinfoTicketsLists.do';
+			var postData = {"scenesName":jqname,"distributor":jxsname,"timeStart":st,"timeEnd":et,"sjidu":startTime2,"ejidu":endTime2,"kpiId":kpiId};
+			$.post(url,postData,function(data){
+				if(data != null){
+					resultdata = data.scenis;
+					counts = resultdata.count; //数量
+					tabledatas = resultdata.tabledata;
+					countss = resultdata.counts; //数量
+					tabledatass = resultdata.tabledatas;
+					results = resultdata.result;
+					flag = 1;
+					showChart();
+				}else{
+					 tabledatas = null;
+				}
+			});
+		}
+	}else{
+			var url = 'kpi/sendinfoTickets/querysendinfoTicketsLists.do';
+			var postData = {"scenesName":jqname,"distributor":jxsname,"timeStart":st,"timeEnd":et,"sjidu":startTime2,"ejidu":endTime2,"kpiId":kpiId};
+			$.post(url,postData,function(data){
+				if(data != null){
+					resultdata = data.scenis;
+					counts = resultdata.count; //数量
+					tabledatas = resultdata.tabledata;
+					countss = resultdata.counts; //数量
+					tabledatass = resultdata.tabledatas;
+					results = resultdata.result;
+					flag = 1;
+					showChart();
+				}else{
+					 tabledatas = null;
+				}
+			});
+	}
+}
+
+showChart = function(tempcharttype){
+	if(flag == 1){
+		showBing(1);
+	}else if(flag == 2){
+		showSubColumn();
+	}
+}
+
+
+
+
+
+/**
+ * 渠道 - 第一级 - 每个渠道的售票量
+ * @param {Object} tempShow
+ * @memberOf {TypeName} 
+ * @return {TypeName} 
+ */
+showQdJxsSum = function(tempShow) { 
+	currentPage = tempShow;	//当前页
+	var temp = tempShow-1;
+	totalPage = Math.ceil((Number(count)-1)/pageSize);//总页数
+	
+	var colors = Highcharts.getOptions().colors;
+	if ((result.length <= 0 || result == null)) {
+		layer.alert('没有相关数据！');
+		return;
+	}
+	Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+	var sdata = [];
+	var xdata = [];
+	var adata = [];
+	
+	var ydata = [];
+	
+	var etdata = [];
+	var ettemp = {};
+	
+	var leged = false;
+	
+	var hjarr = new Array();
+	var hshrr = new Array();
+	hjarr['obj0'] = '合计';
+	
+	var categories = [];
+	var subcategories = [];
+	var flag = 0;
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	
+	var lasttime = '';
+	var gsname = '';
+	var dff=0;
+	var p = 1;
+	$.each(result, function(i, mess){
+		leged = true;
+		if(lasttime == ''){
+			lasttime = mess.lasttime;
+		}
+		gsname = mess.distributor;
+		//每循环一个都和所有的比较一遍,并赋给ydate
+		$.each(result, function(j, jess){
+				if(jess.distributor == gsname){ //找行业相同的
+					if(p <= result.length){
+//						xdata.push(kpiId == '1006'?(jess.lasttime.substr(jess.lasttime.length-5)):jess.lasttime);
+						xdata.push(jess.lasttime);
+						ydata.push({y:Number(jess.ticketNum)}); //取消X轴：x:jess.lasttime,
+					}
+				}else{
+					return;
+				}
+				p++;
+		});
+		if(dff == 0){
+			if(lasttime == mess.lasttime){
+				sdata.push({dashStyle : 'solid',name:gsname,data:ydata,color:colors[i%10],sort:(gsname)});
+				ydata = []; //push完就赋为空值以免重复
+			}else{
+				dff = 1;
+			}	
+		}
+		lasttime = mess.lasttime;
+	});	
+	
+	
+	var sum = [];
+	var sums = new Array();
+	var sign = ",";
+	var j = 0;
+	var fArray = "";
+	
+	$.each(tabledata, function(i, mess){
+		ettemp = {};
+		if(i > 0){
+			table += '<tr>';
+			for(var i = 0;i < count;i++){
+				if(i == 0){
+					table += '<td style="text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+					ettemp['obj0'] = (mess['obj0'] == null?0:mess['obj0']);
+				}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+					table += '<td style="text-align:center;">'+toThousands(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}
+				if(i > 0){
+					hjarr['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+					ettemp['obj'+i] = toThousands(mess['obj'+i] == null?0:mess['obj'+i]);
+				}
+				
+			}
+			table += '</tr>';
+			etdata.push(ettemp);
+		}else{
+			table += '<thead><tr>';
+			for(var i = 0;i < count;i++){
+				if(i == 0){
+					table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize)){
+					table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}
+				ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+			}
+			table +='</tr></thead>';
+			etdata.push(ettemp);
+		}
+    });
+	
+	if(result.length > 0 || result2.length > 0){
+		ettemp = {};
+	    table += '<tr><td style="text-align:center;">合计</td>';
+		ettemp['obj0'] = '合计';
+		for(var i = 1;i < count;i++){
+			if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize)){
+				table += '<td style="text-align:center;">'+toThousands((hjarr['obj'+i] == null?0:hjarr['obj'+i]))+'</td>';
+			}
+			ettemp['obj'+i] = toThousands(hjarr['obj'+i] == null?0:hjarr['obj'+i]);//游客人数
+		}
+		table += '</tr>';
+	    etdata.push(ettemp);
+	}
+	table += '</table>';
+	
+	etstrO.result = etdata;
+	etstrO.count = (count);
+	var etstr = JSON.stringify(etstrO);
+if(figureRefresh){ //翻页不需要重复刷新曲线图
+	var chart = new Highcharts.Chart({
+	    chart: {
+			animation: Highcharts.svg, // don't animate in old IE
+		    marginRight: 30, //宽度自适应
+		    renderTo: 'chart',
+		    type: 'spline' //column 柱 / spline 线 
+	    },
+	    
+	    title: {
+	        text: title
+	    },
+	    
+	    legend: {
+	    	enabled: leged
+	    },
+	    
+	    credits:{  //右下角地址
+	        text:''  
+	    },
+	    xAxis: {
+       	 categories:xdata,
+       	 labels: {
+    			style: {
+    				color: '#000000'
+    			}
+    		}
+	    },
+	    yAxis: [{
+			    title: {
+			        text: '购票数量'
+			    },
+			    labels: {
+			        format: '{value}',
+			        style: {
+							color: '#000000'
+						}
+			    },
+			    min:0,
+			    plotLines: [{
+			        value: 0,
+			        width: 1,
+			        color: '#808080'
+			    }]
+			}
+	     ], 
+	    tooltip: {
+	    	backgroundColor: '#999999',   // 背景颜色
+	    	borderColor: 'ffffff',         // 边框颜色
+			borderRadius: 5,             // 边框圆角
+			animation: true,               // 是否启用动画效果
+	        useHTML: true,
+//	        shared: true, //共享提示框
+        	formatter: function() {
+	    		var temp ='<div style="color:#ffffff">';
+					temp += '<div style="padding:0px 0px 8px 10px; font-size:14px;width:100%;">'+(this.x)+'</div>';
+		        	temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+					temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+					temp += '		<span style="margin-left:8px;">'+(this.series.name)+'</span>';
+					temp += '		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:'+this.series.color+';">&nbsp;</span>';
+					temp += '		<span style="heigt:8px;font-size:13px;margin-left:8px;margin-right:8px;">'+toThousands(this.y)+'</span>';
+					temp += '	</div>';
+		        	temp += '</div>';
+					temp += '	</div>';
+		        	temp += '</div>';
+ 	 			return temp;
+	 		}
+	    },
+//	    plotOptions: {
+//	   	 series: {
+//	        cursor: 'pointer',  
+//	        marker: {
+//	            enabled: true //false false的时候就不会突出显示点 
+//	        },
+//	        lineWidth: 1.5 //线的宽度
+//	    },
+//	        column: {
+//			   	 pointPadding: 0.4,
+//			     borderWidth: 0
+//	    		}
+//	    },
+	    plotOptions: {
+	    	column: {
+			   	 pointPadding: 0.4,
+			     borderWidth: 0
+    		},
+    		 series: {
+		             cursor: 'pointer',  
+		             events: {  
+			                click: function(e) {  //点击子景点信息
+//		    				$.each(e.point.series, function(i, mess){
+//		    					console.info(i+' --> '+mess);
+//		    				});
+//		    				$.each(e.point.options, function(i, mess){
+//		    					console.info(i+' ------> '+mess);
+//		    				});
+    			
+//		        	 			alert(e.point.name+' -- '+e.point.id+' -- '+e.point.category+' -- '+e.point.series.name);
+    							QdSubgetData(e.point.category,e.point.series.name); //传入日期和渠道名称
+			                }  
+		             },
+		             marker: {
+		                 enabled: true //false false的时候就不会突出显示点 
+		             }
+	         	},
+	    },
+	    exporting:{
+	           enabled:true,
+	           filename:titles,  
+	           type:'image/png',
+	           exporttable:etstr,
+	           sourceWidth:(screen.availWidth - 365),
+	           url:'kpi/export/export.do'
+	       }, 
+	     series: sdata
+	});
+	}
+	document.getElementById("data").innerHTML = table;
+	QDcreatePageFoot();
+}
+//生成第页码
+function QDcreatePageFoot(){
+	figureRefresh = false;
+	if(totalPage>1){
+		var nextpage = currentPage+1;//下一页
+		var previouspage = currentPage-1;//上一页
+		
+		if(currentPage > 4){
+			showStar = currentPage-4;//显示分页起始页（初始为1）
+		}
+		pageStr = "";
+		if(previouspage == 0){
+			pageStr=pageStr+'<span style="cursor:pointer;"><<</span> ';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showQdJxsSum('+previouspage+')"><<</span> ';
+		}
+		var tempShow = showStar;
+		
+		for(var showCount=showStar;showCount<=showStar+4;showCount++ ){
+			if(tempShow<=totalPage){
+				if(tempShow == currentPage){
+					pageStr=pageStr+'<span style="cursor:pointer;color:#1f7bbf;" onclick="showQdJxsSum('+tempShow+')">'+tempShow+'</span> ';
+				}else{
+					pageStr=pageStr+'<span style="cursor:pointer;" onclick="showQdJxsSum('+tempShow+')">'+tempShow+'</span> ';
+				}
+				tempShow = tempShow + 1;
+			}
+		}
+		if(currentPage == totalPage){
+			pageStr=pageStr+'<span style="cursor:pointer;">>></span>';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showQdJxsSum('+nextpage+')">>></span>';
+		}
+		
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+		document.getElementById("pageNum").innerHTML = pageStr;
+	}else{
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+	}
+}
+
+/**
+ * 渠道 - 第二级 - 根据日期和渠道名称，显示对应的所有景区的售票数
+ * @param {Object} tempShow
+ * @memberOf {TypeName} 
+ * @return {TypeName} 
+ */
+QdSubgetData = function(time, qdname) {
+	if(clientWidth > 1800){
+		if(kpiId == '1007'){ //月
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'月至'+time+'月【'+qdname+'】景区门票数据统计报表(月)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'月至'+time+'月【'+qdname+'】景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】【'+time+'】【'+qdname+'】景区门票数据统计报表(季)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+'【'+time+'】【'+qdname+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'年至'+time+'年【'+qdname+'】景区门票数据统计报表(年)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'年至'+time+'年【'+qdname+'】景区门票数据统计报表(年)';
+		}else{
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'至'+time+'【'+qdname+'】景区门票数据统计报表(日)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'至'+time+'【'+qdname+'】景区门票数据统计报表(日)';
+		}
+	}else{
+		if(kpiId == '1007'){ //月
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'月至'+time+'月【'+qdname+'】景区门票数据统计报表(月)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'月至'+time+'月【'+qdname+'】景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】【'+time+'】【'+qdname+'】景区门票数据统计报表(季)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+'【'+time+'】【'+qdname+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'年至'+time+'年【'+qdname+'】景区门票数据统计报表(年)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'年至'+time+'年【'+qdname+'】景区门票数据统计报表(年)';
+		}else{
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'至'+time+'【'+qdname+'】景区门票数据统计报表(日)</b>';	
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+time+'至'+time+'【'+qdname+'】景区门票数据统计报表(日)';
+		}
+	}
+//	console.info(startTime);
+	var url = 'kpi/sendinfoTickets/querySubChannelSum.do';
+	var postData = {"distributor":qdname,"timeStart":time,"timeEnd":time,"sjidu":startTime,"kpiId":kpiId};
+	$.post(url,postData,function(data){
+		if(data != null){
+			resultdata = data.scenis;
+			
+			count = resultdata.count; //数量
+			tabledata = resultdata.tabledata;
+			result = resultdata.result;
+			showQdSubJxsSum(time, qdname);
+		}
+	});
+}
+
+/**
+ * 第二级 - 根据日期和渠道名称，显示对应的所有景区的售票数
+ * @memberOf {TypeName} 
+ * @return {TypeName} 
+ */
+showQdSubJxsSum = function(time, qdname) {
+	var colors = Highcharts.getOptions().colors;
+	if (result.length <= 0 || result == null) {
+		layer.alert('没有相关数据！');
+		return;
+	}
+	Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+	var sdata = [];
+	var xdata = [];
+	var ydata = [];
+	
+	var etdata = [];
+	var ettemp = {};
+	var leged = false;
+	
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	$.each(result, function(i, mess){
+		xdata.push(mess['scenesName']);
+		sdata.push({name:mess['scenesName'],y:Number(mess['ticketNum']),color:colors[i%10]});
+	});
+	
+		ettemp['obj0'] = '时间';
+		ettemp['obj1'] = '景区';
+		ettemp['obj2'] = '购票量';
+		etdata.push(ettemp);
+		
+		table += '<thead><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+		table += '	<td style="text-align:center;">时间</td>';
+		table += '	<td style="text-align:center;">景区</td>';
+		table += '	<td style="text-align:center;">购票量</td>';
+		table += '</tr></thead>';
+		
+		var areaValueSum = 0; //求和
+		$.each(tabledata, function(i, mess){
+			ettemp = {};
+			table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+			table += '	<td style="text-align:center;">'+(mess['lasttime'] == null?0:mess['lasttime'])+'</td>';
+			table += '	<td style="text-align:center;">'+(mess['scenesName'] == null?0:mess['scenesName'])+'</td>';
+			table += '	<td style="text-align:center;">'+toThousands(mess['ticketNum'] == null?0:mess['ticketNum'])+'</td>';
+			table += '</tr>';
+			ettemp['obj0'] = (mess['lasttime'] == null?0:mess['lasttime']);
+			ettemp['obj1'] = (mess['scenesName'] == null?0:mess['scenesName']);
+			ettemp['obj2'] = toThousands(mess['ticketNum'] == null?0:mess['ticketNum']);
+			etdata.push(ettemp);
+			
+			//合计：
+			areaValueSum += Number(mess['ticketNum'] == null?0:mess['ticketNum']);
+		});
+		if(tabledata.length > 0){
+			ettemp = {};
+			ettemp['obj0'] = '合计';
+			ettemp['obj1'] = '-';
+			ettemp['obj2'] = toThousands(areaValueSum);
+		    table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+		    table += '	<td style="text-align:center;">合计</td>';
+		    table += '	<td style="text-align:center;">-</td>';
+		    table += '	<td style="text-align:center;">'+toThousands(areaValueSum)+'</td>';
+			table += '</tr>';
+		    etdata.push(ettemp);
+		}
+	table += '</table>';
+	
+	etstrO.result = etdata;
+	etstrO.count = count;
+	var etstr = JSON.stringify(etstrO);
+	$('#chart').highcharts({
+//	    chart: {
+//			animation: Highcharts.svg, // don't animate in old IE
+//		    marginRight: 30, //宽度自适应
+//		    renderTo: 'chart',
+//		    type: 'pie' //column 柱 / spline 线 
+//	    },
+	 	chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+	    title: {
+	        text: title
+	    },
+	    legend: {
+	    	enabled: false
+	    },
+	    credits:{  //右下角地址
+	        text:''  
+	    },
+	    tooltip: {
+	    	backgroundColor: '#999999',   // 背景颜色
+	    	borderColor: 'ffffff',         // 边框颜色
+			borderRadius: 5,             // 边框圆角
+			animation: true,               // 是否启用动画效果
+	        useHTML: true,
+	        formatter: function() {
+	        	 var divtemp = '';
+					divtemp += '<div style="color:#ffffff">';
+					divtemp += '	<div style="padding:0px 8px 8px 15px; font-size:14px;"></div>';
+					divtemp += '	<div style="height:30px;background:#666666;border-radius: 5px;line-height:30px;margin:0px 0px 5px 0px;">';
+					divtemp += '		<div style="float:left;height:24px;margin:0px 8px 8px 8px;">';
+					divtemp += '			<span style="margin-left:2px;">'+(this.point.name)+'</span>';
+					divtemp += '			<span style="display:inline-block;line-height:30px;margin-top:8px;margin-left:10px;background-color:'+this.point.color+';width:12px;height:12px;">&nbsp;</span>';
+					divtemp += '			<span style="heigt:10px;font-size:12px;margin-left:8px;margin-right:8px;">'+toThousands(this.y)+'</span>';
+					divtemp += '		</div>';
+					divtemp += '	</div>';
+					divtemp += '</div>';
+	    			return divtemp;
+	         	}
+	    },
+	    plotOptions: {
+	        	 series: {
+		             cursor: 'pointer',  
+		             events: {  
+		                click: function(e) {  //点击子景点信息
+//	        	 			alert(e.point.name+' -- '+e.point.id+' -- '+e.point.category);
+	        	 			getData();
+		                }  
+		             },
+		             marker: {
+		                 enabled: false //false false的时候就不会突出显示点 
+		             }
+	         	},
+	   			 pie: {
+//	         		innerSize:"2", //圆心
+	                allowPointSelect: true,
+	                showInLegend: false, //是否展示图例
+	                cursor: 'pointer',
+	                dataLabels: {
+	                    enabled: true,
+	                    color: '#000000',
+	                    connectorColor: '#000000',
+//	                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+	                    formatter: function(){
+							var val = Number(this.y);
+					    	if(!isNaN(val)){
+					    		val = val+'';
+					    	}else{
+					    		val = '0';
+					    	}
+					    	return '<b>'+this.point.name+'</b>: '+''+toThousands(val)+'';
+			    		}
+	                }
+	            }
+	         },
+	    exporting:{
+	           enabled:true,
+	           filename:titles,  
+	           type:'image/png',
+	           exporttable:etstr,
+	           sourceWidth:(screen.availWidth - 365),
+	           url:'kpi/export/export.do'
+	       }, 
+//	     series: sdata
+        series: [{
+//		            color: 'white',
+        		type: 'pie',
+	            data: sdata
+	        }]
+	});
+	//隐藏分页：
+	document.getElementById("bbpage").style.display="none";
+	
+	document.getElementById("data").innerHTML = table;
+}
+
+
+
+/**
+ * 第一级 ** 展示某个时间段的总票量
+ * @memberOf {TypeName} 
+ * @return {TypeName} 
+ */
+showJqmpSum = function() {
+	if(result == null || result.length <= 0){
+		layer.alert('没有相关数据！');
+		return;
+	}
+	
+	var etdata = [];
+	var ettemp = {};
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	ettemp['obj0'] = '时间';
+	ettemp['obj1'] = '购票数量';
+	etdata.push(ettemp);
+	
+	table += '<thead><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+	table += '<td style="text-align:center;">时间</td>';
+	table += '<td style="text-align:center;">购票数量</td>';
+	table += '</tr></thead>';
+	
+	//用于X坐标的地市：
+	var xdata = [];
+	var sdata=[];//一段
+	
+	var leged = false;
+	$.each(result, function(i, mess){
+		leged = true;
+		xdata.push((mess['lasttime'] == null?0:mess['lasttime']));
+		sdata.push(Number(mess['searchcount'] == null?0:mess['searchcount']));
+		
+		ettemp = {};
+		table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+		table += '<td style="text-align:center;">'+(mess['lasttime'] == null?0:mess['lasttime'])+'</td>';
+		table += '<td style="text-align:center;">'+toThousands(mess['searchcount'] == null?0:mess['searchcount'])+'</td>';
+		table += '</tr>';
+
+		ettemp['obj0'] = (mess['lasttime'] == null?0:mess['lasttime']);
+		ettemp['obj1'] = toThousands(mess['searchcount'] == null?0:mess['searchcount']);
+		etdata.push(ettemp);
+	});
+	table += '</table>';
+	
+//	console.info(xdata.length);
+	var etstr = '{"result":'+JSON.stringify(etdata)+',"count":'+count+'}';	//导出
+	var chart = new Highcharts.Chart({
+	    chart: {
+			animation: Highcharts.svg, // don't animate in old IE
+		    marginRight: 30,
+		    renderTo: 'chart',
+		    type: 'spline' //column 柱 / spline 线 
+	    },
+	    title: {
+	        text: title
+	    },
+	    legend: {
+	    	enabled: leged
+	    },
+	    credits:{  //右下角地址
+	        text:''  
+	    },
+	    xAxis: {
+//	    	type: 'datetime',
+//            dateTimeLabelFormats: {
+//                 day: '%Y-%m-%d',
+//            },
+	    	categories: xdata,
+	    	labels: {
+//	    		staggerLines: 1,
+//	    		step: 3,
+//	    		step: (xdata.length>=20?3:1), //x轴范围缩放
+//	    		step: function(){
+////	    			var tep = 1;
+//	    			if(xdata.length>0 && xdata.length<=20){ //小范围
+//	    				return 1;
+//	    			}else if(xdata.length>20 && xdata.length<=30){ //一个月的范围
+////	    				tep = 3;
+//	    				return 3;
+//	    			}else if(xdata.length>30 && xdata.length<=60){ //两个月的范围
+////	    				tep = 5;
+//	    				return 5;
+//	    			}else{
+//	    				return 7;	
+//	    			}
+//	    			
+//	    		},
+	    		
+	 			style: {
+	    			color: '#000000'
+	 			}
+	 		},
+	    },
+	    yAxis: {
+	        title: {
+	            text: '购票数量'
+	        },
+	        labels: {
+	            format: '{value}',
+	            style: {
+	   				color: '#000000'
+	   			}
+	        },
+	        min:0,
+	        plotLines: [{
+	            value: 0,
+	            width: 1,
+	            color: '#808080'
+	        }]
+	        
+	    },
+	    tooltip: {
+	    	backgroundColor: '#999999',   // 背景颜色
+	    	borderColor: 'ffffff',         // 边框颜色
+			borderRadius: 5,             // 边框圆角
+			animation: true,               // 是否启用动画效果
+	        useHTML: true,
+//	        shared: true, //共享提示框
+		   	formatter: function() {
+	    		var temp ='<div style="color:#ffffff">';
+					temp += '<div style="padding:0px 0px 8px 10px; font-size:14px;width:100%;">'+(this.x)+'</div>';
+		        	temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+					temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+					temp += '		<span style="margin-left:8px;">'+(this.series.name)+'</span>';
+					temp += '		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:'+this.series.color+';">&nbsp;</span>';
+					temp += '		<span style="heigt:8px;font-size:13px;margin-left:8px;margin-right:8px;">'+toThousands(this.y)+'</span>';
+					temp += '	</div>';
+		        	temp += '</div>';
+					temp += '	</div>';
+		        	temp += '</div>';
+ 	 			return temp;
+			}
+	    },
+	    plotOptions: {
+	    	column: {
+			   	 pointPadding: 0.4,
+			     borderWidth: 0
+    		},
+    		 series: {
+		             cursor: 'pointer',  
+		             events: {  
+			                click: function(e) {  //点击子景点信息
+//		        	 			alert(e.point.name+' -- '+e.point.id+' -- '+e.point.category);
+    							if(jqname != null && jqname != 'undefined' && jqname != ''){
+    								var jtemp = jqname.split(",");
+    								if(jtemp.length == 1){ //单选，跳转单选方法
+    									getSubData(temp_toppm,null);	
+    								}else{ //否则，多选（全部）
+    									getData2(e.point.category);	
+    								}
+    							}else{ //否则，全部
+    								getData2(e.point.category);	
+    							}
+			                }  
+			            },
+			             marker: {
+			                 enabled: true //false false的时候就不会突出显示点 
+			             }
+	         	},
+	    },
+	    
+	    exporting:{
+	           enabled:true,
+	           filename:titles,  
+	           type:'image/png',
+	           exporttable:etstr,
+	           sourceWidth:(screen.availWidth - 365),
+	           url:'kpi/export/export.do'
+	       }, 
+	       
+	      series: [{
+		       	name: '购票数量',
+		        data:sdata,
+//		        connectNulls:false, //连接空数据
+		        dataLabels: { //显示数值
+		            enabled: false 
+		        },
+		       
+	      
+	      
+//		        pointStart: Date.UTC(2016, 10, 1),
+//		        pointInterval: 24*3600*1000,
+	      }]
+	});
+	
+	document.getElementById("data").innerHTML = table;
+}
+
+
+
+
+
+var hjarr = {};
+var etstr=""; //导出集合
+var etstrs=[];
+showBing = function(tempShow) {
+	//显示分页：
+	document.getElementById("pageNum").style.display="block";
+	
+//	alert(counts+' == counts ');
+	currentPage = tempShow;	//当前页
+	var temp = tempShow-1;
+	totalPage = Math.ceil((Number(counts)-1)/pageSize);//总页数
+	
+	if (results.length <= 0 || results == null) {
+		layer.alert('没有相关数据！');
+		return;
+	}
+	
+	var colors = Highcharts.getOptions().colors;
+	var ssdata = [];
+	var xdata = [];
+	
+	var etdata = [];
+	var ettemp = {};
+	
+	var leged = false;
+	
+	var hjarr = new Array();
+	hjarr['obj0'] = '合计';
+	
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	
+	var timetemp = '';
+	
+	$.each(tabledatass, function(i, mess){
+		xdata.push(mess['scenesName']);
+		ssdata.push({name:mess['scenesName'],y:Number(mess['ticketNum']),color:colors[i%10]});
+				
+	});
+	
+	$.each(tabledatas, function(i, mess){
+		ettemp = {};
+		if(i > 0){
+			table += '<tr>';
+			for(var i = 0;i < counts;i++){
+				if(i == 0){
+					table += '<td style="text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+					
+//				}else if(i > 0){
+				}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+					table += '<td style="text-align:center;">'+toThousands((mess['obj'+i] == null?0:mess['obj'+i]))+'</td>';
+				}
+				
+				if(i > 0){
+					hjarr['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+				}
+				ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+			}
+			table += '</tr>';
+			etdata.push(ettemp);
+		}else{
+			table += '<thead><tr>';
+			var jiduTitle = '';
+			if(kpiId == '1008'){ //季度才显示这种效果
+				for(var i = 0;i < counts;i++){
+					if(i == 0){
+						table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+						ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+					}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+						jiduTitle = (mess['obj'+i] == null?0:mess['obj'+i]);
+						if(jiduTitle == '1'){
+							jiduTitle = '第一季度';
+						}else if(jiduTitle == '2'){
+							jiduTitle = '第二季度';
+						}else if(jiduTitle == '3'){
+							jiduTitle = '第三季度';
+						}else{
+							jiduTitle = '第四季度';
+						}
+						table += '<td style="font-weight:normal;text-align:center;">'+jiduTitle+'</td>';
+						ettemp['obj'+i] = jiduTitle;
+					}
+				
+				}
+			}else{
+				for(var i = 0;i < counts;i++){
+					if(i == 0){
+						table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+						
+					}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+						table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+						ettemp['obj'+i] = jiduTitle;
+					}
+					ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+				}
+			}
+			
+			table += '</tr></thead>';
+			etdata.push(ettemp);
+		}
+    });
+	if(results.length > 0){
+		ettemp = {};
+	    table += '<tr><td style="text-align:center;">合计</td>';
+		ettemp['obj0'] = '合计';
+		for(var i = 1;i < counts;i++){
+//			if(i > 0){
+//				
+//				table += '<td style="text-align:center;">'+toThousands((hjarr['obj'+i] == null?0:hjarr['obj'+i]))+'</td>';
+//			}
+			if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+				table += '<td style="text-align:center;">'+toThousands((hjarr['obj'+i] == null?0:hjarr['obj'+i]))+'</td>';	
+			}
+			ettemp['obj'+i] = (hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+		}
+		table += '</tr>';
+	    etdata.push(ettemp);
+	}
+	table += '</table>';
+	var etstr = '{"result":'+JSON.stringify(etdata)+',"count":'+counts+'}';	//导出
+	
+	if(figureRefresh){ //翻页不需要重复刷新曲线图
+		var chart = new Highcharts.Chart({
+			chart: {
+			 animation: Highcharts.svg, // don't animate in old IE
+//	         marginRight: 30,
+	         renderTo: 'chart',
+//	            type: 'column'
+	         	type: 'pie'	
+	         },
+	         
+	         title: {
+	             text: title
+	         },
+	         legend: {
+	             enabled: true
+	         },
+	         credits:{  //右下角地址
+	             text:''  
+	         },
+//	         xAxis: {
+//	        	 categories:xdata,
+//	        	 labels: {
+//	     			style: {
+//	     				color: '#000000'
+//	     			}
+//	     		}
+//	         },
+//	         yAxis: {
+//	             title: {
+//	                 text: '购票量'
+//	             },
+//	             labels: {
+//	                 format: '{value}',
+//	                 style: {
+//	      				color: '#000000'
+//	      			}
+//	             },
+//	             min:0,
+//	             plotLines: [{
+//	                 value: 0,
+//	                 width: 1,
+//	                 color: '#808080'
+//	             }]
+//	         },
+	         tooltip: {
+	        	 backgroundColor: '#999999',   // 背景颜色
+	  			 borderColor: 'ffffff',         // 边框颜色
+	  			 borderRadius: 5,             // 边框圆角
+	             useHTML: true,
+	        	 formatter: function() {
+//	        	 	return '<div style="color:#ffffff"><div style="padding:0px 8px 8px 15px; font-size:14px;"></div><div style="height:30px;background:#666666;border-radius: 5px;line-height:30px;margin:0px 0px 5px 0px;"><div style="float:left;height:24px;margin:0px 8px 8px 8px;"><span style="margin-left:7px;">'+this.x +'</span><span style="display:inline-block;line-height:30px;margin-top:8px;margin-left:30px;background-color:'+this.point.color+';width:12px;height:12px;">&nbsp;</span><span style="heigt:10px;font-size:12px;margin-left:55px;">'+toThousands(this.y)+'</span></div></div>' ;
+	        	 var divtemp = '';
+					divtemp += '<div style="color:#ffffff">';
+					divtemp += '	<div style="padding:0px 8px 8px 15px; font-size:14px;"></div>';
+					divtemp += '	<div style="height:30px;background:#666666;border-radius: 5px;line-height:30px;margin:0px 0px 5px 0px;">';
+					divtemp += '		<div style="float:left;height:24px;margin:0px 8px 8px 8px;">';
+					divtemp += '			<span style="margin-left:2px;">'+(this.point.name)+'</span>';
+					divtemp += '			<span style="display:inline-block;line-height:30px;margin-top:8px;margin-left:10px;background-color:'+this.point.color+';width:12px;height:12px;">&nbsp;</span>';
+					divtemp += '			<span style="heigt:10px;font-size:12px;margin-left:8px;margin-right:8px;">'+toThousands(this.y)+'</span>';
+					divtemp += '		</div>';
+					divtemp += '	</div>';
+					divtemp += '</div>';
+	    			return divtemp;
+	         	}
+	         },
+	         plotOptions: {
+	        	 series: {
+		             cursor: 'pointer',  
+		             events: {  
+		                click: function(e) {  //点击子景点信息
+//	        	 			alert(e.point.name+' -- '+e.point.id+' -- '+e.point.category);
+	        	 			getSubData(e.point.name,null);
+		                }  
+		             },
+		             marker: {
+		                 enabled: true //false false的时候就不会突出显示点 
+		             }
+	         	},
+//	         	column: {
+//	         		pointPadding: 0.4,
+//	//       		pointWidth: 5,
+//	         		borderWidth: 0,
+//	         		dataLabels: {
+//		         		enabled: true,
+//		         		color: '#000000',
+//		         		style: {
+//			         		fontSize: '10px',
+//			         		fontFamily: 'Verdana, sans-serif',
+//			         		textShadow: '0 0 3px black'
+//		         		}
+//		         	}
+//	         	}
+	         	pie: {
+//	         		innerSize:"2", //圆心
+	                allowPointSelect: true,
+	                showInLegend: false, //是否展示图例
+	                cursor: 'pointer',
+	                dataLabels: {
+	                    enabled: true,
+	                    color: '#000000',
+	                    connectorColor: '#000000',
+//	                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+	                    formatter: function(){
+							var val = Number(this.y);
+					    	if(!isNaN(val)){
+					    		val = val+'';
+					    	}else{
+					    		val = '0';
+					    	}
+					    	return '<b>'+this.point.name+'</b>: '+''+toThousands(val)+'';
+			    		}
+	                }
+	            }
+	         },
+	         
+	         exporting:{
+		            // 是否允许导出  
+		            enabled:true,  
+		            // 文件名  
+		            filename: titles, 
+		            // 导出文件默认类型  
+		            type:'image/png',
+		            exporttable:etstr,
+		            sourceWidth:(screen.availWidth - 365),
+		            url:'kpi/export/export.do'
+		        }, 
+		        
+		        series: [{
+//		            color: 'white',
+		            data: ssdata
+		        }]
+	     });
+	}
+	document.getElementById("data").innerHTML = table;
+	createPageFoot();
+}
+
+//生成第页码
+function createPageFoot(){
+	figureRefresh = false;
+//	console.info('方法内部：总数量totalPage = '+totalPage);
+	if(totalPage>1){
+//		console.info('进来了。。。。');
+		var nextpage = currentPage+1;//下一页
+		var previouspage = currentPage-1;//上一页
+		
+		if(currentPage > 4){
+			showStar = currentPage-4;//显示分页起始页（初始为1）
+		}
+		pageStr = "";
+		if(previouspage == 0){
+			pageStr=pageStr+'<span style="cursor:pointer;"><<</span> ';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showColumn('+previouspage+')"><<</span> ';
+		}
+		var tempShow = showStar;
+		
+		for(var showCount=showStar;showCount<=showStar+4;showCount++ ){
+			if(tempShow<=totalPage){
+				if(tempShow == currentPage){
+					pageStr=pageStr+'<span style="cursor:pointer;color:#1f7bbf;" onclick="showColumn('+tempShow+')">'+tempShow+'</span> ';
+				}else{
+					pageStr=pageStr+'<span style="cursor:pointer;" onclick="showColumn('+tempShow+')">'+tempShow+'</span> ';
+				}
+				tempShow = tempShow + 1;
+			}
+		}
+		if(currentPage == totalPage){
+			pageStr=pageStr+'<span style="cursor:pointer;">>></span>';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showColumn('+nextpage+')">>></span>';
+		}
+		
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+		document.getElementById("pageNum").innerHTML = pageStr;
+		
+//		console.info(document.getElementById("pageNum"));
+//		console.info('已成功拼接！：'+pageStr);
+	}else{
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+	}
+}
+
+
+
+var provdata;
+var jxsnames;
+getSubData = function(name,jxs){ //st = startTime;	et = endTime;
+	st = startTime;
+	et = endTime;
+	if(jxs == null){
+		jxsnames = jxsname;
+	}else{
+		jxsnames = jxs;
+	}
+	document.getElementById("jqs").style.display="none";
+	document.getElementById("jxs").style.display="";
+	
+//	if(kpiId != '1008' && kpiId != '1005'){
+//		if(!rq()){
+//			return;
+//		}	
+//	}
+	
+	if(startTime2 == '01'){
+		jiduTemp = '第一季度';
+	}else if(startTime2 == '04'){
+		jiduTemp = '第二季度';
+	}else if(startTime2 == '07'){
+		jiduTemp = '第三季度';
+	}else if(startTime2 == '10'){
+		jiduTemp = '第四季度';
+	}
+	
+	//必须分开写：
+	if(endTime2 == '01'){
+		jiduEndTemp = '第一季度';
+	}else if(endTime2 == '04'){
+		jiduEndTemp = '第二季度';
+	}else if(endTime2 == '07'){
+		jiduEndTemp = '第三季度';
+	}else if(endTime2 == '10'){
+		jiduEndTemp = '第四季度';
+	}
+	
+	
+	provdata = name;
+	$.ajax({
+		type:"post",
+		url:"kpi/sendinfoTickets/querySUBsendinfoTicketsLists.do",
+		data:{
+			scenesName:provdata,
+			distributor:jxsnames,
+			timeStart:st,
+			timeEnd:et,
+			sjidu:startTime2,
+			ejidu:endTime2,
+			kpiId:kpiId
+		},
+		timeout: 10000,
+		dataType: "json",
+		success:function(data,textStatus) {
+			if(data != null){
+				resultdata = data.scenis;
+				counts = resultdata.count; //数量
+				tabledatas = resultdata.tabledata;
+				tabledatass = resultdata.tabledatas;
+				results = resultdata.result;
+				flag = 2;
+				showChart();
+			}else{
+				 tabledatas = null;
+			}
+		}
+	});
+}
+
+showSubColumn = function() {
+//	alert(counts+' == counts ');
+	//隐藏分页：(二级不需要分页)
+	document.getElementById("pageNum").style.display="none";
+	
+	if (results.length <= 0 || results == null) {
+		layer.alert('没有相关数据！');
+		return;
+	}
+	if(clientWidth > 1800){
+		if(kpiId == '1007'){ //月
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'月至'+endTime+'月'+'【'+provdata+'】景区门票数据统计报表(月)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'月至'+endTime+'月'+'【'+provdata+'】景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】'+'【'+provdata+'】景区门票数据统计报表(季)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】【'+provdata+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年至'+endTime+'年'+'【'+provdata+'】景区门票数据统计报表(年)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年至'+endTime+'年'+'【'+provdata+'】景区门票数据统计报表(年)';
+		}else{
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'【'+provdata+'】景区门票数据统计报表(日)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'【'+provdata+'】景区门票数据统计报表(日)';
+		}
+	}else{
+		if(kpiId == '1007'){ //月
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'月至'+endTime+'月'+'【'+provdata+'】景区门票数据统计报表(月)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'月至'+endTime+'月'+'【'+provdata+'】景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】'+'【'+provdata+'】景区门票数据统计报表(季)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】'+'【'+provdata+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年至'+endTime+'年'+'【'+provdata+'】景区门票数据统计报表(年)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年至'+endTime+'年'+'【'+provdata+'】景区门票数据统计报表(年)';
+		}else{
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'【'+provdata+'】景区门票数据统计报表(日)</b>';	
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'【'+provdata+'】景区门票数据统计报表(日)';
+		}
+		
+	}
+	var colors = Highcharts.getOptions().colors;
+	var ssdata = [];
+	var sdata = [];
+	var xdata = [];
+	
+	var etdata = [];
+	var ettemp = {};
+	
+	var leged = false;
+	
+	
+	$.each(tabledatass, function(i, mess){
+		xdata.push(mess['scenesName']);
+		ssdata.push({name:['scenesName'],y:Number(mess['ticketNum']),color:colors[i%10]});
+	});
+	
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	ettemp['obj0'] = '日期';
+	ettemp['obj1'] = '分销商';
+	ettemp['obj2'] = '购票数量';
+	ettemp['obj3'] = '检票数量';
+	ettemp['obj4'] = '退票数量';
+	ettemp['obj5'] = '结算价';
+	sdata.push(ettemp);
+	
+	table += '<thead><tr style="font-size: 18px; font-family: 微软雅黑, 宋体, 黑体;">';
+	table += '<td style="text-align:center;">日期</td>';
+	table += '<td style="text-align:center;">分销商</td>';
+	table += '<td style="text-align:center;">购票数量</td>';
+	table += '<td style="text-align:center;">检票数量</td>';
+	table += '<td style="text-align:center;">退票数量</td>';
+	table += '<td style="text-align:center;">结算价</td>';
+	table += '</tr></thead>';
+//	console.info(tabledatas.length+' -- '+counts);
+	var gpsl = 0;
+	var jpsl = 0;
+	var tpsl = 0;
+	var jsj = 0;
+	var jiduTitle = '';
+	$.each(tabledatas, function(i, mess){
+		ettemp = {};
+		table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+		
+		jiduTitle = (mess['lasttime'] == null?0:mess['lasttime']);
+		if(kpiId == '1008'){ //季度显示的效果：
+			if(jiduTitle == '1'){
+				jiduTitle = '第一季度';
+			}else if(jiduTitle == '2'){
+				jiduTitle = '第二季度';
+			}else if(jiduTitle == '3'){
+				jiduTitle = '第三季度';
+			}else{
+				jiduTitle = '第四季度';
+			}
+		}
+		
+		table += '<td style="text-align:center;">'+jiduTitle+'</td>';	
+		table += '<td style="text-align:center;">'+(mess['distributor'] == null?0:mess['distributor'])+'</td>';
+		table += '<td style="text-align:center;">'+toThousands(mess['ticketNum'] == null?0:mess['ticketNum'])+'</td>';
+		table += '<td style="text-align:center;">'+toThousands(mess['checkNum'] == null?0:mess['checkNum'])+'</td>';
+		table += '<td style="text-align:center;">'+toThousands(mess['refundNum'] == null?0:mess['refundNum'])+'</td>';
+		table += '<td style="text-align:center;">'+toThousands(mess['price'] == null?0:mess['price'])+'</td>';
+		table += '</tr>';
+		//累加和：
+		gpsl += Number((mess['ticketNum'] == null?0:mess['ticketNum']));
+		jpsl += Number((mess['checkNum'] == null?0:mess['checkNum']));
+		tpsl += Number((mess['refundNum'] == null?0:mess['refundNum']));
+		jsj += Number((mess['price'] == null?0:mess['price']));
+
+		ettemp['obj0'] = jiduTitle;	
+		ettemp['obj1'] = (mess['distributor'] == null?0:mess['distributor']);
+		ettemp['obj2'] = (mess['ticketNum'] == null?0:mess['ticketNum']);
+		ettemp['obj3'] = (mess['checkNum'] == null?0:mess['checkNum']);
+		ettemp['obj4'] = (mess['refundNum'] == null?0:mess['refundNum']);
+		ettemp['obj5'] = (mess['price'] == null?0:mess['price']);
+		sdata.push(ettemp);
+	});
+	
+	if(results.length > 0){
+		ettemp = {};
+		ettemp['obj0'] = '合计';
+		ettemp['obj1'] = '-';
+		ettemp['obj2'] = toThousands(gpsl);
+		ettemp['obj3'] = toThousands(jpsl);
+		ettemp['obj4'] = toThousands(tpsl);
+		ettemp['obj5'] = toThousands(jsj);
+		
+	    table += '<tr>';
+	    table += '	<td colspan="2" style="text-align:center;">合计</td>';
+	    table += '	<td style="text-align:center;">'+toThousands(gpsl)+'</td>';
+	    table += '	<td style="text-align:center;">'+toThousands(jpsl)+'</td>';
+	    table += '	<td style="text-align:center;">'+toThousands(tpsl)+'</td>';
+	    table += '	<td style="text-align:center;">'+toThousands(jsj)+'</td>';
+		table += '</tr>';
+		
+	    sdata.push(ettemp);
+	}
+	
+	table += '</table>';
+	etstr = '{"result":'+JSON.stringify(sdata)+',"count":'+(6)+'}';	//导出  counts+1
+	var chart = new Highcharts.Chart({chart: {
+		 animation: Highcharts.svg, // don't animate in old IE
+         marginRight: 30,
+         renderTo: 'chart',
+            type: 'column'
+         },
+         
+         title: {
+             text: title
+         },
+         
+         legend: {
+             enabled: false
+         },
+         
+         
+         credits:{  //右下角地址
+             text:''  
+             
+         },
+         xAxis: {
+        	 categories:xdata,
+        	 labels: {
+     			style: {
+     				color: '#000000'
+     			}
+     		}
+        	 
+         },
+         yAxis: {
+        	 
+             title: {
+                 text: '购票量'
+             },
+//             min:0,
+//             max:1000,
+//             tickInterval:200,
+             labels: {
+                 format: '{value}',
+                 style: {
+      				color: '#000000'
+      			}
+             },
+             
+             min:0,
+             plotLines: [{
+                 value: 0,
+                 width: 1,
+                 color: '#808080'
+             }]
+             
+         },
+         tooltip: {
+        	 backgroundColor: '#999999',   // 背景颜色
+  			borderColor: 'ffffff',         // 边框颜色
+  			borderRadius: 5,             // 边框圆角
+           useHTML: true,
+        	 formatter: function() {
+
+        	 return '<div style="color:#ffffff"><div style="padding:0px 8px 8px 15px; font-size:14px;"></div><div style="height:30px;background:#666666;border-radius: 5px;line-height:30px;margin:0px 0px 5px 0px;"><div style="float:left;height:24px;margin:0px 8px 8px 8px;"><span style="margin-left:7px;">'+this.x +'</span><span style="display:inline-block;line-height:30px;margin-top:8px;margin-left:30px;background-color:'+this.point.color+';width:12px;height:12px;">&nbsp;</span><span style="heigt:10px;font-size:12px;margin-left:55px;">'+toThousands(this.y)+'</span></div></div>' ;
+	            
+         	}
+         },
+         plotOptions: {
+        	 
+        	 series: {
+             cursor: 'pointer',  
+             events: {  
+	                click: function(e) {  //点击子景点信息
+//        	 			alert(e.point.name+' -- '+e.point.id);
+	                	jxsname = "";
+	                	$("input[name=jxsItems]").each(function() {
+					        $(this).prop("checked", false);
+						});
+						$('#displayareavalue').html("全选");
+        	 			getData(e.point.category,e.point.id);
+	                }  
+	            },
+	             marker: {
+	                 enabled: false //false false的时候就不会突出显示点 
+	             }
+         	},
+         	column: {
+         		pointPadding: 0.4,
+//       		pointWidth: 5,
+         		borderWidth: 0,
+         		dataLabels: {
+         		enabled: true,
+         		color: '#000000',
+         		
+         		style: {
+         		fontSize: '10px',
+         		fontFamily: 'Verdana, sans-serif',
+         		textShadow: '0 0 3px black'
+         		}
+         	}
+         	}
+         },
+         
+         exporting:{  
+	            // 是否允许导出  
+	            enabled:true,  
+	            // 文件名  
+	            filename: titles, 
+	            // 导出文件默认类型  
+	            type:'image/png',
+	            exporttable:etstr,
+	            sourceWidth:(screen.availWidth - 365),
+	            url:'kpi/export/export.do'
+	        }, 
+	        
+	        series: [{
+	            color: 'white',
+	            data: ssdata
+	        }]
+     });
+	
+	document.getElementById("data").innerHTML = table;
+}
+
+
+showDirec = function(tempShow) { 
+	currentPage = tempShow;	//当前页
+	var temp = tempShow-1;
+	totalPage = Math.ceil((Number(count)-1)/pageSize);//总页数
+	
+	var colors = Highcharts.getOptions().colors;
+	if (result.length <= 0 || result == null) {
+		layer.alert('没有相关数据！');
+		return;
+	}
+	Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+	var sdata = [];
+	var xdata = [];
+	var adata = [];
+	
+	var ydata = [];
+	
+	var etdata = [];
+	var ettemp = {};
+	
+	var leged = false;
+	
+	var hjarr = new Array();
+	var hshrr = new Array();
+	hjarr['obj0'] = '合计';
+	
+	var categories = [];
+	var subcategories = [];
+	var flag = 0;
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	
+	var lasttime = '';
+	var names = '';
+	var asf=0;
+	var dff=0;
+	var k = 1;
+	var p = 1;
+	
+	$.each(result, function(i, mess){
+		leged = true;
+		if(lasttime == ''){
+			lasttime = mess.lasttime;
+		}
+		names = mess.domain;
+		//每循环一个都和所有的比较一遍,并赋给ydate
+		$.each(result, function(j, jess){
+				if(jess.domain == names){ //找行业相同的
+					if(p <= result.length){
+						xdata.push((jess.lasttime));
+						ydata.push({y:Number(jess.clickcount)}); //取消X轴：x:jess.lasttime,
+					}
+				}else{
+					return;
+				}
+				p++;
+		});
+		if(dff == 0){
+			if(lasttime == mess.lasttime){
+				sdata.push({dashStyle : 'solid',name:names,data:ydata,color:colors[i%10]});
+				ydata = []; //push完就赋为空值以免重复
+			}else{
+				dff = 1;
+			}	
+		}
+		lasttime = mess.lasttime;
+	});	
+	
+	var sum = [];
+	var sums = new Array();
+	var sign = ",";
+	var j = 0;
+	var fArray = ""; 
+	$.each(tabledata, function(i, mess){
+		ettemp = {};
+		if(i > 0){
+			table += '<tr>';
+			for(var i = 0;i < count;i++){
+				if(i == 0){
+					table += '<td style="text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+					table += '<td style="text-align:center;">'+toThousands(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}
+				if(i > 0){
+					hjarr['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+				}
+				ettemp['obj0'] = (mess['obj0'] == null?0:mess['obj0']);
+				ettemp['obj'+i] = toThousands(mess['obj'+i] == null?0:mess['obj'+i]);
+			}
+			table += '</tr>';
+			etdata.push(ettemp);
+		}else{
+			table += '<thead><tr>';
+			for(var i = 0;i < count;i++){
+				if(i == 0){
+					table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+					table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}
+				ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+			}
+			table +='</tr></thead>';
+			
+			etdata.push(ettemp);
+		}
+    });
+	
+	if(result.length > 0 || result2.length > 0){
+		ettemp = {};
+	    table += '<tr><td style="text-align:center;">合计</td>';
+		ettemp['obj0'] = '合计';
+		for(var i = 1;i < count;i++){
+			if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+				table += '<td style="text-align:center;">'+toThousands(hjarr['obj'+i] == null?0:hjarr['obj'+i])+'</td>';	
+			}
+			ettemp['obj'+i] = toThousands(hjarr['obj'+i] == null?0:hjarr['obj'+i]);//游客人数
+		}
+		table += '</tr>';
+	    etdata.push(ettemp);
+	}
+	table += '</table>';
+	
+	etstrO.result = etdata;
+	etstrO.count = (count);
+	var etstr = JSON.stringify(etstrO);
+	
+	if(figureRefresh){ //翻页不需要重复刷新曲线图
+		var chart = new Highcharts.Chart({
+		    chart: {
+				animation: Highcharts.svg, // don't animate in old IE
+			    marginRight: 30, //宽度自适应
+			    renderTo: 'chart',
+			    type: 'spline' //column 柱 / spline 线 
+		    },
+		    
+		    title: {
+		        text: title
+		    },
+		    
+		    legend: {
+		    	enabled: leged
+		    },
+		    
+		    credits:{  //右下角地址
+		        text:''  
+		    },
+		    xAxis: {
+	       	 categories:xdata,
+	       	 labels: {
+	    			style: {
+	    				color: '#000000'
+	    			}
+	    		}
+		    },
+		    yAxis: {
+				    title: {
+				        text: ''
+				    },
+				    labels: {
+				        format: '{value}',
+				        style: {
+								color: '#000000'
+							}
+				    },
+				    min:0,
+				    plotLines: [{
+				        value: 0,
+				        width: 1,
+				        color: '#808080'
+				    }]
+				}, 
+		    tooltip: {
+		    	backgroundColor: '#999999',   // 背景颜色
+		    	borderColor: 'ffffff',         // 边框颜色
+				borderRadius: 5,             // 边框圆角
+				animation: true,               // 是否启用动画效果
+		        useHTML: true,
+		        shared: true, //共享提示框
+		   	 	formatter: function() {
+					var temp ='<div style="color:#ffffff">';
+					temp += '<div style="padding:0px 0px 8px 10px; font-size:14px;width:100%;">日期：'+(this.points[0].x)+'&nbsp;&nbsp;&nbsp;&nbsp;搜索用户数</div>';
+					
+			        for(var i = 0 ;i < this.points.length; i++){
+			        	temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+						temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+						temp += '		<span style="margin-left:7px;">'+(this.points[i].series.name)+'</span>';
+						temp += '		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:'+this.points[i].series.color+';">&nbsp;</span>';
+						temp += '		<span style="heigt:8px;font-size:13px;margin-left:5px;">'+toThousands(this.points[i].y)+'</span>';
+						temp += '	</div>';
+			        	temp += '</div>';
+			        }
+					temp += '	</div>';
+		        	temp += '</div>';
+	 	 			return temp;
+	     		}
+		    },
+		    plotOptions: {
+			   	  series: {
+		            cursor: 'pointer',  
+		            marker: {
+		                enabled: true //false false的时候就不会突出显示点 
+		            }
+		        }
+	        },
+		    
+		    exporting:{
+		           enabled:true,
+		           filename:titles,  
+		           type:'image/png',
+		           exporttable:etstr,
+		           sourceWidth:(screen.availWidth - 365),
+		           url:'kpi/export/export.do'
+		       }, 
+		     series: sdata
+		});
+	}
+	document.getElementById("data").innerHTML = table;
+	createPageFoot();
+}
+
+
+showLine = function(tempShow) {
+	//显示分页：
+	document.getElementById("pageNum").style.display="block";
+	
+//	alert(counts+' == counts ');
+	currentPage = tempShow;	//当前页
+	var temp = tempShow-1;
+	totalPage = Math.ceil((Number(counts)-1)/pageSize);//总页数
+	
+	if (results.length <= 0 || results == null) {
+		layer.alert('没有相关数据！');
+		return;
+	}
+	if(clientWidth > 1800){
+		if(kpiId == '1007'){ //月
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'月至'+endTime+'月景区门票数据统计报表(月)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'月至'+endTime+'月景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】景区门票数据统计报表(季)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年至'+endTime+'年景区门票数据统计报表(年)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年至'+endTime+'年景区门票数据统计报表(年)';
+		}else{
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'景区门票数据统计报表(日)</span>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'景区门票数据统计报表(日)';
+		}
+	}else{
+		if(kpiId == '1007'){ //月
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'月至'+endTime+'月景区门票数据统计报表(月)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'月至'+endTime+'月景区门票数据统计报表(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】景区门票数据统计报表(季)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】景区门票数据统计报表(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年至'+endTime+'年景区门票数据统计报表(年)</b>';
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'年至'+endTime+'年景区门票数据统计报表(年)';
+		}else{
+			title = '<b>【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'景区门票数据统计报表(日)</b>';	
+			titles = '【'+(qc=='1001'?'售票数量':'售票渠道')+'】'+startTime+'至'+endTime+'景区门票数据统计报表(日)';
+		}
+		
+	}
+	var colors = Highcharts.getOptions().colors;
+	var ssdata = [];
+	var xdata = [];
+	var ydata = [];
+	
+	var etdata = [];
+	var ettemp = {};
+	var lasttime = '';
+	var leged = false;
+	
+	var hjarr = new Array();
+	hjarr['obj0'] = '合计';
+	
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	
+	var lasttime = '';
+	var names = '';
+	var asf=0;
+	var dff=0;
+	var k = 1;
+	var p = 1;
+	
+	$.each(tabledatass, function(i, mess){
+//		xdata.push(mess['scenesName']);
+//		ssdata.push({name:['scenesName'],y:Number(mess['ticketNum']),color:colors[i%10]});
+		leged = true;
+		if(lasttime == ''){
+			lasttime = mess.lasttime;
+		}
+		names = mess.scenesName;
+		//每循环一个都和所有的比较一遍,并赋给ydate
+		$.each(tabledatass, function(j, jess){
+				if(jess.scenesName == names){ //找行业相同的
+					if(p <= tabledatass.length){
+						xdata.push((jess.lasttime));
+						ydata.push({y:Number(jess.ticketNum)}); //取消X轴：x:jess.lasttime,
+					}
+				}else{
+					return;
+				}
+				p++;
+		});
+		if(dff == 0){
+			if(lasttime == mess.lasttime){
+				ssdata.push({dashStyle : 'solid',name:names,data:ydata,color:colors[i%10]});
+				ydata = []; //push完就赋为空值以免重复
+			}else{
+				dff = 1;
+			}	
+		}
+		lasttime = mess.lasttime;
+	});
+	
+	
+	
+	$.each(tabledatas, function(i, mess){
+		ettemp = {};
+		if(i > 0){
+			table += '<tr>';
+			for(var i = 0;i < counts;i++){
+				if(i == 0){
+					table += '<td style="text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+					
+//				}else if(i > 0){
+				}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+					table += '<td style="text-align:center;">'+toThousands((mess['obj'+i] == null?0:mess['obj'+i]))+'</td>';
+				}
+				
+				if(i > 0){
+					hjarr['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+				}
+				ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+			}
+			table += '</tr>';
+			etdata.push(ettemp);
+		}else{
+			table += '<thead><tr>';
+			var jiduTitle = '';
+			if(kpiId == '1008'){ //季度才显示这种效果
+				for(var i = 0;i < counts;i++){
+					if(i == 0){
+						table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+						ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+					}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+						jiduTitle = (mess['obj'+i] == null?0:mess['obj'+i]);
+						if(jiduTitle == '1'){
+							jiduTitle = '第一季度';
+						}else if(jiduTitle == '2'){
+							jiduTitle = '第二季度';
+						}else if(jiduTitle == '3'){
+							jiduTitle = '第三季度';
+						}else{
+							jiduTitle = '第四季度';
+						}
+						table += '<td style="font-weight:normal;text-align:center;">'+jiduTitle+'</td>';
+						ettemp['obj'+i] = jiduTitle;
+					}
+				
+				}
+			}else{
+				for(var i = 0;i < counts;i++){
+					if(i == 0){
+						table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+						
+					}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+						table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+						ettemp['obj'+i] = jiduTitle;
+					}
+					ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+				}
+			}
+			
+			table += '</tr></thead>';
+			etdata.push(ettemp);
+		}
+    });
+	if(results.length > 0){
+		ettemp = {};
+	    table += '<tr><td style="text-align:center;">合计</td>';
+		ettemp['obj0'] = '合计';
+		for(var i = 1;i < counts;i++){
+//			if(i > 0){
+//				
+//				table += '<td style="text-align:center;">'+toThousands((hjarr['obj'+i] == null?0:hjarr['obj'+i]))+'</td>';
+//			}
+			if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+				table += '<td style="text-align:center;">'+toThousands((hjarr['obj'+i] == null?0:hjarr['obj'+i]))+'</td>';	
+			}
+			ettemp['obj'+i] = (hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+		}
+		table += '</tr>';
+	    etdata.push(ettemp);
+	}
+	table += '</table>';
+	var etstr = '{"result":'+JSON.stringify(etdata)+',"count":'+counts+'}';	//导出
+	
+	if(figureRefresh){ //翻页不需要重复刷新曲线图
+		var chart = new Highcharts.Chart({
+		    chart: {
+				animation: Highcharts.svg, // don't animate in old IE
+			    marginRight: 30, //宽度自适应
+			    renderTo: 'chart',
+			    type: 'spline' //column 柱 / spline 线 
+		    },
+		    
+		    title: {
+		        text: title
+		    },
+		    
+		    legend: {
+		    	enabled: leged
+		    },
+		    
+		    credits:{  //右下角地址
+		        text:''  
+		    },
+		    xAxis: {
+	       	 categories:xdata,
+	       	 labels: {
+	    			style: {
+	    				color: '#000000'
+	    			}
+	    		}
+		    },
+		    yAxis: {
+				    title: {
+				        text: ''
+				    },
+				    labels: {
+				        format: '{value}',
+				        style: {
+								color: '#000000'
+							}
+				    },
+				    min:0,
+				    plotLines: [{
+				        value: 0,
+				        width: 1,
+				        color: '#808080'
+				    }]
+				}, 
+		    tooltip: {
+		    	backgroundColor: '#999999',   // 背景颜色
+		    	borderColor: 'ffffff',         // 边框颜色
+				borderRadius: 5,             // 边框圆角
+				animation: true,               // 是否启用动画效果
+		        useHTML: true,
+		        shared: true, //共享提示框
+		   	 	formatter: function() {
+					var temp ='<div style="color:#ffffff">';
+					temp += '<div style="padding:0px 0px 8px 10px; font-size:14px;width:100%;">'+(this.points[0].x)+'&nbsp;&nbsp;&nbsp;&nbsp;购票数量</div>';
+					
+			        for(var i = 0 ;i < this.points.length; i++){
+			        	temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+						temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+						temp += '		<span style="margin-left:7px;">'+(this.points[i].series.name)+'</span>';
+						temp += '		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:'+this.points[i].series.color+';">&nbsp;</span>';
+						temp += '		<span style="heigt:8px;font-size:13px;margin-left:5px;">'+toThousands(this.points[i].y)+'</span>';
+						temp += '	</div>';
+			        	temp += '</div>';
+			        }
+					temp += '	</div>';
+		        	temp += '</div>';
+	 	 			return temp;
+	     		}
+		    },
+		    plotOptions: {
+	        	 
+	        	 series: {
+	             cursor: 'pointer',  
+	             events: {  
+		                click: function(e) {  //点击子景点信息
+//	        	 			alert(e.point.series.name+' -- '+e.point.id);
+	        	 			getSubData(e.point.series.name,null);
+		                }  
+		            },
+		             marker: {
+		                 enabled: true //false false的时候就不会突出显示点 
+		             }
+	         	},
+	         	column: {
+	         		pointPadding: 0.4,
+	//       		pointWidth: 5,
+	         		borderWidth: 0,
+	         		dataLabels: {
+	         		enabled: true,
+	         		color: '#000000',
+	         		
+	         		style: {
+	         		fontSize: '10px',
+	         		fontFamily: 'Verdana, sans-serif',
+	         		textShadow: '0 0 3px black'
+	         		}
+	         	}
+	         	}
+	         },
+		    
+		    exporting:{
+		           enabled:true,
+		           filename:titles,  
+		           type:'image/png',
+		           exporttable:etstr,
+		           sourceWidth:(screen.availWidth - 365),
+		           url:'kpi/export/export.do'
+		       }, 
+		     series: ssdata
+		});
+	}
+	document.getElementById("data").innerHTML = table;
+	createPageFoot();
+}
+
+//导出：
+function expro(onclickid){
+	$('#expro_'+onclickid).css({'color':'#ffffff','background':'#899eb5'});
+	
+//	alert(jqname+" -- "+jxsname+" -- "+st+" -- "+et+" -- "+startTime2+" -- "+kpiId);
+	var url = 'kpi/sendinfoTickets/sendinfoTicketsExpros.do';	
+//	var postData = {"filename":titles,"exporttable":etstr};
+	var postData = {"filename":titles,"scenesName":jqname,"distributor":jxsname,"timeStart":st,"timeEnd":et,"sjidu":startTime2,"kpiId":kpiId};
+
+	$.post(url,postData,function(data){
+		
+	});
+}
+
+//function expro(onclickid){
+//	$('#expro_'+onclickid).css({'color':'#ffffff','background':'#899eb5'});
+//	window.location='kpi/sendinfoTickets/sendinfoTicketsExpros.do?filename='+titles+'&scenesName='+jqname=='undefined'?'null':jqname+'&distributor='+jxsname=='undefined'?'null':jxsname+'&timeStart='+st+'&timeEnd='+et+'&kpiId='+kpiId+'&sjidu='+startTime2=='undefined'?0:startTime2
+//}
+
+
+
+function toThousands(num) {
+    var result = [ ], counter = 0;
+    num = (num || 0).toString().split('');
+    for (var i = num.length - 1; i >= 0; i--) {
+        counter++;
+        result.unshift(num[i]);
+        if (!(counter % 3) && i != 0) { result.unshift(','); }
+    }
+    return result.join('');
+}
+function rq(){
+	var first;
+    var second;
+    if(kpiId == '1006'){
+    	first = et;
+    	second = st;
+    }else if(kpiId == '1007'){
+    	first = et +'-01';
+    	second = st +'-01';
+    }else if(kpiId == '1009'){
+    	first = et +'-01-01';
+    	second = st +'-01-01';
+    }
+    var sign = "-";
+    var fArray = first.split(sign); 
+    var sArray = second.split(sign);
+    var fDate = new Date(fArray[0],fArray[1],fArray[2]); 
+    var sDate = new Date(sArray[0],sArray[1],sArray[2]); 
+    var t = Math.abs(fDate.getTime()-sDate.getTime()); 
+    var days;
+	if(kpiId == '1006'){ //日
+	    days = t/(1000*60*60*24); 
+	    if(days > 6){
+	    	layer.alert('时间范围小于等于7天！');
+	      	return false;
+	    }
+	}else if(kpiId == '1007'){ //月
+	    days = (t/1000/60/60/24)/30;
+	    if(days > 7){
+	    	layer.alert('时间范围小于等于7个月！');
+	    	return false;
+	    }
+	}else if(kpiId == '1009'){ //年
+		days = ((t/1000/60/60/24)/30)/12;
+	    if(days > 7){
+	    	layer.alert('时间范围小于等于7年！');
+	    	return false;
+	    }
+	}
+    
+	return true;
+}
+
+
+
+
+/////选择景区
+topList = function(){
+	var jtitle;
+	if(null != document.getElementById("topChoice")){
+	var temp = "<table style='text-align:center;'><tr style='font-family: 微软雅黑, 宋体, 黑体;'><td width=60px; style='text-align:left;cursor: pointer;'  onclick=setJq('all') id='toplist_all'>全选</td>";
+	var flag = 0;
+	$.each(jq, function(i, mess){
+		if(i > 0 && i % 3 == 0){
+			temp += "</tr><tr style='font-family: 微软雅黑, 宋体, 黑体;'><td width=60px; style='text-align:left;'></td>";
+		}
+		
+		jtitle = mess['scenesName']; //要展示的字符串
+		if(jtitle.length > 5){
+			jtitle = jtitle.substring(0,5)+"..";
+		}
+		temp += "<td width=110px; style='text-align:left;height:28px;white-space:nowrap;cursor: pointer;' onclick=setJq("+i+") id=toplist_"+i+">" +
+				" <input type='checkbox' class='ace ace-checkbox-2' name='items' id='"+flag+"' value='"+mess['scenesName']+"'/>" +
+				" <label class='lbl' for='"+flag+"' title='"+mess['scenesName']+"'>"+(jtitle)+"</label>" +
+				"</td>";
+		flag ++;
+	});
+		temp += "</tr></table>";
+		document.getElementById("toplist").innerHTML = temp;
+		
+//		if(flag == 0){
+//			topList();
+//		}
+//		$("input[name=items]").each(function() { //默认全选
+//	        $(this).attr("checked", true);  
+//		}); 
+	}
+}
+var tbar = 1; //点击“全选”的计数器
+setJq = function(flag){
+	if(flag == 'all'){ //如果选的是“全选”
+		document.getElementById("toplist_all").style.color="#0066FF";
+		if(tbar == 1){ //点击了第一次
+			$("input[name=items]").each(function() { //全选
+		        $(this).prop("checked", true); ////设置所有name为'chk_list'对象的checked为true  (.attr) 
+			});
+			tbar++;
+		}else{
+			$("input[name=items]").each(function() {
+		        $(this).prop("checked", false);
+			});
+			tbar = 1;
+		}
+	}else{ //否则是复选
+		document.getElementById("toplist_all").style.color="";
+	}
+
+	//获取所有name为items的checkbox
+     var spCodesTemp = "";
+     var temp = ''; //仅供页面控件展示
+     var etdata = [];
+      $('input:checkbox[name=items]:checked').each(function(i){
+       if(0 == i){
+    	   spCodesTemp = $(this).val(); //页面
+    	   jqname = "'"+$(this).val()+"'"; //后台
+    	   temp = spCodesTemp; //多了取一个放在控件上
+       }else{
+    	   spCodesTemp += (","+$(this).val());
+    	   jqname += (","+"'"+$(this).val()+"'");
+       }
+       etdata.push(spCodesTemp);
+      });
+      
+//	      $("#displaytopvalue").val(spCodesTemp);
+      
+      //jsp页面展示部分
+      if(etdata.length >= 2){
+    	  $.each(etdata, function(i, mess){
+    		  if(temp.length != 0 && temp.length >= 12){
+    			  temp = temp.substring(0,10)+"...";
+      			}
+    		  temp_toppm = temp+'等';
+	      });
+      }else{
+    	  if(spCodesTemp.length != 0 && spCodesTemp.length >= 12){
+    		  spCodesTemp = spCodesTemp.substring(0,10)+"...";
+  			}
+    	  temp_toppm = spCodesTemp; 
+      }
+}
+
+
+/////选择经销商
+areaList = function(){
+	if(null != document.getElementById("areaChoice")){
+	var temp = "<table style='text-align:center;'><tr style='font-family: 微软雅黑, 宋体, 黑体;'><td width=60px; style='text-align:left;cursor: pointer;'  onclick=setJxs('jxsAll') id='jxslist_all'>全选</td>";
+	var flag = 100;
+	$.each(jxs, function(i, mess){
+		if(i > 0 && i % 4 == 0){
+			temp += "</tr><tr><td></td>";
+		}
+		var jtitle = mess['distributor']; //要展示的字符串
+		if(jtitle.length > 5){
+			jtitle = jtitle.substring(0,5)+"..";
+		}
+		
+		temp += "<td width=110px; style='text-align:left;height:28px;white-space:nowrap;cursor: pointer;' onclick=setJxs("+i+") id=jxslist_"+i+">" +
+				" <input type='checkbox' class='ace ace-checkbox-2' name='jxsItems' id='"+flag+"' value='"+mess['distributor']+"'/>" +
+				" <label class='lbl' for='"+flag+"' title='"+mess['distributor']+"'>"+jtitle+"</label>" +
+				"</td>";
+		flag ++;
+	});
+	
+		temp += "</tr></table>";
+		document.getElementById("arealist").innerHTML = temp;
+		
+//		$("input[name=jxsItems]").each(function() { //默认全选
+//	        $(this).attr("checked", true);  
+//		}); 
+	}
+}
+var labar = 1; //点击“全选”的计数器
+setJxs = function(flog){
+	if(flog == 'jxsAll'){ //如果选的是“全选”
+		document.getElementById("jxslist_all").style.color="#0066FF";
+		if(labar == 1){ //点击了第一次
+			$("input[name=jxsItems]").each(function() { //全选
+		        $(this).prop("checked", true); ////设置所有name为'chk_list'对象的checked为true  (.attr) 
+			});
+			labar++;
+		}else{
+			$("input[name=jxsItems]").each(function() {
+		        $(this).prop("checked", false);
+			});
+			labar = 1;
+		}
+	}else{ //否则是复选
+		document.getElementById("jxslist_all").style.color="";
+	}
+
+	//获取所有name为items的checkbox
+     var spCodesTemp = "";
+     var temp; //仅供页面控件展示
+     var etdata = [];
+      $('input:checkbox[name=jxsItems]:checked').each(function(i){
+       if(0 == i){
+    	   spCodesTemp = $(this).val(); //页面
+    	   jxsname = "'"+$(this).val()+"'"; //后台
+    	   temp = spCodesTemp; //多了取一个放在控件上
+       }else{
+    	   spCodesTemp += (","+$(this).val());
+    	   jxsname += (","+"'"+$(this).val()+"'");
+       }
+       etdata.push(spCodesTemp);
+      });
+      
+      //jsp页面展示部分
+      if(etdata.length >= 2){
+    	  $.each(etdata, function(i, mess){
+    		  if(temp.length != 0 && temp.length >= 12){
+    			  temp = temp.substring(0,10)+"...";
+      			}
+    		  temp_areapm = temp+'等';
+	      });
+      }else{
+//    	  alert(spCodesTemp+" -- "+spCodesTemp.length);
+    	  if(spCodesTemp.length != 0 && spCodesTemp.length >= 12){
+    		  spCodesTemp = spCodesTemp.substring(0,10)+"...";
+  			}
+    	  temp_areapm = spCodesTemp; 
+      }
+}
+
+
+
+
+/**
+ * 渠道 - 选择经销商
+ */
+QDareaList = function(){
+	if(null != document.getElementById("QDareaChoice")){
+		var temp = "<table style='text-align:center;'><tr style='font-family: 微软雅黑, 宋体, 黑体;'><td width=60px; style='text-align:left;cursor: pointer;'  onclick=setQDJxs('QDjxsAll') id='QDjxslist_all'>全选</td>";
+		var flag = 300;
+		$.each(QDjxs, function(i, mess){
+			if(i > 0 && i % 4 == 0){
+				temp += "</tr><tr><td></td>";
+			}
+			var jtitle = mess['distributor']; //要展示的字符串
+			if(jtitle.length > 5){
+				jtitle = jtitle.substring(0,5)+"..";
+			}
+			temp += "<td width=110px; style='text-align:left;height:28px;white-space:nowrap;cursor: pointer;' onclick=setQDJxs("+i+") id=QDjxslist_"+i+">" +
+					" <input type='checkbox' class='ace ace-checkbox-2' name='QDjxsItems' id='"+flag+"' value='"+mess['distributor']+"'/>" +
+					" <label class='lbl' for='"+flag+"' title='"+mess['distributor']+"'>"+jtitle+"</label>" +
+					"</td>";
+			flag ++;
+		});
+			temp += "</tr></table>";
+			document.getElementById("QDarealist").innerHTML = temp;
+	}
+}
+var QDlabar = 1; //点击“全选”的计数器
+setQDJxs = function(flog){
+	if(flog == 'QDjxsAll'){ //如果选的是“全选”
+		document.getElementById("QDjxslist_all").style.color="#0066FF";
+		if(QDlabar == 1){ //点击了第一次
+			$("input[name=QDjxsItems]").each(function() { //全选
+		        $(this).prop("checked", true); ////设置所有name为'chk_list'对象的checked为true  (.attr) 
+			});
+			QDlabar++;
+		}else{
+			$("input[name=QDjxsItems]").each(function() {
+		        $(this).prop("checked", false);
+			});
+			QDlabar = 1;
+		}
+	}else{ //否则是复选
+		document.getElementById("QDjxslist_all").style.color="";
+	}
+
+	//获取所有name为items的checkbox
+     var spCodesTemp = "";
+     var temp; //仅供页面控件展示
+     var etdata = [];
+      $('input:checkbox[name=QDjxsItems]:checked').each(function(i){
+       if(0 == i){
+    	   spCodesTemp = $(this).val(); //页面
+    	   QDjxsname = "'"+$(this).val()+"'"; //后台
+    	   temp = spCodesTemp; //多了取一个放在控件上
+       }else{
+    	   spCodesTemp += (","+$(this).val());
+    	   QDjxsname += (","+"'"+$(this).val()+"'");
+       }
+       etdata.push(spCodesTemp);
+      });
+      
+      //jsp页面展示部分
+      if(etdata.length >= 2){
+    	  $.each(etdata, function(i, mess){
+    		  if(temp.length != 0 && temp.length >= 12){
+    			  temp = temp.substring(0,10)+"...";
+      			}
+    		  QDtemp_areapm = temp+'等';
+	      });
+      }else{
+//    	  alert(spCodesTemp+" -- "+spCodesTemp.length);
+    	  if(spCodesTemp.length != 0 && spCodesTemp.length >= 12){
+    		  spCodesTemp = spCodesTemp.substring(0,10)+"...";
+  			}
+    	  QDtemp_areapm = spCodesTemp; 
+      }
+}
+
+
+
+topList();
+areaList();
+
+//渠道：
+QDareaList();
+
+
+

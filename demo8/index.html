@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><!-- 告诉IE使用最新的引擎渲染网页， -->
+<meta name="renderer" content="webkit"><!-- 360安全浏览器，默认打开 极速模式。 -->
+<!--#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.-->
+<title>环保行为督察系统</title>
+    <style>
+        /*去除百度地图版权*/
+        .anchorBL{
+            display: none;
+        }
+    </style>
+<link rel="stylesheet" href="css/public/common.css">
+<link rel="stylesheet" href="css/topBar/topBar.css">
+<link rel="stylesheet" href="css/peopleStream/index.css">
+</head>
+<body>
+<!--<select id="stylelist" onchange="changeMapStyle(this.value)">
+    <option value="normal">默认地图样式</option>
+    <option value="light">清新蓝风格</option>
+    <option value="googlelite">精简风格</option>
+    <option value="mapStyle">默认风格</option>
+    <option value="midnight">午夜蓝风格</option>
+    <option value="bluish">清新蓝绿风格</option>
+    <option value="grayscale">高端灰风格</option>
+    <option value="dark">黑夜风格</option>
+</select>-->
+<div class="content_wrap">
+    <!--头部导航开始-->
+    <div class="topBar">
+        <div class="logo">环保行为督察系统</div>
+        <ul class="topMain">
+            <li class="active"><a href="index.html">首页</a></li>
+            <li><a href="html/huanbao.html">环保应用</a></li>
+            <li><a href="html/xingwei.html">行为督察</a></li>
+            <li><a href="html/xingwei2.html">人群分析</a></li>
+            <li><a href="#">更多功能</a></li>
+        </ul>
+        <div class="login_box">
+            <div class="user_name">
+                你好,系统管理员
+            </div>
+        </div>
+    </div>
+    <!--头部导结束-->
+    <div class="content_main">
+        <div id="mymap"></div>
+        <div class="small_box">
+            <div class="place_wrap">
+                <div class="place">杭州市-临安区</div>
+                <div class="time" id="time">2017-12-8 12:23:12  星期二</div>
+            </div>
+            <div class="place_number">当前人数：<img src="img/peopleStream/number.png" alt="" /></div>
+            <div class="zhishu_wrap">
+                <ul class="pm">
+                    <li><span>pm<br/>2.5</span><span>35.2</span></li>
+                    <li><span>一氧<br/>化碳</span><span>2.2</span></li>
+                </ul>
+                <div class="weather_wrap">
+                    <div class="weather">
+                        <div class="today qing">
+                            <div class="wendu_today">6-16℃</div>
+                            <div class="day_tag">今天</div>
+                        </div>
+                        <div class="tomorrow yin">
+                            <div class="wendu_tomorrow">3-12℃</div>
+                            <div class="day_tag">明天</div>
+                        </div>
+                    </div>
+                    <ul class="feng">
+                        <li>湿度：60%</li>
+                        <li>风力：三级&nbsp;&nbsp;风向：偏东风</li>
+                        <li>空气质量：轻度污染</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4c37887dd000b1e543a1add699d05e83"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/DistanceTool/1.2/src/DistanceTool_min.js"></script>
+<script type="text/javascript" src="js/Heatmap_min.js" ></script>
+
+<script type="text/javascript" src="http://lbsyun.baidu.com/custom/stylelist.js"></script>
+<script src="js/plugins/jquery-1.9.1.min.js"></script>
+<script src="js/public/autoSize.js"></script>
+<script src="js/peopleStream/index.js"></script>
+
+</body>
+</html>

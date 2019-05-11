@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>中航紫金云熙</title>
+<link href="css/basic.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/jquery_002.js"></script>
+<script type="text/javascript" src="js/preload.js"></script>
+<!--移动端版本兼容 end -->
+<!--<script type="text/javascript">
+var phoneWidth = parseInt(window.screen.width);
+var phoneScale = phoneWidth/640;
+var ua = navigator.userAgent;
+if (/Android (\d+\.\d+)/.test(ua)) {
+	var version = parseFloat(RegExp.$1);
+	// andriod 2.3
+	if (version > 2.3) {
+		document.write('<meta name="viewport" content="width=640, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi">');
+		// andriod 2.3以上
+	} else {
+		document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+	}
+	// 其他系统
+} else {
+	document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+}
+</script>-->
+<!--移动端版本兼容 end -->
+<script type="text/javascript">
+$(function (){
+	var hr = $(window).height();
+	$(".content").css("height",hr);
+	$(".loadDiv").css("height",hr);
+	
+	//禁止iPhone 微信浏览器禁止页面下拉查看网址
+	$('body').on('touchmove', function (event) {
+		event.preventDefault();
+	});
+});
+</script>
+<!--[if lt IE 9]>
+<script>
+    window.location.href='http://windows.microsoft.com/zh-CN/internet-explorer/download-ie';
+</script>
+<![endif]-->
+</head>
+
+<body>
+<!--主体-->
+<div id="loadDiv" class="loadDiv"></div>
+<div class="content">
+  <div class="logo"></div>
+  <div class="index_btn index_button">
+    <a href="menu.html">
+      <img class="y-ain" src="image/index_button.png" />
+      <span>点击进入</span>
+    </a>
+  </div>
+  <div class="index_copy copyright">
+    <img src="image/footer_logo.png" />
+    <p>版权所有：龙岩紫金中航房地产开发有限公司</p>
+    <p>项目地址：龙岩大道壹号（龙岩大道与双龙路交汇处，万达广场对面）</p>
+    <p style="color:#070101;">咨询电话：0597-3319999</p>
+  </div>
+  <div class="index_memu">
+    <a class="a" href="http://map.baidu.com/mobile/webapp/search/search/qt=s&wd=%E9%BE%99%E5%B2%A9%E5%A4%A7%E9%81%93%E4%B8%8E%E5%8F%8C%E9%BE%99%E8%B7%AF%E4%BA%A4%E6%B1%87%E5%A4%84%EF%BC%8C%E4%B8%87%E8%BE%BE%E5%B9%BF%E5%9C%BA%E5%AF%B9%E9%9D%A2&c=193&searchFlag=bigBox&version=5&exptype=dep/vt=map/?fromhash=1">一键导航</a>
+    <a href="tel:0597-3319999">一键拨号</a>
+  </div>
+</div>
+<!--主体 end-->
+</body>
+</html>

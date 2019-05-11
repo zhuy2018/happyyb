@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><!-- 告诉IE使用最新的引擎渲染网页， -->
+    <meta name="renderer" content="webkit"><!-- 360安全浏览器，默认打开 极速模式。 -->
+    <!--#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.-->
+    <title>环保行为督察系统</title>
+    <link rel="stylesheet" href="../css/public/common.css">
+    <!--<link rel="stylesheet" href="../css/default/layer.css">-->
+    <link rel="stylesheet" href="../css/topBar/topBar.css">
+    <link rel="stylesheet" href="../css/shuizhi/shuizhi3.css">
+</head>
+<body>
+<!--下一步按钮-->
+<a class="next_btn" href="shuizhi2.html"></a>
+<!--上一步按钮-->
+<a class="prev_btn" href="shuizhi.html"></a>
+<div class="content_wrap">
+    <!--头部导航开始-->
+    <div class="topBar">
+		<div class="logo">环保行为督察系统</div>
+		<ul class="topMain">
+			<li><a href="../index.html">首页</a></li>
+			<li class="active"><a href="huanbao.html">环保应用</a></li>
+			<li><a href="xingwei.html">行为督察</a></li>
+			<li><a href="xingwei2.html">人群分析</a></li>
+			<li><a href="#">更多功能</a></li>
+		</ul>
+		<div class="login_box">
+			<div class="user_name">
+				你好,系统管理员
+			</div>
+		</div>
+	</div>
+    <!--头部导结束-->
+    <div class="content_main">
+        <div class="title_tip">
+            <span>监控水源</span>
+            <!--<span>监控范围</span>-->
+            <span>监控场景</span>
+        </div>
+        <div class="content">
+            <div class="per_view active">
+               <div class="view_con"></div>
+            </div>
+            <div class="per_view">
+                <div class="view_con"></div>
+            </div>
+            <div class="per_view">
+               <div class="view_con"></div>
+            </div>
+            <div class="per_view">
+               <div class="view_con"></div>
+            </div>
+            <div class="per_view">
+            	<div class="view_con addview_btn"></div>
+                <!--<div class="view_title">添加更多监控场景</div>-->
+               <!--<div class="addview_btn"></div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--弹出框-->
+<div class="jump_box" style="display: none;padding-top:10px;">
+    <div class="per_choose">
+        <div class="per_tips">监控场景名称</div>
+        <input type="text" value="区域">
+    </div>
+    <div class="teshu_choose">
+        <div class="per_choose radio_choose">
+            <div class="per_tips">人群选择</div>
+            <div class="input_choose">
+                <input id="chang" type="radio" name="renqun" checked/><label for="chang">常驻人口</label>
+                <input id="feichang" type="radio" name="renqun"/><label for="feichang">非常驻人口</label>
+                <input id="renqun_no" type="radio" name="renqun"/><label for="renqun_no">不限</label>
+            </div>
+        </div>
+        <div class="per_choose radio_choose">
+            <div class="per_tips">性别</div>
+            <div class="input_choose">
+                <input id="nan" type="radio" name="sex" checked/><label for="nan">男</label>
+                <input id="nv" type="radio" name="sex"/><label for="nv">女</label>
+                <input id="sex_no" type="radio" name="sex"/><label for="sex_no">不限</label>
+            </div>
+        </div>
+    </div>
+    <div class="teshu_choose">
+        <div class="per_choose radio_choose">
+            <div class="per_tips">消费水平</div>
+            <div class="input_choose">
+                <input id="gao" type="radio" name="consume" checked/><label for="gao">高</label>
+                <input id="zhong" type="radio" name="consume"/><label for="zhong">中</label>
+                <input id="di" type="radio" name="consume"/><label for="di">低</label>
+                <input id="consume_no" type="radio" name="consume"/><label for="consume_no">不限</label>
+            </div>
+        </div>
+        <div class="per_choose radio_choose">
+            <div class="per_tips">省内/外</div>
+            <div class="input_choose">
+                <input id="nei" type="radio" name="province" checked/><label for="nei">省内</label>
+                <input id="wai" type="radio" name="province"/><label for="wai">省外</label>
+                <input id="province_no" type="radio" name="province"/><label for="province_no">不限</label>
+            </div>
+        </div>
+    </div>
+    <div class="per_choose check_choose">
+        <div class="per_tips">年龄</div>
+        <label for="age0_5"><input id="age0_5" type="checkbox" /><span>0-10岁</span></label>
+        <!--<label for="age6_10"><input id="age6_10" type="checkbox" /><span>6-10岁</span></label>-->
+        <label for="age11_15"><input id="age11_15" type="checkbox" /><span>11-20岁</span></label>
+        <!--<label for="age16_20"><input id="age16_20" type="checkbox" /><span>16-20岁</span></label>-->
+        <label for="age21_25"><input id="age21_25" checked type="checkbox" /><span>21-25岁</span></label>
+        <!--<label for="age26_30"><input id="age26_30" type="checkbox" /><span>26-30岁</span></label>-->
+        <label for="age31_35"><input id="age31_35" type="checkbox" /><span>26-30岁</span></label>
+        <!--<label for="age36_40"><input id="age36_40" type="checkbox" /><span>36-40岁</span></label>-->
+        <label for="age41_45"><input id="age41_45" type="checkbox" /><span>31-50岁</span></label>
+        <!--<label for="age46_50"><input id="age46_50" type="checkbox" /><span>46-50岁</span></label>-->
+        <label for="age51_55"><input id="age51_55" type="checkbox" /><span>50-120岁</span></label>
+        <!--<label for="age56_60"><input id="age56_60" type="checkbox" /><span>56-60岁</span></label>-->
+        <!--<label for="age61_120"><input id="age61_120" type="checkbox" /><span>61-120岁</span></label>-->
+        <label for="age_no"><input id="age_no" type="checkbox" /><span>不限</span></label>
+    </div>
+    <div class="per_choose radio_choose">
+        <div class="per_tips">是否已婚</div>
+        <div class="input_choose">
+            <input id="weihun" type="radio" name="hun" checked/><label for="weihun">未婚</label>
+            <input id="yihun" type="radio" name="hun"/><label for="yihun">已婚</label>
+            <input id="hun_no" type="radio" name="hun"/><label for="hun_no">不限</label>
+        </div>
+    </div>
+    <div class="per_choose check_choose check_choose2">
+        <div class="per_tips">教育程度</div>
+        <label for="gaozhong"><input id="gaozhong" type="checkbox" /><span>高中以下</span></label>
+        <label for="gaozhong1"><input id="gaozhong1" checked type="checkbox" /><span>高中</span></label>
+        <label for="dazhuan"><input id="dazhuan" type="checkbox" /><span>大专</span></label>
+        <label for="benke"><input id="benke" type="checkbox" /><span>本科</span></label>
+        <label for="shuoshi"><input id="shuoshi" type="checkbox" /><span>硕士以上</span></label>
+        <label for="bubu"><input id="bubu" type="checkbox" /><span>不限</span></label>
+    </div>
+    <div class="per_choose check_choose">
+        <div class="per_tips">职业</div>
+        <label for="gongjiao"><input id="gongjiao" type="checkbox" /><span>公交司机</span></label>
+        <label for="IT"><input id="IT" type="checkbox" /><span>IT从业者</span></label>
+        <label for="jiaoshi"><input id="jiaoshi" type="checkbox" checked=""/><span>教师</span></label>
+        <label for="chuzu"><input id="chuzu" type="checkbox" /><span>医护人员</span></label>
+        <label for="xue"><input id="xue" type="checkbox" /><span>学生</span></label>
+        <label for="yihu"><input id="yihu" type="checkbox" /><span>不限</span></label>
+        <!--<label for="yihu"><input id="yihu" type="checkbox" /><span>医护人员</span></label>-->
+        <!--<label for="yinhang"><input id="yinhang" checked type="checkbox" /><span>银行从业者</span></label>-->
+        <!--<label for="jinling"><input id="jinling" type="checkbox" /><span>金领人士</span></label>-->
+    </div>
+    <div class="per_choose">
+        <div class="per_tips">停留时间</div>
+        <select name="" id="stay_time">
+            <option value="半个小时">半个小时</option>
+            <option value="一个小时">一个小时</option>
+            <option value="两个小时">两个小时</option>
+            <option value="三个小时及以上">三个小时</option>
+        </select>
+    </div>
+    <div class="per_choose radio_choose">
+        <div class="per_tips">是否工作地</div>
+        <div class="input_choose">
+            <input id="work_yse" type="radio" name="work_place" checked/><label for="work_yse">是</label>
+            <input id="work_no" type="radio" name="work_place"/><label for="work_no">否</label>
+            <input id="work_place_no" type="radio" name="work_place"/><label for="work_place_no">不限</label>
+        </div>
+    </div>
+    <div class="per_choose radio_choose">
+        <div class="per_tips">事件出行</div>
+        <div class="input_choose">
+            <input id="event_yes" type="radio" name="event" checked/><label for="event_yes">是</label>
+            <input id="event_no" type="radio" name="event"/><label for="event_no">否</label>
+            <input id="event_no" type="radio" name="event"/><label for="event_no">不限</label>
+        </div>
+    </div>
+    <div class="per_choose radio_choose">
+        <div class="per_tips">信用度</div>
+        <div class="input_choose">
+            <input id="xin_gao" type="radio" name="xinyong" checked/><label for="xin_gao">高</label>
+            <input id="xin_zhong" type="radio" name="xinyong"/><label for="xin_zhong">中</label>
+            <input id="xin_di" type="radio" name="xinyong"/><label for="xin_di">低</label>
+            <input id="xinyong_no" type="radio" name="xinyong"/><label for="xinyong_no">不限</label>
+        </div>
+    </div>
+    <div class="btn_wrap">
+        <a href="">新建</a>
+        <a href="">取消</a>
+    </div>
+</div>
+
+
+
+
+<script src="../js/plugins/jquery-1.9.1.min.js"></script>
+<!-- layer -->
+<script type="text/javascript" src="../js/plugins/layer.js"></script>
+<script src="../js/public/autoSize.js"></script>
+<script>
+    /*场景的选中 状态改变*/
+    $(".per_view").click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+    /*弹出框 出现*/
+    var jump_box =$(".jump_box");
+    $(".addview_btn").click(function(){
+        window.layer.open({
+            type: 1,
+            title:["新建监控场景","height:46px;font-size:22px;color:#fff;line-height:46px;background:rgba(13,47,85,0.9);text-align:center;border-bottom:0;"],
+            skin: 'layui-layer-rim1', //加上自定义边框样式  修改源码css
+            area: [], //宽高
+            content: jump_box,
+            shade: [0.3, '#000'],
+            move:false,
+//            btn: [],
+            yes:function(index){
+
+            }
+        })
+    })
+</script>
+</body>
+</html>

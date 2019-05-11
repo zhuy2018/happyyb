@@ -1,0 +1,238 @@
+@charset "UTF-8";
+.box-border {
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  background: url(../img/bg.png) no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+
+.content_wrap {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  position: relative;
+}
+.content_wrap .content {
+  width: 1160px;
+  height: 535px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  z-index: 100;
+  animation-delay: 2.6s;
+  -webkit-animation-delay: 2.6s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .content ul {
+  width: 1175px;
+  height: 535px;
+}
+.content_wrap .content ul li {
+  width: 220px;
+  height: 260px;
+  float: left;
+  margin: 0 15px 15px 0;
+}
+.content_wrap .content ul li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: 24px;
+  line-height: 44px;
+  color: #fff;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 216px 0 0 10px;
+  transition: all 0.5s;
+}
+.content_wrap .content ul li a:hover {
+  transition: all 0.5s;
+  text-shadow: 5px 5px 5px #000;
+}
+.content_wrap .content ul li.bigWidth {
+  width: 455px;
+}
+.content_wrap .content ul li:nth-child(1) {
+  animation-delay: 0s;
+  -webkit-animation-delay: 0s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .content ul li:nth-child(1) a {
+  background: url(../img/subject/01.png) no-repeat center 40px;
+  background-color: rgba(0, 148, 189, 0.8);
+}
+.content_wrap .content ul li:nth-child(1) a:hover {
+  margin-top: -10px;
+  transition: all 0.6s;
+  -moz-transition: all 0.6s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.6s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.6s;
+  /* Opera */
+  background: url(../img/subject/01.png) no-repeat center 30px;
+  background-color: rgba(0, 148, 189, 0.8);
+}
+.content_wrap .content ul li:nth-child(2) {
+  animation-delay: 0.2s;
+  -webkit-animation-delay: 0.2s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .content ul li:nth-child(2) a {
+  background: url(../img/subject/02.png) no-repeat center 40px;
+  background-color: rgba(204, 111, 100, 0.8);
+}
+.content_wrap .content ul li:nth-child(2) a:hover {
+  margin-top: -10px;
+  transition: all 0.6s;
+  -moz-transition: all 0.6s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.6s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.6s;
+  /* Opera */
+  background: url(../img/subject/02.png) no-repeat center 30px;
+  background-color: rgba(204, 111, 100, 0.8);
+}
+.content_wrap .content ul li:nth-child(3) {
+  animation-delay: 0.4s;
+  -webkit-animation-delay: 0.4s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .content ul li:nth-child(3) a {
+  background: url(../img/subject/03.png) no-repeat center 40px;
+  background-color: rgba(37, 183, 153, 0.8);
+}
+.content_wrap .content ul li:nth-child(3) a:hover {
+  margin-top: -10px;
+  transition: all 0.6s;
+  -moz-transition: all 0.6s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.6s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.6s;
+  /* Opera */
+  background: url(../img/subject/03.png) no-repeat center 30px;
+  background-color: rgba(37, 183, 153, 0.8);
+}
+.content_wrap .content ul li:nth-child(4) {
+  animation-delay: 0.6s;
+  -webkit-animation-delay: 0.6s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .content ul li:nth-child(4) a {
+  background: url(../img/subject/04.png) no-repeat center 40px;
+  background-color: rgba(196, 166, 59, 0.8);
+}
+.content_wrap .content ul li:nth-child(4) a:hover {
+  margin-top: -10px;
+  transition: all 0.6s;
+  -moz-transition: all 0.6s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.6s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.6s;
+  /* Opera */
+  background: url(../img/subject/04.png) no-repeat center 30px;
+  background-color: rgba(196, 166, 59, 0.8);
+}
+.content_wrap .content ul li:nth-child(5) {
+  animation-delay: 0.8s;
+  -webkit-animation-delay: 0.8s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .content ul li:nth-child(5) a {
+  background: url(../img/subject/05.png) no-repeat center 40px;
+  background-color: rgba(53, 156, 221, 0.8);
+}
+.content_wrap .content ul li:nth-child(5) a:hover {
+  margin-top: -10px;
+  transition: all 0.6s;
+  -moz-transition: all 0.6s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.6s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.6s;
+  /* Opera */
+  background: url(../img/subject/05.png) no-repeat center 30px;
+  background-color: rgba(53, 156, 221, 0.8);
+}
+.content_wrap .content ul li:nth-child(6) {
+  animation-delay: 1s;
+  -webkit-animation-delay: 1s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .content ul li:nth-child(6) a {
+  background: url(../img/subject/06.png) no-repeat center 40px;
+  background-color: rgba(132, 190, 59, 0.8);
+}
+.content_wrap .content ul li:nth-child(6) a:hover {
+  margin-top: -10px;
+  transition: all 0.6s;
+  -moz-transition: all 0.6s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.6s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.6s;
+  /* Opera */
+  background: url(../img/subject/06.png) no-repeat center 30px;
+  background-color: rgba(132, 190, 59, 0.8);
+}
+.content_wrap .content ul li:nth-child(7) {
+  animation-delay: 1.2s;
+  -webkit-animation-delay: 1.2s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .content ul li:nth-child(7) a {
+  background: url(../img/subject/07.png) no-repeat center 40px;
+  background-color: rgba(69, 162, 219, 0.8);
+}
+.content_wrap .content ul li:nth-child(7) a:hover {
+  margin-top: -10px;
+  transition: all 0.6s;
+  -moz-transition: all 0.6s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.6s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.6s;
+  /* Opera */
+  background: url(../img/subject/07.png) no-repeat center 30px;
+  background-color: rgba(69, 162, 219, 0.8);
+}
+.content_wrap .content ul li:nth-child(8) {
+  animation-delay: 1.4s;
+  -webkit-animation-delay: 1.4s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .content ul li:nth-child(8) a {
+  background: url(../img/subject/08.png) no-repeat center 40px;
+  background-color: rgba(37, 169, 172, 0.8);
+}
+.content_wrap .content ul li:nth-child(8) a:hover {
+  margin-top: -10px;
+  transition: all 0.6s;
+  -moz-transition: all 0.6s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.6s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.6s;
+  /* Opera */
+  background: url(../img/subject/08.png) no-repeat center 30px;
+  background-color: rgba(37, 169, 172, 0.8);
+}

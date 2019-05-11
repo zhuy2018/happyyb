@@ -1,0 +1,154 @@
+body {
+  font-family: "黑体"!important;
+  overflow: hidden;
+}
+#stylelist{
+  position: absolute;
+  height:30px;
+  line-height: 30px;
+  bottom: 20px;
+  right:20px;
+  z-index: 100;
+  border-radius: 6px;
+}
+/*
+ * content_wrap开始
+ * */
+.content_wrap {
+  width: 1024px;
+  height: 768px;
+  color: #fff;
+//background: url(../../img/public/bg.png) no-repeat;
+//background-size: 100% 100%;
+  overflow: hidden;
+  .content_main{
+    width: 100%;
+    height: 700px;
+    position: relative;
+    #mymap{
+      width: 100%;
+      height: 100%;
+    }
+    .small_box{
+      width: 468px;
+      height: 386px;
+      position: absolute;
+      top:20px;
+      left:20px;
+      background: url(../../img/peopleStream/small_box.png) no-repeat;
+      background-size: 100% 100%;
+      .place_wrap{
+        width: 100%;
+        height: 41px;
+        font-size: 18px;
+        line-height: 41px;
+        padding-top: 10px;
+        .place{
+          width: 153px;
+          height: 41px;
+          padding-left: 25px;
+          float: left;
+        }
+        .time{
+          float: left;
+        }
+      }
+    }
+  }
+}
+.place_number{
+    text-indent: 50px;
+    font-size: 20px;
+    line-height: 42px;
+    margin: 16px 0 16px;
+    img{
+        display: inline-block;
+    }
+    
+}
+.zhishu_wrap{
+  width: 100%;
+  height: 216px;
+  .pm{
+    width: 105px;
+    height: 174px;
+    float: left;
+    background:url("../../img/peopleStream/pm.png") no-repeat;
+    margin: 23px 51px 0;
+    text-align: center;
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    overflow: hidden;
+    li{
+      width: 105px;
+      height: 174px;
+    }
+    span{
+      display: block;
+      text-align: center;
+    }
+    li span:nth-child(1){
+      width: 64px;
+      height: 48px;
+      margin:8px auto 51px;
+      font-size: 20px;
+    }
+    li span:nth-child(2){
+      width: 80px;
+      height: 50px;
+      margin:0 auto;
+    }
+  }
+}
+.weather_wrap{
+  width: 250px;
+  height: 216px;
+  float: left;
+  .weather{
+    width: 250px;
+    height: 106px;
+    color:#fff;
+    margin-top: 15px;
+    background:url("../../img/peopleStream/line_bg.png") no-repeat center;
+    .today,.tomorrow{
+      width: 125px;
+      height: 50px;
+      float: left;
+      padding-top: 56px;
+    }
+    .qing{
+      background:url("../../img/peopleStream/qing.png") no-repeat top center;
+    }
+    .yin{
+      background:url("../../img/peopleStream/yin.png") no-repeat top center;
+    }
+    .wendu_today,.wendu_tomorrow{
+      font-size: 18px;
+      line-height:24px;
+      text-align: center;
+    }
+    .day_tag{
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+}
+.feng{
+  width: 100%;
+  height: 82px;
+  line-height:26px;
+  li{
+    font-size: 18px;
+    line-height:26px;
+  }
+  li:before {
+    content: "";
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    background-color: #fff;
+    border-radius: 50%;
+    margin-right:11px;
+  }
+}

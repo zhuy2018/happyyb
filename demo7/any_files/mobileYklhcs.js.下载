@@ -1,0 +1,290 @@
+//拿到分辨率放到Session
+var clientWidth = window.screen.width;
+var st; //开始时间
+var et; //结束时间
+var title; //标题
+var titles; //标题 
+
+var count; //数量
+var resultdata;//后台查询后的结果数据集
+var tabledata = '';
+
+jQuery(function($) {
+if(defaultList != null && defaultList != ""){
+	resultdata = defaultList;
+	st = $('#startTime1007').val();
+	et = $('#endTime1007').val();
+	//控制分辨率
+	if(clientWidth > 1800){
+		title = '<span style="font-size: 24px;font-weight:bold;">'+st+'月至'+et+'月游客到访次数统计分析图(月)</span>';
+		titles = st+'月至'+et+'月游客到访次数统计分析图(月)';
+	}else{
+		title = '<b>'+st+'月至'+et+'月游客到访次数统计分析图(月)</b>';
+		titles = st+'月至'+et+'月游客到访次数统计分析图(月)';
+	}
+	count = resultdata.count; //数量
+	tabledata = resultdata.result;
+	
+	showChart();
+}
+});
+
+getData = function(){
+	st = startTime;
+	et = endTime;
+	var jiduTemp;
+	var jiduEndTemp;
+	if(startTime2 == '01'){
+		jiduTemp = '第一季度';
+	}else if(startTime2 == '04'){
+		jiduTemp = '第二季度';
+	}else if(startTime2 == '07'){
+		jiduTemp = '第三季度';
+	}else if(startTime2 == '10'){
+		jiduTemp = '第四季度';
+	}
+	
+	//必须分开写：
+	if(endTime2 == '01'){
+		jiduEndTemp = '第一季度';
+	}else if(endTime2 == '04'){
+		jiduEndTemp = '第二季度';
+	}else if(endTime2 == '07'){
+		jiduEndTemp = '第三季度';
+	}else if(endTime2 == '10'){
+		jiduEndTemp = '第四季度';
+	}
+	
+	//控制分辨率
+	if(clientWidth > 1800){
+		if(kpiId == '1007'){ //月
+			title = '<span style="font-size: 24px;font-weight:bold;">'+st+'月至'+et+'月游客到访次数统计分析图(月)</span>';
+			titles = st+'月至'+et+'月游客到访次数统计分析图(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<span style="font-size: 24px;font-weight:bold;">'+st+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】游客到访次数统计分析图(季)</span>';
+			titles = st+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】游客到访次数统计分析图(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<span style="font-size: 24px;font-weight:bold;">'+st+'年至'+et+'年游客到访次数统计分析图(年)</span>';
+			titles = st+'年至'+et+'年游客到访次数统计分析图(年)';
+		}
+	}else{
+		if(kpiId == '1007'){ //月
+			title = '<b>'+st+'月至'+et+'月游客到访次数统计分析图(月)</b>';
+			titles = st+'月至'+et+'月游客到访次数统计分析图(月)';
+		}else if(kpiId == '1008'){ //季
+			title = '<b>'+st+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】游客到访次数统计分析图(季)</b>';
+			titles = st+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】游客到访次数统计分析图(季)';
+		}else if(kpiId == '1009'){ //年
+			title = '<b>'+st+'年至'+et+'年游客到访次数统计分析图(年)</b>';
+			titles = st+'年至'+et+'年游客到访次数统计分析图(年)';
+		}
+	}
+	
+	var url = 'kpi/mobileYklhcs/querymobileYklhcsList.do';
+	var postData = {"timeStart":st,"timeEnd":et,"sjidu":startTime2,"ejidu":endTime2,"kpiId":kpiId};
+	$.post(url,postData,function(data){
+		if(data != null){
+			resultdata = data.scenis;
+			count = resultdata.count; //数量
+			tabledata = resultdata.result;
+			showChart();
+		}
+	});
+}
+
+
+/**
+ * 移动数据 - 游客到访次数统计
+ * @memberOf {TypeName} 
+ * @return {TypeName} 
+ */
+showChart = function() {
+	
+	if((tabledata == null || tabledata.length <= 0)){
+		layer.alert('没有相关数据！');
+		return;
+	}
+	
+	var etdata = [];
+	var ettemp = {};
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	
+	ettemp['obj0'] = '时间/次数';
+	ettemp['obj1'] = '1次';
+	ettemp['obj2'] = '2次';
+	ettemp['obj3'] = '2次以上';
+	etdata.push(ettemp);
+	
+	table += '<thead><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+	table += '<td style="text-align:center;">时间/次数</td>';
+	table += '<td style="text-align:center;">1次</td>';
+	table += '<td style="text-align:center;">2次</td>';
+	table += '<td style="text-align:center;">2次以上</td>';
+	table += '</tr></thead>';
+	
+	//用于X坐标的地市：
+	var xdata = [];
+	//以下6个数组用来装图形界面的6个性别段的数据：
+	var adata=[];//一段
+	var bdata=[];//二段
+	var cdata=[];//
+	
+	var leged = false;
+	
+	$.each(tabledata, function(i, mess){
+		leged = true;
+		ettemp = {};
+		xdata.push((mess['lasttime'] == null?0:mess['lasttime']));
+		adata.push(Number(mess['once'] == null?0:mess['once']));
+		bdata.push(Number(mess['twice'] == null?0:mess['twice']));
+		cdata.push(Number(mess['MoreThanTwice'] == null?0:mess['MoreThanTwice']));
+		
+		ettemp = {};
+		table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+		table += '<td style="text-align:center;">'+(mess['lasttime'] == null?0:mess['lasttime'])+'</td>';
+		table += '<td style="text-align:center;">'+toThousands(mess['once'] == null?0:mess['once'])+'</td>';
+		table += '<td style="text-align:center;">'+toThousands(mess['twice'] == null?0:mess['twice'])+'</td>';
+		table += '<td style="text-align:center;">'+toThousands(mess['MoreThanTwice'] == null?0:mess['MoreThanTwice'])+'</td>';
+		table += '</tr>';
+
+		ettemp['obj0'] = (mess['lasttime'] == null?0:mess['lasttime']);
+		ettemp['obj1'] = toThousands(mess['once'] == null?0:mess['once']);
+		ettemp['obj2'] = toThousands(mess['twice'] == null?0:mess['twice']);
+		ettemp['obj3'] = toThousands(mess['MoreThanTwice'] == null?0:mess['MoreThanTwice']);
+		etdata.push(ettemp);
+	});
+	table += '</table>';
+	
+	var etstr = '{"result":'+JSON.stringify(etdata)+',"count":'+count+'}';	//导出
+	var chart = new Highcharts.Chart({
+	    chart: {
+			animation: Highcharts.svg, // don't animate in old IE
+		    marginRight: 30,
+		    renderTo: 'chart',
+		    type: 'spline' //column 柱 / spline 线 
+	    },
+	    title: {
+	        text: title
+	    },
+	    legend: {
+	    	enabled: leged
+	    },
+	    credits:{  //右下角地址
+	        text:''  
+	    },
+	    xAxis: {
+	    	categories: xdata,
+	    	labels: {
+	 			style: {
+	    			color: '#000000'
+	 			}
+	 		}
+	    },
+	    yAxis: {
+	        title: {
+	            text: '游客人数'
+	        },
+	        labels: {
+	            format: '{value}',
+	            style: {
+	   				color: '#000000'
+	   			}
+	        },
+	        min:0,
+	        plotLines: [{
+	            value: 0,
+	            width: 1,
+	            color: '#808080'
+	        }]
+	        
+	    },
+	    tooltip: {
+	    	backgroundColor: '#999999',   // 背景颜色
+	    	borderColor: 'ffffff',         // 边框颜色
+			borderRadius: 5,             // 边框圆角
+			animation: true,               // 是否启用动画效果
+	        useHTML: true,
+	        shared: true, //共享提示框
+		   	formatter: function() {
+	    		var temp ='<div style="color:#ffffff">';
+					temp += '<div style="padding:0px 0px 8px 10px; font-size:14px;width:100%;">'+(this.points[0].x)+'</div>';
+			        for(var i = 0 ;i < this.points.length; i++){
+			        	temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+						temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+						temp += '		<span style="margin-left:8px;">'+(this.points[i].series.name)+'</span>';
+						temp += '		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:'+this.points[i].series.color+';">&nbsp;</span>';
+						temp += '		<span style="heigt:8px;font-size:13px;margin-left:8px;margin-right:8px;">'+toThousands(this.points[i].y)+'</span>';
+						temp += '	</div>';
+			        	temp += '</div>';
+			        }
+					temp += '	</div>';
+		        	temp += '</div>';
+ 	 			return temp;
+			}
+	    },
+	    plotOptions: {
+	    	column: {
+			   	 pointPadding: 0.4,
+			     borderWidth: 0
+    		},
+	   	 	series: {
+		        cursor: 'pointer',  
+		        marker: {
+		            enabled: true //false false的时候就不会突出显示点 
+		        }
+	    	}
+	    },
+	    
+	    exporting:{
+	           enabled:true,
+	           filename:titles,  
+	           type:'image/png',
+	           exporttable:etstr,
+	           sourceWidth:(screen.availWidth - 365),
+	           url:'kpi/export/export.do'
+	       }, 
+	       
+	      series: [{
+		       	name: '1次',
+		        data:adata,
+		        connectNulls:true,
+		        dataLabels: { //显示数量
+		            enabled: false 
+		        }
+	      },{
+	   	   name: '2次',
+		        data:bdata,
+		        connectNulls:true,
+		        dataLabels: { //显示数量
+		            enabled: false 
+		        }
+	          
+	      },{
+	   	   name: '2次以上',
+		        data:cdata,
+		        connectNulls:true,
+		        dataLabels: { //显示数量
+		            enabled: false 
+		        }
+	          
+	      }
+	         ]
+	});
+	
+	document.getElementById("data").innerHTML = table;
+}
+
+
+
+
+
+function toThousands(num) {
+    var result = [ ], counter = 0;
+    num = (num || 0).toString().split('');
+    for (var i = num.length - 1; i >= 0; i--) {
+        counter++;
+        result.unshift(num[i]);
+        if (!(counter % 3) && i != 0) { result.unshift(','); }
+    }
+    return result.join('');
+}

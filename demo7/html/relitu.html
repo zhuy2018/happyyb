@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>热力图</title>
+<link rel="stylesheet" type="text/css" href="../css/common.css"/>	<!--公共 清除默认 样式表-->
+<link rel="stylesheet" type="text/css" href="../css/relitu.css"/>
+</head>
+<body>
+<!--内容区域开始-->
+<div class="content_wrap">
+	<div class="content_main">
+		<div id="relitu">
+			<!-- 景区提示框 -->
+			<div style="width:166px;height:125px;background:url(img/relitu/tool_bg.png) no-repeat;background-size:100% 100%;color:#fff;">
+				<p style="font-size:18px;line-height:40px;text-align:center;">天目山</p>
+				<!--<div style="width:122px;height:77px;background:url(img/relitu/fu_o.png) no-repeat;margin:4px auto 0;">
+					<p style="width:65px;height:21px;font-size:21px;line-height:21px;padding:29px 0px 0 53px;text-align:center;">5632</p>
+				</div>-->
+				<!--<div style="line-height:34px;font-size:18px;text-align:center;"><span style="margin-right:10px;">pm2.5：</span><span>30</span></div>-->
+				<!--<div style="line-height:34px;font-size:18px;text-align:center;"><span style="margin-right:10px;">co：</span><span>2.3</span></div>-->
+				<p style="text-align:center;line-height:26px;font-size:14px;margin-top:5px;">实时人数<span style="font-size:18px;margin-left:6px;">4337</span></p>
+				<p style="text-align:center;line-height:26px;font-size:14px;">高峰人数<span style="font-size:18px;margin-left:6px;">6597</span></p>
+			</div>
+			<!-- 景区提示框 结束 -->
+			
+			<!-- 景区黄色框 -->
+			<div style="width:130px;height:51px;background:url(img/relitu/label_bg.png) no-repeat;color:#fff;text-align:center;line-height:50px;">
+				天目山
+			</div>
+			<!-- 景区 黄色框 结束 -->
+		</div>
+		<div class="controlBar">
+			<div class="barTop">
+				<div id="timeArea">2017-07-25 16:55</div>
+				<div id="chooseDay">
+					<ul class="dayWrap">
+						<!-- 点击某个时间按钮，添加class名 nowTime 来添加选中的背景色 -->
+						<li class="nowTime">实时</li>
+						<li>今日</li>
+						<li>昨日</li>
+						<li>近七天</li>
+					</ul>
+					<div class="dataRange">
+						<input type="date" value="2017-07-25" /> - <input type="date" value="2017-07-25" />
+						<div id="searchBtn"></div>
+					</div>
+				</div>
+			</div>
+			<div class="barBot">
+				<div class="timeLine">
+					<span id="circle"></span>
+				</div>
+				<input type="button" id="playBtn" class="pause" />
+			</div>
+		</div>
+		<div class="spot_detail">
+			<div class=""></div>
+		</div>
+		<!-- 右下角 数据条例 -->
+		<div class="rules_box">
+			<div class="per_rule">
+				<div class="color_box"></div>
+				<div class="number_rule">10,000 - 20,000</div>
+			</div>
+			<div class="per_rule">
+				<div class="color_box"></div>
+				<div class="number_rule">5,000 - 10,000</div>
+			</div>
+			<div class="per_rule">
+				<div class="color_box"></div>
+				<div class="number_rule">1,000 - 5,000</div>
+			</div>
+			<div class="per_rule">
+				<div class="color_box"></div>
+				<div class="number_rule">500 - 1,000</div>
+			</div>
+			<div class="per_rule">
+				<div class="color_box"></div>
+				<div class="number_rule">0 - 500</div>
+			</div>
+		</div>
+		<!-- 条例 显示按钮 -->
+		<div class="bot_btn">
+			<div id="rules_btn"></div>
+		</div>
+		<!-- 右上角 选项框 -->
+		<div class="choose_box">
+			<label class="four_spot" for="four">4A&nbsp;&nbsp;景区<input id="four" value="4A" type="checkbox"></label>
+			<label class="three_spot" for="three">3A&nbsp;&nbsp;景区<input id="three" value="3A" type="checkbox"></label>
+			<label class="other_spot active" for="other">普通景区<input id="other" checked="" value="普通" type="checkbox"></label>
+		</div>
+		<!--  让右上角  点击1s后才可再次点击  的遮罩层（3个） -->
+		<div id="first_zhe"></div>
+		<div id="two_zhe"></div>
+		<div id="three_zhe"></div>
+
+		<!-- 复选框 -->
+		<div class=" tiaojianlist03">
+			<label for="aa">aaaa</label>
+			<input name="checkbox" value="Item 1" type="checkbox" id="aa">
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/autoSize.js"></script>	<!--大屏自适应屏幕-->
+<!--<script type="text/javascript" src="js/plugins/echarts.js"></script>-->
+<!--<script type="text/javascript" src="js/relitu.js"></script>-->
+<script>
+    //4A、3A、其他  选中的 标记
+    var chooseFour = false,chooseThree = false,chooseOther= true;
+    var kedian1 = true,kedian2 = true,kedian3 = true;//三个  复选框 是否可点击 的状态
+    $('.four_spot input').on('change', function () {
+        //console.log("4A"+this.checked);
+        var _this = $(this);
+        if(kedian1){
+            chooseFour = $("#four").is(":checked");// 当前复选框  是否选中
+            judgeActive(chooseFour, _this.parent());//根据状态  添加  颜色背景  对勾  等样式
+            kedian1 = false;
+            $("#first_zhe").show();
+            setTimeout(function () {
+                console.log("4A可再次点击了");
+                kedian1 = true;
+                $("#first_zhe").hide();
+            }, 1000)
+        }else{
+            kedian1 = false;
+        }
+    })
+    $(".three_spot input").on('change', function(){
+        var _this = $(this);
+        if(kedian2){
+            chooseThree = $("#three").is(":checked");// 当前复选框  是否选中
+            //console.log(chooseThree+"当前是否选中");
+            judgeActive(chooseThree,_this.parent());//根据状态  添加  颜色背景  对勾  等样式
+            kedian2 = false;
+            $("#two_zhe").show();
+            setTimeout(function () {
+                console.log("3A可再次点击了");
+                kedian2 = true;
+                $("#two_zhe").hide();
+            }, 1000)
+        }else{
+            kedian2 = false;
+        }
+    })
+    $(".other_spot input").on('change', function(){
+        var _this = $(this);
+        if(kedian3){
+            chooseOther = $("#other").is(":checked");// 当前复选框  是否选中
+            //console.log(chooseOther);
+            judgeActive(chooseOther,_this.parent());//根据状态  添加  颜色背景  对勾  等样式
+            kedian3 = false;
+            $("#three_zhe").show();
+            setTimeout(function () {
+                console.log("其他可再次点击了");
+                kedian3 = true;
+                $("#three_zhe").hide();
+            }, 1000)
+        }else{
+            kedian3 = false;
+        }
+    })
+    //4A、3A、其他  选中是否的样式变化
+    function judgeActive(tag,obj){
+        //console.log(tag+"当前是否选中",$(obj).children("input[type=checkbox]"));  //是否选中
+        if(tag){
+            //console.log("要变亮")
+            $(obj).addClass("active");
+        }else{
+            //console.log("要变暗")
+            $(obj).removeClass("active");
+        }
+        scenesClass = chooseFour?"4":"";
+        scenesClass += scenesClass == ""?(chooseThree?"3":""):(chooseThree?",3":"");
+        scenesClass += scenesClass == ""?(chooseOther?"0":""):(chooseOther?",0":"");
+    }
+	//4A、3A、其他  选中的 标记
+    /*var chooseFour,chooseThree,chooseOther;
+    var kedian = true;
+    $(".four_spot").click(function(){
+        var _this = $(this);
+        console.log("外面的");
+        disabledTag = $(".four_spot").prop("disabled");//为false时  代表 可点击的情况
+        if(kedian){
+            chooseFour = $("#four").is(":checked");// 当前复选框  是否选中
+            console.log(chooseFour+"当前是否选中");
+            judgeActive(chooseFour,_this);//根据状态  添加  颜色背景  对勾  等样式
+            _this.prop('disabled', true);
+            $(".four_spot").addClass("active");
+            $(".four_spot label").removeAttr("for");//取消label 绑定复选框
+            kedian = false;
+            $("#first_zhe").show();
+            setTimeout(function () {
+                console.log("222可点击了");
+                kedian = true;
+                _this.prop('disabled', false);
+                $(".four_spot label").off("click");
+                $("#first_zhe").hide();
+            }, 3000)
+        }else{
+            kedian = false;
+        }
+    })
+	$(".four_spot").on('click', function(){
+	    var _this = this;
+        chooseFour = $(this).children().eq(0).is(":checked");
+	    console.log(chooseFour);
+        judgeActive(chooseFour, $(this));
+        $this.prop('disabled', true)
+        console.log(222)
+         setTimeout(function () {
+            $this.prop('disabled', false)
+        }, 1000)
+	})*/
+
+    /* $(".four_spot label").click(function(e){
+		var _this = $(this);
+		if(kedian){
+			console.log("li面的");
+			judgeActive(chooseFour,_this);
+		}else{
+			e.preventDefault();
+		}
+	}) */
+    /* $(".four_spot label").click(function(e){
+		var disabledTag = $(".four_spot").prop("disabled");//为false时  代表 可点击的情况下
+		/* e.stopPropagation()
+		console.log(disabledTag,444);
+		 if(!disabledTag){
+			console.log(333);
+			e.preventDefault();
+		}
+	}) */
+    /*$(".three_spot").click(function(){
+        chooseThree = $(this).children().eq(0).is(":checked");
+        console.log(chooseThree);
+        judgeActive(chooseThree,$(this));
+    })
+    $(".other_spot").click(function(){
+        chooseOther = $(this).children().eq(0).is(":checked");
+        console.log(chooseOther);
+        judgeActive(chooseOther,$(this));
+    })
+	//4A、3A、其他  选中是否的样式变化
+	function judgeActive(tag,obj){
+        if(tag){
+            $(obj).addClass("active");
+        }else{
+            $(obj).removeClass("active");
+        }
+	}*/
+</script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+var clientWidth = window.screen.width;
+var totalPage = 1;//总页数（初始为1）
+var currentPage = 1;	//当前页（初始为1）
+var pageSize = 7;//每页码显示几列数据(第一列不算)
+var showStar = 1;//显示分页起始页（初始为1）
+var pageStr='';//分页String
+
+//结果集
+var count; //数量
+var resultdata;//结果数据集
+var result;
+var tabledata;
+var jxsname = '临安市'; //景区 - 多选
+var xdata = [];//用于X轴的时间
+
+var title; //标题
+var titles; //导出标题 
+
+jQuery(function($) {
+	scenesList();
+	if(scenesYkrsList != null  && scenesYkrsList != ""){
+		resultdata = scenesYkrsList;
+		//控制分辨率
+		if(clientWidth > 1800){
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+scenesname+'】'+'实时客流量分析图</span>';
+		}else{
+			title = '<b>【'+scenesname+'】'+'实时客流量分析图</b>';
+		}
+		titles = '【'+scenesname+'】'+'实时客流量分析图';
+		count = resultdata.count; //数量
+		result = resultdata.result;
+		tabledata = resultdata.tabledata;
+		showChart(1);
+	}
+});
+
+function getData (){
+	
+	
+	if(clientWidth > 1800){
+			title = '<span style="font-size: 24px;font-weight:bold;">【'+scenesname+'】'+'实时客流量分析图</span>';
+			titles = '【'+scenesname+'】'+'实时客流量分析图';
+		
+	}else{
+			title = '<b>【'+scenesname+'】'+'实时客流量分析图</b>';
+			titles = '【'+scenesname+'】'+'实时客流量分析图';
+	}
+	
+	var url = 'pushData/tcScenes/queryScenesList.do';
+	var postData = {"scenesName":jxsname};
+	$.post(url,postData,function(data){
+		if(data != null){//
+			resultdata = data.scenesYkrsList;
+			result = resultdata.result;
+			count = resultdata.count; //数量
+			xdata = resultdata.xData;
+			tabledata = resultdata.tabledata;
+			showChart(1);
+		}
+	});
+}
+
+/**
+ * 选择景区
+ */
+function scenesList(){
+	var jqname="";
+	if(null != document.getElementById("scenesChoice")){
+		var temp = "<table style='text-align:center;'><tr style='font-family: 微软雅黑, 宋体, 黑体;'>";
+		temp += "<td width=50px; style='text-align:left;cursor: pointer;'  onclick=setScenes('scenesAll') id='sceneslist_all'>全选</td>"
+		var flag = 100;
+		$.each(scenes.result, function(i, mess){ 
+			if(i != 0 && i % 3 == 0){
+				temp += "</tr><tr style='font-family: 微软雅黑, 宋体, 黑体;'><td width=70px; style='text-align:left;'></td>";
+			}
+			jqname = mess['scenesName']; //要展示的字符串
+			if(jqname.length > 5){
+				jqname = jqname.substring(0,5)+"..";
+			}
+			temp += "<td width=100px; style='text-align:left;height:28px;white-space:nowrap;cursor: pointer;' onclick=setScenes("+i+") id=sceneslist_"+i+">" +
+						" <input type='checkbox' class='ace ace-checkbox-2' name='scenesItems' id='"+flag+"' value='"+mess['scenesName']+"'/>" +
+						" <label class='lbl' for='"+flag+"' title='"+mess['scenesName']+"'>"+(jqname)+"</label>" +
+					"</td>";
+			flag ++;
+		});
+		temp += "</tr></table>";
+		document.getElementById("sceneslist").innerHTML = temp;
+	}
+}
+
+var tbar = 1; //点击“全选”的计数器
+function setScenes(flog){
+	if(flog == 'scenesAll'){ //如果选的是“全选”
+		document.getElementById("sceneslist_all").style.color="#0066FF";
+		if(tbar == 1){ //点击了第一次
+			$("input[name=scenesItems]").each(function() { //全选
+		        $(this).prop("checked", true); ////设置所有name为'scenesItems'对象的checked为true  (.attr) 
+			});
+			tbar++;
+		}else{
+			$("input[name=scenesItems]").each(function() {
+		        $(this).prop("checked", false);
+			});
+			tbar = 1;
+		}
+	}else{ //否则是复选
+		document.getElementById("sceneslist_all").style.color="";
+	}
+}
+
+function getScenesSelect(){
+	//获取所有name为scenesItems的checkbox
+	var spCodesTemp = "";
+	 var etdata = [];
+	$('input:checkbox[name=scenesItems]:checked').each(function(i){
+		if(0 == i){
+			spCodesTemp = $(this).val(); //页面
+		}else{
+			spCodesTemp += (","+$(this).val());
+		}
+		etdata.push(spCodesTemp);
+	}); 
+	jxsname = spCodesTemp;
+	console.info(spCodesTemp);
+	//jsp页面展示部分
+	if(etdata.length > 2){ 
+		temp_scenesname = etdata[1]+'等';
+    }else{
+    	temp_scenesname = spCodesTemp;
+    }
+}
+
+function showChart(tempShow) {
+	currentPage = tempShow;	//当前页
+	var temp = tempShow-1;
+	totalPage = Math.ceil((Number(count)-1)/pageSize);//总页数
+	
+	if (result == undefined || result == null || result == '') {
+		$("#chart").empty();
+		var emptyHtml = '<table style="border:1px solid #c4cdd8;" class="table table-bordered table-hover "><thead><tr>'
+						+ '<th style="font-weight:normal;">&nbsp;</th><th style="font-weight:normal;">&nbsp;</th></tr></thead>'
+						+ '<tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>';
+		document.getElementById("data").innerHTML = emptyHtml;
+		layer.alert('没有相关数据！');
+		return;
+	}
+	var colors = Highcharts.getOptions().colors;
+	Highcharts.setOptions({
+		global : {
+			useUTC : false
+		}
+	});
+
+	var etdata = [];
+	var ettemp = {};
+	/*var hjarr = new Array();
+	hjarr['obj0'] = '合计';*/
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+
+	var indata = [];
+	var ydata = [];
+	var leged = false;
+	$.each(result, function(i, list){
+		ydata = [];
+		$.each(list, function(j, mess){
+			ydata.push({x:mess.kpitime,y:Number(mess.counts)});
+		});
+		indata.push({name:i,data:ydata,turboThreshold:2000});
+    });
+	leged = true;
+	
+	$.each(tabledata, function(i, mess){
+		ettemp = {};
+		if(i > 0){
+			table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+			for(var i = 0;i < count;i++){
+				if(i == 0){
+					table += '<td style="text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+					ettemp['obj0'] = (mess['obj0'] == null?0:mess['obj0']);
+				}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+					table += '<td style="text-align:center;">'+toThousands(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}
+				if(i > 0){
+//					hjarr['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+					ettemp['obj'+i] = toThousands(mess['obj'+i] == null?0:mess['obj'+i]);
+				}
+			}
+			table += '</tr>';
+			etdata.push(ettemp);
+		}else{
+			table += '<thead><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+			for(var i = 0;i < count;i++){
+				if(i == 0){
+					table += '<td style="text-align:center; ">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}else if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize)){
+					table += '<td style="text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+				}
+				ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+			}
+			table +='</tr></thead>';
+			etdata.push(ettemp);
+		}
+	});
+	
+	/*if(result != undefined && result != null && result != ''){
+		ettemp = {};
+		table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">合计</td>';
+		ettemp['obj0'] = '合计';
+		for(var i = 1;i < count;i++){
+			if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize)){
+				table += '<td style="text-align:center;">'+toThousands((hjarr['obj'+i] == null?0:hjarr['obj'+i]))+'</td>';
+			}
+			ettemp['obj'+i] = toThousands(hjarr['obj'+i] == null?0:hjarr['obj'+i]);//游客人数
+		}
+		table += '</tr>';
+		etdata.push(ettemp);
+	}*/
+	table += '</table>';
+	var etstr = '{"result":' + JSON.stringify(etdata) + ',"count":' + count + '}'; //导出
+	var chart = new Highcharts.Chart(
+			{
+				chart : {
+					animation : Highcharts.svg, // don't animate in old IE
+					marginRight : 30,
+					renderTo : 'chart',
+					type : 'spline'
+				},
+
+				title : {
+					text : title
+				},
+
+				legend : {
+					enabled : leged
+				},
+				credits : { //右下角地址
+					text : ''
+				},
+				xAxis : {
+					min : 0,
+					max : 24,
+					tickInterval : 1, //步进
+					tickPixelInterval : 10,
+					labels : {
+						style : {
+							color : '#000000'
+						}
+					}
+				},
+				yAxis : {
+					title : {
+						text : '客流量'
+					},
+					labels : {
+						format : '{value}',
+						style : {
+							color : '#000000'
+						}
+					},
+					min : 0,
+					plotLines : [ {
+						value : 0,
+						width : 1,
+						color : '#808080'
+					} ]
+				},
+				tooltip : {
+					backgroundColor : '#999999', // 背景颜色
+					borderColor : 'ffffff', // 边框颜色
+					borderRadius : 5, // 边框圆角
+					animation: true,               // 是否启用动画效果
+			        useHTML: true,
+			        shared: true, //共享提示框
+					formatter : function() {
+						var shi = (this.x + '').split('.');
+						var er = 0;
+						if (shi.length == 2) {
+							er = Number(shi[1]);
+							if (shi[1].length == 1) {
+								er = Number(er + '0');
+							}
+						}
+						er = Math.round(er * 60 / 100);
+						if (er == 0) {
+							er = er + '0';
+						} else if (er < 10) {
+							er = '0' + er;
+						}
+						var temp = '<div style="color:#ffffff">';
+						temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+						temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+						temp += '		<span style="margin-left:7px;">时间：</span>';
+						temp += '		<span style="heigt:8px;font-size:13px;margin-left:5px;">' + shi[0] + ':' + er + '</span>';
+						temp += '	</div>';
+						temp += '</div>';
+						for (var i = 0; i < this.points.length; i++) {
+							console.info(shi[0] + ':' + er + "; " + this.points[i].series.name + "; " + toThousands(this.points[i].y));
+							temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+							temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+							temp += '		<span style="margin-left:7px;">' + (this.points[i].series.name) + '</span>';
+							temp += '		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:' + this.points[i].series.color + ';">&nbsp;</span>';
+							temp += '		<span style="heigt:8px;font-size:13px;margin-left:5px;">' + toThousands(this.points[i].y) + '</span>';
+							temp += '	</div>';
+							temp += '</div>';
+						}
+						temp += '</div>';
+						return temp;
+					}
+				},
+				plotOptions : {
+					series : {
+						cursor : 'pointer',
+						marker : {
+							enabled : false //false false的时候就不会突出显示点 
+						}
+					},
+					column : {
+						pointPadding : 0.4,
+						borderWidth : 0
+					}
+				},
+				exporting : {
+					enabled : true,
+					// 文件名  
+					filename : titles,
+					// 导出文件默认类型  
+					type : 'image/png',
+					exporttable : etstr,
+					sourceWidth : (screen.availWidth - 365),
+					url : 'kpi/export/export.do'
+				},
+				series : indata
+			});
+	document.getElementById("data").innerHTML = table;
+	createPageFoot();
+}
+
+//生成第页码
+function createPageFoot(){
+	if(totalPage>1){
+		var nextpage = currentPage+1;//下一页
+		var previouspage = currentPage-1;//上一页
+		
+		if(currentPage > 4){
+			showStar = currentPage-4;//显示分页起始页（初始为1）
+		}
+		pageStr = "";
+		if(previouspage == 0){
+			pageStr=pageStr+'<span style="cursor:pointer;"><<</span> ';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showChart('+previouspage+')"><<</span> ';
+		}
+		var tempShow = showStar;
+		
+		for(var showCount=showStar;showCount<=showStar+4;showCount++ ){
+			if(tempShow<=totalPage){
+				if(tempShow == currentPage){
+					pageStr=pageStr+'<span style="cursor:pointer;color:#1f7bbf;" onclick="showChart('+tempShow+')">'+tempShow+'</span> ';
+				}else{
+					pageStr=pageStr+'<span style="cursor:pointer;" onclick="showChart('+tempShow+')">'+tempShow+'</span> ';
+				}
+				tempShow = tempShow + 1;
+			}
+		}
+		if(currentPage == totalPage){
+			pageStr=pageStr+'<span style="cursor:pointer;">>></span>';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showChart('+nextpage+')">>></span>';
+		}
+		
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+		document.getElementById("pageNum").innerHTML = pageStr;
+	}else{
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+	}
+}
+
+function toThousands(num) {
+    var result = [ ], counter = 0;
+    num = (num || 0).toString().split('');
+    for (var i = num.length - 1; i >= 0; i--) {
+        counter++;
+        result.unshift(num[i]);
+        if (!(counter % 3) && i != 0) { result.unshift(','); }
+    }
+    return result.join('');
+}

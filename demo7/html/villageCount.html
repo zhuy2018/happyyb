@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>乡村旅游游客量统计</title>
+	<link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/common.css"/><!--公共 清除默认 样式表-->
+	<link rel="stylesheet" type="text/css" href="../css/topBar.css"/><!--头部导航栏样式表-->
+	<link rel="stylesheet" type="text/css" href="../css/xinag_barbot.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/villageCount.css"/>
+</head>
+<body>
+	<div class="content_wrap">
+		<div class="JQueryiframe"></div>
+		<!--上方导航 开始-->
+		<div class="top_bar">
+			<h3 class="top_title">临安旅游大数据平台</h3>
+			<ul class="top_main">
+				<li><a href="../index.html">综合信息</a></li>
+				<li><a href="subject.html">专题分析</a></li>
+				<li class="active"><a href="villageSubject.html">乡村旅游</a></li>
+				<li><a href="../any.html">数据分析</a></li>
+				<li><a href="热力图.html">热力图</a></li>
+				<span class="bot_line"></span>
+			</ul>
+			<div class="login_box">
+				<div class="user_name">
+					你好,管理员
+					<!--<img src="" alt="" />-->
+				</div>
+				<div class="choose_box">
+					<span class="exit_box">退出</span>
+					<!--<span class="edit_box">修改资料</span>-->
+				</div>
+			</div>
+		</div>
+		<!--上方导航 结束-->
+		<div class="content_main">
+			<div class="title">乡村旅游游客量统计</div>
+			<div class="main_left">
+				<div class="l_top">
+					<div id="area_tickit">
+						<!-- 村落的性质：.per_village对应添加class名（.nong、.zi、.xiu、.wen） -->
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">天目山村落</div>
+								<div class="detail">游客量<span id="sskl">293</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">红叶指南村村落-指南村</div>
+								<div class="detail">游客量<span id="sskl">366</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">太湖源头村落-白沙村</div>
+								<div class="detail">游客量<span id="sskl">96</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">白水涧村</div>
+								<div class="detail">游客量<span id="sskl">83</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">湍口温泉村落</div>
+								<div class="detail">游客量<span id="sskl">448</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">大峡谷村</div>
+								<div class="detail">游客量<span id="sskl">6</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">耕织图村落-上骆村</div>
+								<div class="detail">游客量<span id="sskl">135</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">耕织图村落-后渚村</div>
+								<div class="detail">游客量<span id="sskl">68</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">耕织图村落-大坞口</div>
+								<div class="detail">游客量<span id="sskl">166</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">龙门秘境村落-大山村</div>
+								<div class="detail">游客量<span id="sskl">16</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">龙门秘境村落-狗坞坑</div>
+								<div class="detail">游客量<span id="sskl">50</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">龙门秘境村落-石门乡</div>
+								<div class="detail">游客量<span id="sskl">30</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">太阳公社村落-太阳互通</div>
+								<div class="detail">游客量<span id="sskl">287</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">太阳公社村落-王家园</div>
+								<div class="detail">游客量<span id="sskl">87</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">太阳公社村落-双庙村</div>
+								<div class="detail">游客量<span id="sskl">73</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">忠孝文化村落-新峰村</div>
+								<div class="detail">游客量<span id="sskl">142</span>人</div>
+							</div>
+						</div>
+						<div class="per_village">
+							<div class="detail_wrap">
+								<div class="village_title">忠孝文化村落-忠孝学堂</div>
+								<div class="detail">游客量<span id="sskl">51</span>人</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main_right">
+				<div class="r_top">
+					<div class="per_title">特色乡村游客量排行</div>
+					<div id="area_rank">
+						<div class="area_rank_wrap">
+							<!-- 村落的性质：.city1对应添加class名（.nong、.zi、.xiu、.wen） -->
+							<div class="per_rank">
+								<div class="rank_total">
+									<div class="rank_num">1</div>
+									<div class="city1">湍口温泉村落</div>
+									<div class="number1">游客量：448人</div>
+								</div>
+							</div>
+							<div class="per_rank">
+								<div class="rank_total">
+									<div class="rank_num">2</div>
+									<div class="city1">太阳公社村落</div>
+									<div class="number1">游客量：447人</div>
+									<div class="open_btn"></div>
+								</div>
+								<div class="detail">
+									<div class="per_detail">
+										<div class="city2">上庄村</div>
+										<div class="number2">游客量：87人</div>
+									</div>
+									<div class="per_detail">
+										<div class="city2">双庙村</div>
+										<div class="number2">游客量：73人</div>
+									</div>
+									<div class="per_detail">
+										<div class="city2">太阳村</div>
+										<div class="number2">游客量：287人</div>
+									</div>
+								</div>
+							</div>
+							<div class="per_rank">
+								<div class="rank_total">
+									<div class="rank_num">3</div>
+									<div class="city1">耕织图村落</div>
+									<div class="number1">游客量：369人</div>
+									<div class="open_btn"></div>
+								</div>
+								<div class="detail">
+									<div class="per_detail">
+										<div class="city2">百园村</div>
+										<div class="number2">游客量：135人</div>
+									</div>
+									<div class="per_detail">
+										<div class="city2">观山村</div>
+										<div class="number2">游客量：68人</div>
+									</div>
+									<div class="per_detail">
+										<div class="city2">凌口村</div>
+										<div class="number2">游客量：166人</div>
+									</div>
+								</div>
+							</div>
+							<div class="per_rank">
+								<div class="rank_total">
+									<div class="rank_num">4</div>
+									<div class="city1">红叶指南村村落</div>
+									<div class="number1">游客量：366人</div>
+									<div class="open_btn"></div>
+								</div>
+								<div class="detail">
+									<div class="per_detail">
+										<div class="city2">指南村</div>
+										<div class="number2">游客量：366人</div>
+									</div>
+								</div>
+							</div>
+							<div class="per_rank">
+								<div class="rank_num">5</div>
+								<div class="city1">天目山村落</div>
+								<div class="number1">游客量：293人</div>
+							</div>
+							<div class="per_rank">
+								<div class="rank_total">
+									<div class="rank_num">6</div>
+									<div class="city1">忠孝文化村落</div>
+									<div class="number1">游客量：193人</div>
+									<div class="open_btn"></div>
+								</div>
+								<div class="detail">
+									<div class="per_detail">
+										<div class="city2">新峰村</div>
+										<div class="number2">游客量：142人</div>
+									</div>
+									<div class="per_detail">
+										<div class="city2">杨溪村</div>
+										<div class="number2">游客量：51人</div>
+									</div>
+								</div>
+							</div>
+							<div class="per_rank">
+								<div class="rank_total">
+									<div class="rank_num">7</div>
+									<div class="city1">太湖源头村落</div>
+									<div class="number1">游客量：96人</div>
+									<div class="open_btn"></div>
+								</div>
+								<div class="detail">
+									<div class="per_detail">
+										<div class="city2">白沙村</div>
+										<div class="number2">游客量：96人</div>
+									</div>
+								</div>
+							</div>
+							<div class="per_rank">
+								<div class="rank_total">
+									<div class="rank_num">8</div>
+									<div class="city1">龙门秘境村落</div>
+									<div class="number1">游客量：96人</div>
+									<div class="open_btn"></div>
+								</div>
+								<div class="detail">
+									<div class="per_detail">
+										<div class="city2">大山村</div>
+										<div class="number2">游客量：16人</div>
+									</div>
+									<div class="per_detail">
+										<div class="city2">龙上村</div>
+										<div class="number2">游客量：50人</div>
+									</div>
+									<div class="per_detail">
+										<div class="city2">石门村</div>
+										<div class="number2">游客量：30人</div>
+									</div>
+								</div>
+							</div>
+							<div class="per_rank">
+								<div class="rank_num">9</div>
+								<div class="city1">白水涧村</div>
+								<div class="number1">游客量：83人</div>
+							</div>
+							<div class="per_rank">
+								<div class="rank_num">10</div>
+								<div class="city1">大峡谷村</div>
+								<div class="number1">游客量：6人</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bar_bot">
+				<ul>
+					<li>
+						<a href="villageCount.html" class="active">
+							<span class="">乡村旅游游客量统计</span>
+						</a>
+					</li>
+					<li>
+						<a href="villageVisitor.html">
+							<span class="">乡村游客占比</span>
+						</a>
+					</li>
+					<li>
+						<a href="citizenTS.html">
+							<span class="">乡村游市民游客统计</span>
+						</a>
+					</li>
+					<li>
+						<a href="citizenVisitor.html">
+							<span class="">市民游客乡村游占比</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="firstStop.html">
+							<span class="">乡村游首站游客分析</span>
+						</a>
+					</li>
+					<li>
+						<a href="prevTs.html">
+							<span class="">特色村落之前游玩景点</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
+<script type="text/javascript" src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/autoSize.js"></script>
+<script type="text/javascript" src="../js/topBar.js"></script>
+<script type="text/javascript" src="../js/activity.js"></script>
+<script type="text/javascript">
+	
+	//鼠标划过  显示  购票数
+	$(".per_village").mouseover(function(){
+		$(this).children(".detail_wrap").show();
+	}).mouseout(function(){
+		$(this).children(".detail_wrap").hide();
+	})
+
+
+	//详细  村落的  显示 与隐藏
+	var haveOpen = 0;
+	$(".open_btn").click(function(){
+	    console.log(1)
+		if(!haveOpen){
+			$(this).parent().next().slideDown();
+			haveOpen = 1;
+		}else{
+			$(this).parent().next().slideUp();
+			haveOpen = 0;
+		}
+	})
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>中航紫金云熙</title>
+<link href="css/basic.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+body{
+	-webkit-overflow-scrolling: touch;
+}
+</style>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+$(function (){
+	document.addEventListener('DOMContentLoaded', ready, false);
+	
+	document.addEventListener('touchmove', function (ev){
+		ev.preventDefault();
+	}, false);
+	
+	function ready(){
+		document.querySelector('.body').addEventListener('touchmove', function (ev){
+			ev.stopPropagation();
+		}, false);
+	}
+	//禁止iPhone 微信浏览器禁止页面下拉查看网址
+	$('body').on('touchmove', function (event) {
+		event.preventDefault();
+	});
+});
+
+$(function (){
+	var hr = $(window).height();
+	$(".content").css("height",hr);
+	$(".loadDiv").css("height",hr);
+	
+	loding();  //页面初始化加载
+	
+	function loding(){
+		var arr=[
+			"image/bg.jpg",
+			/*"image/banner2.jpg",
+			"image/footer_bg.jpg",
+			"image/image_img01.jpg",
+			"image/image_img02.jpg",
+			"image/image_img03.jpg",
+			"image/image_img04.jpg",
+			"image/image_img05.jpg",
+			"image/image_img06.jpg",
+			"image/image_img07.jpg",
+			"image/image_img08.jpg",
+			"image/image_img09.jpg",
+			"image/image_img10.jpg",
+			"image/image_img11.jpg",
+			"image/image_img12.jpg",
+			"image/image_img13.jpg",
+			"image/image_img14.jpg",
+			"image/img01.jpg",
+			"image/img02.jpg",
+			"image/menu01.jpg",
+			"image/menu02.jpg",
+			"image/menu03.jpg",
+			"image/menu04.jpg",
+			"image/menu05.jpg",
+			"image/menu06.jpg",
+			"image/menu07.jpg",
+			"image/menu08.jpg",
+			"image/menu09.jpg",
+			"image/menu10.jpg",
+			"image/menu11.jpg",
+			"image/banner.jpg",
+			"image/banner2.jpg",
+			"image/banner3.jpg",
+			"image/banner5.jpg",
+			"image/banner6.jpg",
+			"image/banner7.jpg",
+			"image/banner8.jpg",
+			"image/banner9.jpg",
+			"image/banner10.jpg",
+			"image/banner11.jpg"*/
+		];
+		var iNow=0;
+		for( var i=0;i<arr.length;i++ ){
+			var oimg=new Image();
+			oimg.src=arr[i];
+			oimg.onload=function (){
+				iNow++;
+				if( iNow==arr.length ){
+					$("#loadDiv").animate( { opacity:0 }, 10,function (){
+						$(this).remove();
+						$(".logo").stop().animate({"top":"5%","opacity":"1"},400);
+						$(".copyright").stop().animate({"bottom":"36px","opacity":"1"},320);
+						$(".index_button").stop().delay(1000).fadeIn(400).animate({},1000,function(){
+							$(this).addClass("xzfd");
+						});
+						$(".index_button img").stop().delay(2000).fadeIn(800).animate({},2000,function(){
+							$(this).addClass("yain");
+						});
+						
+					} );
+				}
+			};
+			oimg.onerror=function (){
+				$("#loadDiv").animate( { opacity:0 }, 10,function (){
+					$(this).remove();
+					$(".logo").stop().animate({"top":"5%","opacity":"1"},400);
+					$(".copyright").stop().animate({"bottom":"36px","opacity":"1"},320);
+					$(".index_button").stop().delay(1000).fadeIn(400).animate({},1000,function(){
+						$(this).addClass("xzfd");
+					});
+					$(".index_button img").stop().delay(2000).fadeIn(800).animate({},2000,function(){
+						$(this).addClass("yain");
+					});
+					
+				} );
+			}
+		}
+	}
+});
+</script>
+<!--[if lt IE 9]>
+<script>
+    window.location.href='http://windows.microsoft.com/zh-CN/internet-explorer/download-ie';
+</script>
+<![endif]-->
+</head>
+
+<body>
+<!--主体-->
+<div id="loadDiv" class="loadDiv"></div>
+<div class="content">
+  <div class="logo"></div>
+  <div class="index_btn index_button">
+    <a href="menu.html">
+      <img class="a" src="image/index_button.png" />
+      <span>点击进入</span>
+    </a>
+  </div>
+  <div class="index_copy copyright">
+    <img src="image/footer_logo.png" />
+    <p>版权所有：龙岩紫金中航房地产开发有限公司</p>
+    <p>项目地址：龙岩大道壹号（龙岩大道与双龙路交汇处，万达广场对面）</p>
+    <p style="color:#070101;">咨询电话：0597-3319999</p>
+  </div>
+  <div class="index_memu">
+    <a class="a" href="http://map.baidu.com/mobile/webapp/search/search/qt=s&wd=%E9%BE%99%E5%B2%A9%E5%A4%A7%E9%81%93%E4%B8%8E%E5%8F%8C%E9%BE%99%E8%B7%AF%E4%BA%A4%E6%B1%87%E5%A4%84%EF%BC%8C%E4%B8%87%E8%BE%BE%E5%B9%BF%E5%9C%BA%E5%AF%B9%E9%9D%A2&c=193&searchFlag=bigBox&version=5&exptype=dep/vt=map/?fromhash=1">一键导航</a>
+    <a href="tel:0597-3319999">一键拨号</a>
+  </div>
+</div>
+<!--主体 end-->
+</body>
+</html>

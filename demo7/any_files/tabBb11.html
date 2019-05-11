@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)http://218.205.68.159/laly/kpi/mobileYklhcs/mobileYklhcsList.do -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!--<base href="http://218.205.68.159:80/laly/">--><base href=".">
+		<!-- jsp文件头和头部 -->
+		
+<!--<base href="http://218.205.68.159:80/laly/">--><base href=".">
+	
+	<title></title>
+	<meta name="description" content="overview &amp; stats">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- basic styles -->
+	<link href="./bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./font-awesome.css">
+
+	<!-- ace styles -->
+	<link rel="stylesheet" href="./ace.min.css">
+	<script type="text/javascript" src="./jquery-1.9.1.min.js.下载"></script>
+
+	<script type="text/javascript" src="./bootbox.min.js.下载"></script>	<!-- 确认窗口 -->
+
+	<!-- 树-->
+	<link rel="stylesheet" href="./zTreeStyle.css" type="text/css">
+	
+	
+	<script type="text/javascript" src="./jquery.ztree.core-3.5.js.下载"></script>
+	<script type="text/javascript" src="./jquery.ztree.excheck-3.5.js.下载"></script>
+	
+	<script type="text/javascript" src="./zDrag.js.下载"></script>
+	<script type="text/javascript" src="./zDialog.js.下载"></script>
+	<script type="text/javascript" src="./layer.js.下载"></script><link rel="stylesheet" href="./layer.css" id="layui_layer_skinlayercss" style="">
+	<script type="text/javascript" src="./jquery.tips.js.下载"></script>
+	
+	<script type="text/javascript" src="./WdatePicker.js.下载"></script><link href="./WdatePicker.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="./form.js.下载"></script>
+	
+	
+	
+	<script type="text/javascript">
+	/** 
+ * 时间对象的格式化; 
+ */  
+Date.prototype.format = function(format) {  
+    /* 
+     * eg:format="yyyy-MM-dd hh:mm:ss"; 
+     */  
+    var o = {  
+        "M+" : this.getMonth() + 1, // month  
+        "d+" : this.getDate(), // day  
+        "h+" : this.getHours(), // hour  
+        "m+" : this.getMinutes(), // minute  
+        "s+" : this.getSeconds(), // second  
+        "q+" : Math.floor((this.getMonth() + 3) / 3), // quarter  
+        "S" : this.getMilliseconds()  
+        // millisecond  
+    }  
+  
+    if (/(y+)/.test(format)) {  
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4  
+                        - RegExp.$1.length));  
+    }  
+  
+    for (var k in o) {  
+        if (new RegExp("(" + k + ")").test(format)) {  
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1  
+                            ? o[k]  
+                            : ("00" + o[k]).substr(("" + o[k]).length));  
+        }  
+    }  
+    return format;  
+} 
+
+function initData(){
+	if(null != document.getElementById("data")){
+	document.getElementById("data").innerHTML = '';
+	}
+	if(null != document.getElementById("chart")){
+	document.getElementById("chart").innerHTML = '';
+	}
+	
+	
+}
+
+	
+	</script>
+
+		<link rel="stylesheet" href="./css.css">
+		<script type="text/javascript" src="./highcharts.js.下载"></script>
+		<script type="text/javascript" src="./highcharts-more.js.下载"></script>
+		<script type="text/javascript" src="./highcharts-themes.js.下载"></script>
+		<script type="text/javascript" src="./exporting.js.下载"></script>
+		
+<style type="text/css">
+	html,body{
+				  height: 100%; /* 设置html和body的width和height为100%，可使全屏生效*/
+				    width: 100%;
+				    min-width: 600px;
+				    min-height: 400px;
+				    color:#63666d;
+				    font-size: 14px;
+				    font-family: 黑体;
+				    margin: 0px; /*设置上下左右的相对位置为0，可避免超出范围出现滚动条*/
+				    overflow:hidden;
+	}
+</style>
+<script type="text/javascript">
+			//提交参数
+			var kpiArea = '';//这个值自己传
+			var kpiId = 1007;
+			var startTime = '';
+			var endTime = '';
+			
+			var startTime2 = '';
+			var endTime2 = '';
+			
+			//临时参数
+			var displayid = '';
+			
+			//时间控件
+			function timeOnclick(onclickid){
+				if(displayid!=''){
+					$('#'+displayid).css({'display':'none'});
+				}
+				$('#kpiid_'+kpiId).css({'color':'','background':'#f5f7f7'});
+				kpiId = onclickid;
+				
+				$('#kpiid_'+kpiId).css({'color':'#ffffff','background':'#5776a3'});
+			
+				$('#timeChoice'+onclickid).css({'display':'none'});//隐藏弹出面板
+				
+				if(kpiId == 1008){ //季度
+					startTime = $('#startTime'+onclickid+'_1').val(); //年
+					startTime2 = $('#startTime'+onclickid+'_2').val(); //开始季
+					endTime2 =  $('#endTime'+onclickid+'_2').val(); //结束季
+
+//					alert(startTime+" -- "+startTime2);
+					if(startTime == ''||startTime2 == '' || endTime2 == ''){
+						layer.alert('请填写日期条件！');
+						return;
+					}
+					//判断结束季是否小于开始季：
+					if(endTime2 < startTime2){
+						layer.alert('结束季必须小于等于开始季！');
+						return;
+					}
+					
+					$('#displaytimevalue').html(startTime+'_'+$('#startTime'+onclickid+'_2'+' option:selected').text()+' ~ '+$('#endTime'+onclickid+'_2'+' option:selected').text());
+				}else{
+					startTime = $('#startTime'+onclickid).val();
+					endTime = $('#endTime'+onclickid).val();
+					
+					if(startTime > endTime){
+						layer.alert('开始日期不能大于结束日期！');
+						return;
+					}
+					$('#displaytimevalue').html(startTime+' ~ '+endTime);//设置显示值
+				}
+				
+				//if(startTime == ''||endTime == ''){
+					//layer.alert('请填写日期条件！');
+					//return;
+				//}
+				getData();
+			}
+
+			function cancel(onclickid){
+				$('#'+onclickid).css({'display':'none'});
+			}
+
+			function displayOnclick(onclickid){
+				if($('#'+onclickid).css("display") == 'none'){
+					if(displayid!=''){
+						$('#'+displayid).css({'display':'none'});
+					}
+					$('#'+onclickid).css({'display':'block'});
+					displayid = onclickid;
+				}else{
+					$('#'+onclickid).css({'display':'none'});
+				}
+			}
+			
+			function changeKpiid(onclickid){
+				if(null == onclickid){
+					onclickid = 'timeChoice'+kpiId;
+				}else{
+					onclickid = 'timeChoice'+onclickid;
+				}
+				if($('#'+onclickid).css("display") == 'none'){
+					if(displayid!=''){
+						$('#'+displayid).css({'display':'none'});
+					}
+					$('#'+onclickid).css({'display':'block'});
+					displayid = onclickid;
+				}else{
+					$('#'+onclickid).css({'display':'none'});
+				}
+			
+			}
+			
+</script>
+</head>
+    
+<body id="body" style="background: rgb(153, 153, 153); width: 1620px;">
+	<div id="divBody" style="margin-left: 15px; margin-right: 15px; height: 100%; width: 1590px;">
+	<!-- 时间控件选择区 -->
+	<div style="z-index:99;margin:-52px 0px 15px 0px;" class="relative l">
+				<a class="time" onclick="changeKpiid();">
+					<span>
+							<font style="width:182px;font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;" class="calendar" id="displaytimevalue">2017-06 ~ 2017-10</font>
+					</span>
+				</a>
+				
+				<!-- 月 -->
+				<div id="timeChoice1007" style="width: 365px; left: 0; " class="timetxt hide panone">
+					<div style="margin:30px;10px;20px;10px;"> 
+						从<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-bottom:0px;margin-left:10px;margin-right:5px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM&#39;,maxDate:&#39;%y-%M&#39;})" id="startTime1007" type="text">
+						到<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-left:10px;margin-bottom:0px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM&#39;,maxDate:&#39;%y-%M&#39;,minDate:&#39;#F{$dp.$D(\&#39;startTime1007\&#39;)}&#39;,maxDate:&#39;%y-%M&#39;})" id="endTime1007" type="text">
+							
+					</div>
+					
+					<div class="opeDiv after">
+						<small class="l" style="display: none; margin-left: 30px;"></small>
+						<a class="r Confirm" onclick="timeOnclick(1007);">确定</a>
+						<a class="r Cancel" onclick="cancel(&#39;timeChoice1007&#39;);">取消</a>
+					</div>
+				</div>
+				
+				<!-- 季 -->
+				<div id="timeChoice1008" style="width: 450px; left: 0; " class="timetxt hide panone">
+					<div style="margin:30px;10px;20px;5px;"> 
+					<table><tbody><tr>
+						<td><input class="Wdate" style="width: 100px;height:22px;margin-bottom:0px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy&#39;,maxDate:&#39;%y&#39;})" id="startTime1008_1" type="text"></td>
+						
+						<td style="padding-left: 5px; padding-right: 5px;">从
+							<select name="startTime1008_2" id="startTime1008_2" style="width:100px;color:#63666d;">
+							  <option value="01" style="color:#63666d;">1季度</option>
+							  <option value="04" style="color:#63666d;">2季度</option>
+							  <option value="07" style="color:#63666d;">3季度</option>
+							  <option value="10" style="color:#63666d;">4季度</option>
+							</select> 
+						</td>
+						
+						<td style="padding-left: 5px; padding-right: 5px;">到
+							<select name="endTime1008_2" id="endTime1008_2" style="width:100px;">
+								<option value="01" style="color:#63666d;">1季度</option>
+								<option value="04" style="color:#63666d;">2季度</option>
+								<option value="07" style="color:#63666d;">3季度</option>
+								<option value="10" style="color:#63666d;">4季度</option>
+							</select>
+						</td>
+						</tr></tbody></table>
+					</div>
+					
+					<div class="opeDiv after">
+						<small class="l" style="display: none; margin-left: 30px;"></small>
+						<a class="r Confirm" onclick="timeOnclick(1008);">确定</a>
+						<a class="r Cancel" onclick="cancel(&#39;timeChoice1008&#39;);">取消</a>
+					</div>
+				</div>
+				
+				<!-- 年 -->
+				<div id="timeChoice1009" style="width: 365px; left: 0; " class="timetxt hide panone">
+					<div style="margin:30px;10px;20px;10px;"> 
+						从<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-bottom:0px;margin-left:10px;margin-right:5px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy&#39;,maxDate:&#39;%y&#39;})" id="startTime1009" type="text">
+						到<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;margin-left:10px;height:18px;margin-bottom:0px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy&#39;,minDate:&#39;#F{$dp.$D(\&#39;startTime1009\&#39;)}&#39;,maxDate:&#39;%y&#39;})" id="endTime1009" type="text">
+							
+					</div>
+					
+					<div class="opeDiv after">
+						<small class="l" style="display: none; margin-left: 30px;"></small>
+						<a class="r Confirm" onclick="timeOnclick(1009);">确定</a>
+						<a class="r Cancel" onclick="cancel(&#39;timeChoice1009&#39;);">取消</a>
+					</div>
+				</div>
+	</div>
+	<!--  图表  按钮 迁移  -->
+	<div style="width:350px;float:left; margin:-52px 0px 15px 15px;">
+		<table>
+			<tbody><tr>
+				<!-- <td style="width:15px;">&nbsp;</td> -->
+				<td style="text-align:center;width:70px;height:36px;background:#5776a3;color:#ffffff;border-radius: 5px 0px 0px 5px;cursor:pointer;border:1px solid #c4cdd8;line-height:36px;font-size: 16px;float:left;" id="kpiid_1007" onclick="timeOnclick(1007);">&nbsp;月&nbsp;</td>
+				<td style="text-align:center;width:70px;height:36px;background:#f5f7f7;cursor:pointer;border:1px solid #c4cdd8;line-height:36px; font-size: 16px;widht:120px;float:left;" id="kpiid_1008" onclick="timeOnclick(1008);">&nbsp;季&nbsp;</td>
+				<td style="text-align:center;width:70px;height:36px;background:#f5f7f7;cursor:pointer;border-radius: 0px 5px 5px 0px;border:1px solid #c4cdd8;line-height:36px; font-size: 16px;float:left;" id="kpiid_1009" onclick="timeOnclick(1009);">&nbsp;年&nbsp;</td>
+			</tr>
+		</tbody></table>
+	</div>	
+	<!-- 图形展示区 -->
+	<div style="width:100%;margin-top:65px;height:100%;">
+		<div style="background:#5776a3;width:100%;height:39px;border-radius: 5px 5px 0px 0px;border:1px solid #c4cdd8;">
+			<span style="display:inline-block;width:17px;height:17px;background:url(img/reportForms/line_bg.png) no-repeat;margin: 11px 0 0 12px;"></span>
+			<span style="line-height:39px; margin-left:5px;font-size: 18px; font-family: 微软雅黑, 宋体, 黑体;color:#fff;">游客到访次数分析</span>
+			
+			<!--   点击某一个按钮为其添加class  .activeBtn ; 其他兄弟元素去掉class  .activeBtn。  -->
+			<span id="tableBtn" title="统计表格"></span>
+			<span id="lineBtn" class="activeBtn" title="统计图表"></span>
+
+		</div>
+		<!-- <div  style="width:100%;height:48px;border:1px solid #c4cdd8;border-bottom:0px solid #FFFFFF;border-top:0px solid #FFFFFF;">
+			<div style="padding-top:15px;">
+				<table>
+					<tr>
+					<td style="width:15px;">&nbsp;</td>
+					<td style="text-align:center;width:70px;height:15px;background:#5776a3;color:#ffffff;border-radius: 5px 0px 0px 5px;cursor:pointer;padding:4px;border:1px solid #c4cdd8;line-height:15px;font-size: 14px;display:inline-block;" id="kpiid_1007" onclick="timeOnclick(1007);">&nbsp;月&nbsp;</td>
+					<td style="text-align:center;width:70px;height:15px;background:#f5f7f7;cursor:pointer;padding:4px;border:1px solid #c4cdd8;line-height:15px; font-size: 14px;margin-left:-8px;widht:120px;display:inline-block;" id="kpiid_1008" onclick="timeOnclick(1008);">&nbsp;季&nbsp;</td>
+					<td style="text-align:center;width:70px;height:15px;background:#f5f7f7;cursor:pointer;border-radius: 0px 5px 5px 0px;padding:4px;border:1px solid #c4cdd8;line-height:15px; font-size: 14px;margin-left:-8px;display:inline-block;"  id="kpiid_1009" onclick="timeOnclick(1009);">&nbsp;年&nbsp;</td>
+					</tr>
+				</table>
+			</div>
+		</div> -->
+		<div id="chart" style="height: 650px; width: 100%; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(255, 255, 255) rgb(196, 205, 216) rgb(196, 205, 216); border-image: initial;" data-highcharts-chart="0"><div class="highcharts-container" id="highcharts-0" style="position: relative; overflow: hidden; width: 1590px; height: 650px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif; font-size: 12px;"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1590" height="650"><desc>Created with Highcharts 3.0.7</desc><defs><clippath id="highcharts-1"><rect fill="none" x="0" y="0" width="1465" height="517"></rect></clippath></defs><rect rx="5" ry="5" fill="#FFFFFF" x="0" y="0" width="1590" height="650"></rect><path fill="none" d="M 95 579.5 L 1560 579.5" stroke="#808080" stroke-width="1"></path><g class="highcharts-button" style="cursor:default;" title="Chart context menu" stroke-linecap="round" transform="translate(1520,10)"><title>Chart context menu</title><rect rx="2" ry="2" fill="white" x="0.5" y="0.5" width="60" height="28" stroke="none" stroke-width="1"></rect><path fill="#E0E0E0" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" stroke="#666" stroke-width="3" zIndex="1"></path><text x="30" y="18" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:12px;color:black;fill:black;" zIndex="1"><tspan x="30">导出</tspan></text></g><g class="highcharts-grid" zIndex="1"></g><g class="highcharts-grid" zIndex="1"><path fill="none" d="M 95 505.5 L 1560 505.5" stroke="#C0C0C0" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 95 431.5 L 1560 431.5" stroke="#C0C0C0" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 95 357.5 L 1560 357.5" stroke="#C0C0C0" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 95 284.5 L 1560 284.5" stroke="#C0C0C0" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 95 210.5 L 1560 210.5" stroke="#C0C0C0" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 95 136.5 L 1560 136.5" stroke="#C0C0C0" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 95 61.5 L 1560 61.5" stroke="#C0C0C0" stroke-width="1" zIndex="1" opacity="1"></path><path fill="none" d="M 95 579.5 L 1560 579.5" stroke="#C0C0C0" stroke-width="1" zIndex="1" opacity="1"></path></g><g class="highcharts-axis" zIndex="2"><path fill="none" d="M 680.5 579 L 680.5 584" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 973.5 579 L 973.5 584" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 1266.5 579 L 1266.5 584" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 1560.5 579 L 1560.5 584" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 387.5 579 L 387.5 584" stroke="#C0D0E0" stroke-width="1" opacity="1"></path><path fill="none" d="M 94.5 579 L 94.5 584" stroke="#C0D0E0" stroke-width="1"></path><path fill="none" d="M 95 579.5 L 1560 579.5" stroke="#C0D0E0" stroke-width="1" zIndex="7" visibility="visible"></path></g><g class="highcharts-axis" zIndex="2"><text x="28.28125" y="320.5" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:12px;color:#4d759e;font-weight:bold;fill:#4d759e;" zIndex="7" text-anchor="middle" transform="translate(0,0) rotate(270 28.28125 320.5)" visibility="visible"><tspan x="28.28125">游客人数</tspan></text></g><g class="highcharts-series-group" zIndex="3"><g class="highcharts-series" visibility="visible" zIndex="0.1" transform="translate(95,62) scale(1 1)" clip-path="url(http://218.205.68.159/laly/kpi/mobileYklhcs/mobileYklhcsList.do#highcharts-1)"><path fill="none" d="M 146.5 517 C 146.5 517 322.3 517 439.5 517 C 556.7 517 615.3 517 732.5 515.1535714285715 C 849.7 513.3071428571429 908.3 241.38803857142852 1025.5 162.26118857142853 C 1142.7 83.13433857142854 1318.5 83.13433857142854 1318.5 83.13433857142854" stroke="#2f7ed8" stroke-width="2" zIndex="1" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 136.5 517 L 146.5 517 C 146.5 517 322.3 517 439.5 517 C 556.7 517 615.3 517 732.5 515.1535714285715 C 849.7 513.3071428571429 908.3 241.38803857142852 1025.5 162.26118857142853 C 1142.7 83.13433857142854 1318.5 83.13433857142854 1318.5 83.13433857142854 L 1328.5 83.13433857142854" stroke-linejoin="round" visibility="visible" stroke-opacity="0.0001" stroke="rgb(192,192,192)" stroke-width="22" zIndex="2" class=" highcharts-tracker" style="cursor:pointer;"></path></g><g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(95,62) scale(1 1)" clip-path="none" style="cursor:pointer;"><path fill="#2f7ed8" d="M 1318 79.13433857142854 C 1323.328 79.13433857142854 1323.328 87.13433857142854 1318 87.13433857142854 C 1312.672 87.13433857142854 1312.672 79.13433857142854 1318 79.13433857142854 Z"></path><path fill="#2f7ed8" d="M 1025 158.26118857142853 C 1030.328 158.26118857142853 1030.328 166.26118857142853 1025 166.26118857142853 C 1019.672 166.26118857142853 1019.672 158.26118857142853 1025 158.26118857142853 Z"></path><path fill="#2f7ed8" d="M 732 511.15357142857147 C 737.328 511.15357142857147 737.328 519.1535714285715 732 519.1535714285715 C 726.672 519.1535714285715 726.672 511.15357142857147 732 511.15357142857147 Z"></path><path fill="#2f7ed8" d="M 439 513 C 444.328 513 444.328 521 439 521 C 433.672 521 433.672 513 439 513 Z"></path><path fill="#2f7ed8" d="M 146.5 513 C 151.828 513 151.828 521 146.5 521 C 141.172 521 141.172 513 146.5 513 Z" stroke-width="1"></path></g><g class="highcharts-series" visibility="visible" zIndex="0.1" transform="translate(95,62) scale(1 1)" clip-path="url(http://218.205.68.159/laly/kpi/mobileYklhcs/mobileYklhcsList.do#highcharts-1)"><path fill="none" d="M 146.5 517 C 146.5 517 322.3 517 439.5 517 C 556.7 517 615.3 517 732.5 514.9689285714286 C 849.7 512.9378571428572 908.3 474.9438964285714 1025.5 474.0808757142857 C 1142.7 473.217855 1318.5 473.217855 1318.5 473.217855" stroke="#0d233a" stroke-width="2" zIndex="1" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 136.5 517 L 146.5 517 C 146.5 517 322.3 517 439.5 517 C 556.7 517 615.3 517 732.5 514.9689285714286 C 849.7 512.9378571428572 908.3 474.9438964285714 1025.5 474.0808757142857 C 1142.7 473.217855 1318.5 473.217855 1318.5 473.217855 L 1328.5 473.217855" stroke-linejoin="round" visibility="visible" stroke-opacity="0.0001" stroke="rgb(192,192,192)" stroke-width="22" zIndex="2" class=" highcharts-tracker" style="cursor:pointer;"></path></g><g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(95,62) scale(1 1)" clip-path="none" style="cursor:pointer;"><path fill="#0d233a" d="M 1318 469.217855 L 1322 473.217855 1318 477.217855 1314 473.217855 Z"></path><path fill="#0d233a" d="M 1025 470.0808757142857 L 1029 474.0808757142857 1025 478.0808757142857 1021 474.0808757142857 Z"></path><path fill="#0d233a" d="M 732 510.9689285714286 L 736 514.9689285714286 732 518.9689285714286 728 514.9689285714286 Z"></path><path fill="#0d233a" d="M 439 513 L 443 517 439 521 435 517 Z"></path><path fill="#0d233a" d="M 146.5 513 L 150.5 517 146.5 521 142.5 517 Z" stroke-width="1"></path></g><g class="highcharts-series" visibility="visible" zIndex="0.1" transform="translate(95,62) scale(1 1)" clip-path="url(http://218.205.68.159/laly/kpi/mobileYklhcs/mobileYklhcsList.do#highcharts-1)"><path fill="none" d="M 146.5 517 C 146.5 517 322.3 517 439.5 517 C 556.7 517 615.3 517 732.5 516.5199285714285 C 849.7 516.039857142857 908.3 491.51743928571426 1025.5 491.51743928571426 C 1142.7 491.51743928571426 1318.5 496.31298357142856 1318.5 496.31298357142856" stroke="#8bbc21" stroke-width="2" zIndex="1" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 136.5 517 L 146.5 517 C 146.5 517 322.3 517 439.5 517 C 556.7 517 615.3 517 732.5 516.5199285714285 C 849.7 516.039857142857 908.3 491.51743928571426 1025.5 491.51743928571426 C 1142.7 491.51743928571426 1318.5 496.31298357142856 1318.5 496.31298357142856 L 1328.5 496.31298357142856" stroke-linejoin="round" visibility="visible" stroke-opacity="0.0001" stroke="rgb(192,192,192)" stroke-width="22" zIndex="2" class=" highcharts-tracker" style="cursor:pointer;"></path></g><g class="highcharts-markers highcharts-tracker" visibility="visible" zIndex="0.1" transform="translate(95,62) scale(1 1)" clip-path="none" style="cursor:pointer;"><path fill="#8bbc21" d="M 1314 492.31298357142856 L 1322 492.31298357142856 1322 500.31298357142856 1314 500.31298357142856 Z"></path><path fill="#8bbc21" d="M 1021 487.51743928571426 L 1029 487.51743928571426 1029 495.51743928571426 1021 495.51743928571426 Z"></path><path fill="#8bbc21" d="M 728 512.5199285714285 L 736 512.5199285714285 736 520.5199285714285 728 520.5199285714285 Z"></path><path fill="#8bbc21" d="M 435 513 L 443 513 443 521 435 521 Z"></path><path fill="#8bbc21" d="M 142.5 513 L 150.5 513 150.5 521 142.5 521 Z" stroke-width="1"></path></g></g><text x="795" y="25" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:16px;color:#274b6d;fill:#274b6d;" text-anchor="middle" class="highcharts-title" zIndex="4"><tspan style="font-size: 24px;font-weight:bold;" x="795">2017-06月至2017-10月游客到访次数统计分析图(月)</tspan></text><g class="highcharts-legend" zIndex="7" transform="translate(705,606)"><rect rx="5" ry="5" fill="none" x="0.5" y="0.5" width="178" height="28" stroke="#909090" stroke-width="1" visibility="visible"></rect><g zIndex="1"><g><g class="highcharts-legend-item" zIndex="1" transform="translate(8,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#2f7ed8" stroke-width="2"></path><path fill="#2f7ed8" d="M 8 7 C 13.328 7 13.328 15 8 15 C 2.6719999999999997 15 2.6719999999999997 7 8 7 Z"></path><text x="21" y="15" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:12px;cursor:pointer;color:#274b6d;fill:#274b6d;" text-anchor="start" zIndex="2"><tspan x="21">1次</tspan></text></g><g class="highcharts-legend-item" zIndex="1" transform="translate(57.578125,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#0d233a" stroke-width="2"></path><path fill="#0d233a" d="M 8 7 L 12 11 8 15 4 11 Z"></path><text x="21" y="15" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:12px;cursor:pointer;color:#274b6d;fill:#274b6d;" text-anchor="start" zIndex="2"><tspan x="21">2次</tspan></text></g><g class="highcharts-legend-item" zIndex="1" transform="translate(107.15625,3)"><path fill="none" d="M 0 11 L 16 11" stroke="#8bbc21" stroke-width="2"></path><path fill="#8bbc21" d="M 4 7 L 12 7 12 15 4 15 Z"></path><text x="21" y="15" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:12px;cursor:pointer;color:#274b6d;fill:#274b6d;" text-anchor="start" zIndex="2"><tspan x="21">2次以上</tspan></text></g></g></g></g><g class="highcharts-axis-labels" zIndex="7"><text x="241.5" y="593" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="middle" opacity="1"><tspan x="241.5">2017-06</tspan></text><text x="534.5" y="593" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="middle" opacity="1"><tspan x="534.5">2017-07</tspan></text><text x="827.5" y="593" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="middle" opacity="1"><tspan x="827.5">2017-08</tspan></text><text x="1120.5" y="593" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="middle" opacity="1"><tspan x="1120.5">2017-09</tspan></text><text x="1413.5" y="593" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="middle" opacity="1"><tspan x="1413.5">2017-10</tspan></text></g><g class="highcharts-axis-labels" zIndex="7"><text x="87" y="582.5" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="end" opacity="1"><tspan x="87">0</tspan></text><text x="87" y="508.6428571428571" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="end" opacity="1"><tspan x="87">200000</tspan></text><text x="87" y="434.7857142857143" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="end" opacity="1"><tspan x="87">400000</tspan></text><text x="87" y="360.92857142857144" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="end" opacity="1"><tspan x="87">600000</tspan></text><text x="87" y="287.07142857142856" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="end" opacity="1"><tspan x="87">800000</tspan></text><text x="87" y="213.21428571428572" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="end" opacity="1"><tspan x="87">1000000</tspan></text><text x="87" y="139.35714285714283" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="end" opacity="1"><tspan x="87">1200000</tspan></text><text x="87" y="65.5" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;cursor:default;line-height:14px;fill:#000000;" text-anchor="end" opacity="1"><tspan x="87">1400000</tspan></text></g><g class="highcharts-tooltip" zIndex="8" style="cursor:default;padding:0;white-space:nowrap;" transform="translate(95,357)" opacity="1" visibility="visible"><rect rx="5" ry="5" fill="none" x="0.5" y="0.5" width="135" height="120" isShadow="true" stroke="black" stroke-opacity="0.049999999999999996" stroke-width="5" transform="translate(1, 1)"></rect><rect rx="5" ry="5" fill="none" x="0.5" y="0.5" width="135" height="120" isShadow="true" stroke="black" stroke-opacity="0.09999999999999999" stroke-width="3" transform="translate(1, 1)"></rect><rect rx="5" ry="5" fill="none" x="0.5" y="0.5" width="135" height="120" isShadow="true" stroke="black" stroke-opacity="0.15" stroke-width="1" transform="translate(1, 1)"></rect><rect rx="5" ry="5" fill="#999999" x="0.5" y="0.5" width="135" height="120" stroke="ffffff" stroke-width="1" anchorX="147.5" anchorY="105"></rect></g><text x="1580" y="645" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif;font-size:9px;cursor:pointer;color:#909090;fill:#909090;" text-anchor="end" zIndex="8"></text></svg><div class="highcharts-tooltip" style="position: absolute; left: 95px; top: 357px; visibility: visible;"><span style="position: absolute; white-space: nowrap; font-family: &quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: rgb(51, 51, 51); margin-left: 0px; margin-top: 0px; left: 8px; top: 8px;" zindex="1"><div style="color:#ffffff"><div style="padding:0px 0px 8px 10px; font-size:14px;width:100%;">2017-06</div><div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">		<span style="margin-left:8px;">1次</span>		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:#2f7ed8;">&nbsp;</span>		<span style="heigt:8px;font-size:13px;margin-left:8px;margin-right:8px;">0</span>	</div></div><div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">		<span style="margin-left:8px;">2次</span>		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:#0d233a;">&nbsp;</span>		<span style="heigt:8px;font-size:13px;margin-left:8px;margin-right:8px;">0</span>	</div></div><div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">		<span style="margin-left:8px;">2次以上</span>		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:#8bbc21;">&nbsp;</span>		<span style="heigt:8px;font-size:13px;margin-left:8px;margin-right:8px;">0</span>	</div></div>	</div></span></div></div></div>
+		<!-- 表格展示区 -->
+		<div id="tableDiv" style="width:100%;display: none;height:82%;">
+			<div style="width:100%;margin:0px;padding:0px;max-height:100%;overflow-x:hidden;overflow-y:auto;">
+				<div id="alldata" class="row-fluid" style="width: 1590px; height: 100%; margin: 0px; padding: 0px;">
+					<div class="span12" id="data"><table style="border:1px solid #c4cdd8; " class="table table-bordered table-hover "><thead><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">时间/次数</td><td style="text-align:center;">1次</td><td style="text-align:center;">2次</td><td style="text-align:center;">2次以上</td></tr></thead><tbody><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">2017-06</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td></tr><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">2017-07</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td><td style="text-align:center;">0</td></tr><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">2017-08</td><td style="text-align:center;">5,000</td><td style="text-align:center;">5,500</td><td style="text-align:center;">1,300</td></tr><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">2017-09</td><td style="text-align:center;">960,608</td><td style="text-align:center;">116,222</td><td style="text-align:center;">69,005</td></tr><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">2017-10</td><td style="text-align:center;">1,174,878</td><td style="text-align:center;">118,559</td><td style="text-align:center;">56,019</td></tr></tbody></table></div>
+				</div>
+			</div>
+			<!-- 表格分页 -->
+			<div id="bbpage" style="background: url(&quot;img/sys/thbg.png&quot;); width: 1590px; height: 39px; border-radius: 0px; border: 1px solid rgb(196, 205, 216);">
+				<span id="pageNum" style="float:right;line-height:39px; font-size: 14px;margin-right:15px;">
+				</span> 
+			</div>
+		</div>
+	</div>
+	</div>
+
+<script type="text/javascript">
+var defaultList = {"result":[{"twice":"0","once":"0","lasttime":"2017-06","MoreThanTwice":"0"},{"twice":"0","once":"0","lasttime":"2017-07","MoreThanTwice":"0"},{"twice":"5500","once":"5000","lasttime":"2017-08","MoreThanTwice":"1300"},{"twice":"116222","once":"960608","lasttime":"2017-09","MoreThanTwice":"69005"},{"twice":"118559","once":"1174878","lasttime":"2017-10","MoreThanTwice":"56019"}],"count":4}; //默认数据
+</script>	
+
+<script type="text/javascript" src="./mobileYklhcs.js.下载"></script>
+
+<script type="text/javascript">
+//设置初始时间
+			//月
+			var sdate = new Date();
+			var edate = new Date();
+			sdate.setMonth(sdate.getMonth()-5,1);
+			edate.setMonth(edate.getMonth()-1,1);
+			
+			$('#startTime1007').val(sdate.format("yyyy-MM"));
+			$('#endTime1007').val(edate.format("yyyy-MM"));
+			
+			$('#displaytimevalue').html(sdate.format("yyyy-MM")+' ~ '+edate.format("yyyy-MM"));
+
+			//季度
+			var now = new Date();                    //当前日期
+		    var nowDay = now.getDate();              //当前日
+		    var nowMonth = now.getMonth();           //当前月
+		    var nowYear = now.getFullYear();             //当前年
+			$('#startTime1008_1').val(nowYear);
+			if(nowMonth >= 2 && nowMonth <= 4){ //第一季度
+				$('#startTime1008_1').val(nowYear);
+				$('#startTime1008_2').val('01'); //01
+				$('#endTime1008_2').val('01');	
+				
+			}else if(nowMonth >= 5 && nowMonth <= 7){ //第二季度
+				$('#startTime1008_1').val(nowYear);
+				$('#startTime1008_2').val('01'); //04
+				$('#endTime1008_2').val('04');	
+				
+			}else if(nowMonth >= 8 && nowMonth <= 10){ //第三季度
+				$('#startTime1008_1').val(nowYear);
+				$('#startTime1008_2').val('01'); //07
+				$('#endTime1008_2').val('07');
+				
+			}else if(nowMonth >= 11 || nowMonth <= 1){ //第四季度
+				$('#startTime1008_1').val(nowYear);
+				$('#startTime1008_2').val('01'); //10
+				$('#endTime1008_2').val('10');	
+			}
+			
+			//年
+			$('#startTime1009').val(nowYear-2);
+			$('#endTime1009').val(nowYear-1);
+			
+	$("#tableBtn").click(function(){
+		$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+		$("#tableDiv").css({'display':'block'});
+		$("#chart").css({'display':'none'});
+	});
+	$("#lineBtn").click(function(){
+		$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+		$("#chart").css({'display':'block'});
+		$("#tableDiv").css({'display':'none'});
+	});
+//控制页最小放缩大小
+function changeSize(){
+	var bwidth = document.documentElement.clientWidth;
+	var hmain = document.getElementById("body");
+	var divmain = document.getElementById("divBody");
+	//var divdata = document.getElementById("data");
+	var alldata = document.getElementById("alldata");
+	hmain.style.width = bwidth+'px';
+	divmain.style.width = (bwidth-30)+'px';
+	//divdata.style.width = (bwidth-60)+'px';
+	alldata.style.width = (bwidth-30)+'px';
+	document.getElementById("bbpage").style.width=(bwidth-30)+'px';
+	if($(window).height()-300 > 350){
+		$('#chart').height($(window).height()-300);
+	}else{
+		$('#chart').height(350);
+	}
+}
+changeSize();
+window.onresize=function(){  
+	changeSize();
+};
+
+</script>
+
+
+</body></html>

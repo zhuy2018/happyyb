@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>游客画像</title>
+	<link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/common.css"/><!--公共 清除默认 样式表-->
+<link rel="stylesheet" type="text/css" href="../css/topBar.css"/><!--头部导航栏样式表-->
+<link rel="stylesheet" type="text/css" href="../css/figure.css"/>
+<link rel="stylesheet" type="text/css" href="../css/zhuanti_barbot.css"/>
+</head>
+<body>
+
+	<div class="content_wrap">
+		<div class="JQueryiframe"></div>
+		<!--上方导航 开始-->
+		<div class="top_bar">
+			<h3 class="top_title">临安旅游大数据平台</h3>
+			<ul class="top_main">
+				<li><a href="../index.html">综合信息</a></li>
+				<li class="active"><a href="subject.html">专题分析</a></li>
+				<li><a href="villageSubject.html">乡村旅游</a></li>
+				<li><a href="../any.html">数据分析</a></li>
+				<li><a href="热力图.html">热力图</a></li>
+				<span class="bot_line"></span>
+			</ul>
+			<div class="login_box">
+				<div class="user_name">
+					你好,管理员
+					<!--<img src="" alt="" />-->
+				</div>
+				<div class="choose_box">
+					<span class="exit_box">退出</span>
+					<!--<span class="edit_box">修改资料</span>-->
+				</div>
+			</div>
+		</div>
+		<!--上方导航 结束-->
+		<div class="content_main">
+			<div class="title">游客画像</div>
+			<div class="main_top">
+				<div class="t_left">
+					<div class="per_title">上月男女游客比例</div>
+					<div class="sex_percent">
+						<div id="sex_percent"></div>
+						<div id="male_num">52%</div>
+						<div id="girl_num">48%</div>
+						<div class="double_png"></div>
+					</div>
+				</div>
+				<div class="t_center">
+					<div class="per_title">上月年龄分布</div>
+					<div id="people_age"></div>
+				</div>
+				<div class="t_right">
+					<div class="per_title">上月消费水平</div>
+					<div id="consume"></div>
+				</div>
+			</div>
+			<div class="main_bot">
+				<div class="b_left">
+					<div class="per_title">上月来源地分布</div>
+					<div id="source"></div>
+				</div>
+				<div class="b_center">
+					<div class="per_title">上月游客分布</div>
+					<div id="provice"></div>
+				</div>
+				<div class="b_right">
+					<div class="per_title">上月到访次数</div>
+					<div id="visit"></div>
+				</div>
+			</div>
+			<div class="bar_bot">
+				<ul>
+					<li>
+						<a href="realtimeVisitor.html">
+							<span class="">游客专题</span>
+						</a>
+					</li>
+					<li>
+						<a href="figure.html" class="active">
+							<span class="">游客画像</span>
+						</a>
+					</li>
+					<li>
+						<a href="destination.html">
+							<span class="">市民出游目的地</span>
+						</a>
+					</li>
+					<li>
+						<a href="consume1.html">
+							<span class="">景区实时游客</span>
+						</a>
+					</li>
+					<li>
+						<a href="villageTour.html">
+							<span class="">乡村特色旅游</span>
+						</a>
+					</li>
+					<li>
+						<a href="activity.html">
+							<span class="">游客活动轨迹</span>
+						</a>
+					</li>
+					<li>
+						<a href="buyTickit.html">
+							<span class="">景区购票专题</span>
+						</a>
+					</li>
+					<li>
+						<a href="weather.html">
+							<span class="">天气对游客影响</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
+<script type="text/javascript" src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/plugins/echarts-all.js"></script>
+<script type="text/javascript" src="../js/autoSize.js"></script>
+<script type="text/javascript" src="../js/topBar.js"></script>
+<script type="text/javascript" src="../js/activity.js"></script>
+<script type="text/javascript" src="../js/figure.js"></script>
+
+
+</body>
+</html>

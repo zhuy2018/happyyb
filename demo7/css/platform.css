@@ -1,0 +1,198 @@
+@charset "UTF-8";
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: "微软雅黑";
+  min-width: 1024px;
+  overflow-x: auto;
+}
+
+.content_wrap {
+  width: 100%;
+  height: 100%;
+  background: #1558a6;
+  position: relative;
+}
+.content_wrap .top_right {
+  width: 310px;
+  height: 200px;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  color: #fff;
+  font-size: 20px;
+}
+.content_wrap .top_right .top {
+  width: 310px;
+  height: 150px;
+  margin-bottom: 10px;
+}
+.content_wrap .top_right .top .time_wrap {
+  width: 150px;
+  height: 44px;
+  background-color: #ff7401;
+  background-image: url(../img/platform/time.png);
+  background-repeat: no-repeat;
+  background-position: 43px 24px;
+  padding-top: 106px;
+  margin-right: 10px;
+  float: left;
+}
+.content_wrap .top_right .top .time_wrap #date {
+  font-size: 19px;
+  text-align: center;
+}
+.content_wrap .top_right .top .exit_wrap {
+  width: 150px;
+  height: 44px;
+  background-color: #06bcff;
+  background-image: url(../img/platform/exit.png);
+  background-repeat: no-repeat;
+  background-position: 43px 24px;
+  padding-top: 106px;
+  float: left;
+  cursor: pointer;
+}
+.content_wrap .top_right .top .exit_wrap #exitBtn {
+  text-align: center;
+}
+.content_wrap .top_right .bot {
+  width: 310px;
+  height: 40px;
+  background: #02a305;
+}
+.content_wrap .top_right .bot .user_wrap {
+  width: 194px;
+  height: 40px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding-left: 10px;
+  display: inline-block;
+  line-height: 40px;
+  overflow: hidden;
+}
+.content_wrap .top_right .bot .role_wrap {
+  width: 106px;
+  height: 40px;
+  display: inline-block;
+  line-height: 40px;
+  overflow: hidden;
+}
+.content_wrap .main_wrap {
+  width: 1024px;
+  height: 380px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  color: #fff;
+}
+.content_wrap .main_wrap .title {
+  height: 80px;
+  font-size: 62px;
+  line-height: 80px;
+  padding-left: 200px;
+  background: url(../img/platform/title.png) no-repeat left center;
+  margin-bottom: 84px;
+}
+.content_wrap .main_wrap .navigation {
+  width: 100%;
+  height: 209px;
+}
+.content_wrap .main_wrap .navigation ul li {
+  width: 209px;
+  height: 209px;
+  margin-left: 40px;
+  float: left;
+}
+.content_wrap .main_wrap .navigation ul li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding-top: 154px;
+  color: #fff;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-position: 50px 24px;
+  box-shadow: 0 0px 10px #ccc;
+}
+.content_wrap .main_wrap .navigation ul li:nth-child(1) a {
+  background-color: #2b8ef3;
+  background-image: url(../img/platform/nav1.png);
+  background-position: 50px 24px;
+  transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.5s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.5s;
+  /* Opera */
+  animation-delay: 0.15s;
+  -webkit-animation-delay: 0.15s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .main_wrap .navigation ul li:nth-child(2) a {
+  background-color: #009dac;
+  background-image: url(../img/platform/nav2.png);
+  background-position: 50px 24px;
+  transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.5s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.5s;
+  /* Opera */
+  animation-delay: 0.3s;
+  -webkit-animation-delay: 0.3s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .main_wrap .navigation ul li:nth-child(3) a {
+  background-color: #ff8100;
+  background-image: url(../img/platform/nav3.png);
+  background-position: 50px 24px;
+  transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.5s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.5s;
+  /* Opera */
+  animation-delay: 0.45s;
+  -webkit-animation-delay: 0.45s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .main_wrap .navigation ul li:nth-child(4) a {
+  background-color: #6439ba;
+  background-image: url(../img/platform/nav4.png);
+  background-position: 50px 24px;
+  transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.5s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.5s;
+  /* Opera */
+  animation-delay: 0.6s;
+  -webkit-animation-delay: 0.6s;
+  /* Safari 和 Chrome */
+}
+.content_wrap .main_wrap .navigation ul li a:hover {
+  background-position: 50px 10px;
+  transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.5s;
+  /* Safari 和 Chrome */
+  -o-transition: all 0.5s;
+  /* Opera */
+}

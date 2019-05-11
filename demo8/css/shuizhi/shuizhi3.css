@@ -1,0 +1,312 @@
+@charset "UTF-8";
+body {
+  font-family: "黑体" !important;
+  overflow: hidden;
+}
+
+.next_btn {
+  width: 80px;
+  height: 30px;
+  position: absolute;
+  left: 107px;
+  bottom: 26px;
+  background: url("../../img/shuizhi/next1.png") no-repeat;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.next_btn:hover {
+  background: url("../../img/shuizhi/next11.png") no-repeat;
+}
+
+.prev_btn {
+  width: 80px;
+  height: 30px;
+  position: absolute;
+  left: 22px;
+  bottom: 26px;
+  z-index: 100;
+  background: url("../../img/shuizhi/prev1.png") no-repeat;
+  cursor: pointer;
+}
+
+.prev_btn:hover {
+  background: url("../../img/shuizhi/prev11.png") no-repeat;
+}
+
+/*
+ * content_wrap开始
+ * */
+.content_wrap {
+  width: 1024px;
+  height: 768px;
+  color: #fff;
+  overflow: hidden;
+}
+.content_wrap .content_main {
+  height: 698px;
+  padding: 0 10px;
+  position: relative;
+}
+.content_wrap .content_main .title_tip {
+  width: 100%;
+  height: 40px;
+  color: #144479;
+  font-size: 20px;
+}
+.content_wrap .content_main .title_tip span {
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 10px 0 19px;
+  background: url("../../img/public/title_bg.png") no-repeat 0 center;
+}
+
+.content {
+  width: 100%;
+  height: 647px;
+}
+.content .per_view {
+  width: 328px;
+  height: 319px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background-size: 100% 100%;
+  cursor: pointer;
+}
+.content .per_view:nth-child(3) {
+  margin-right: 0px;
+}
+.content .view_con {
+  width: 100%;
+  height: 100%;
+}
+.content .per_view:nth-child(1) .view_con {
+  background: url("../../img/shuizhi/1.png") no-repeat;
+  background-size: 100% 100%;
+}
+.content .per_view:nth-child(2) .view_con {
+  background: url("../../img/shuizhi/2.png") no-repeat;
+  background-size: 100% 100%;
+}
+.content .per_view:nth-child(3) .view_con {
+  background: url("../../img/shuizhi/3.png") no-repeat;
+  background-size: 100% 100%;
+}
+.content .per_view:nth-child(4) .view_con {
+  background: url("../../img/shuizhi/4.png") no-repeat;
+  background-size: 100% 100%;
+}
+.content .per_view:nth-child(5) .view_con {
+  background: url("../../img/shuizhi/5.png") no-repeat;
+  background-size: 100% 100%;
+}
+.content .active:nth-child(1) .view_con {
+  background: url("../../img/shuizhi/view_bg.png") no-repeat, url("../../img/shuizhi/1.png") no-repeat;
+}
+.content .active:nth-child(2) .view_con {
+  background: url("../../img/shuizhi/view_bg.png") no-repeat, url("../../img/shuizhi/2.png") no-repeat;
+}
+.content .active:nth-child(3) .view_con {
+  background: url("../../img/shuizhi/view_bg.png") no-repeat, url("../../img/shuizhi/3.png") no-repeat;
+}
+.content .active:nth-child(4) .view_con {
+  background: url("../../img/shuizhi/view_bg.png") no-repeat, url("../../img/shuizhi/4.png") no-repeat;
+}
+.content .active:nth-child(5) .view_con {
+  background: url("../../img/shuizhi/view_bg.png") no-repeat, url("../../img/shuizhi/5.png") no-repeat;
+}
+
+/*
+弹出框*/
+.jump_box {
+  width: 906px;
+  height: 474px;
+  background: rgba(13, 47, 85, 0.9);
+  color: #fff;
+}
+.jump_box input[type="text"] {
+  float: left;
+  width: 303px;
+  height: 20px;
+  background: transparent;
+  border: 2px solid #517da2;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 18px;
+  line-height: 20px;
+  padding: 0 0 0 5px;
+}
+.jump_box input[type="radio"] + label {
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+.jump_box label:last-child {
+  margin-right: 0px !important;
+}
+.jump_box input[type="radio"] + label::before {
+  content: "\a0";
+  /*不换行空格*/
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 16px;
+  width: 22px;
+  height: 22px;
+  margin-right: 5px;
+  margin-top: -5px;
+  border-radius: 50%;
+  border: 2px solid #5582a7;
+}
+.jump_box input[type="radio"]:checked + label::before {
+  width: 12px;
+  height: 12px;
+  background-color: #fff200;
+  background-clip: content-box;
+  padding: 5px;
+}
+.jump_box input[type="radio"] {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+}
+.jump_box .per_choose {
+  width: 100%;
+  height: 24px;
+  margin-bottom: 10px;
+  line-height: 24px;
+  color: #fff;
+  font-size: 18px;
+}
+.jump_box .per_choose .per_tips {
+  width: 125px;
+  height: 24px;
+  line-height: 24px;
+  color: #fff;
+  text-align: right;
+  float: left;
+  margin-right: 11px;
+}
+.jump_box .teshu_choose {
+  width: 100%;
+  height: 24px;
+  margin-bottom: 10px;
+}
+.jump_box .teshu_choose .per_choose:nth-child(1) {
+  width: 486px;
+  float: left;
+}
+.jump_box .teshu_choose .per_choose:nth-child(2) {
+  width: 420px;
+  float: right;
+}
+.jump_box .radio_choose, .jump_box .check_choose {
+  height: 24px;
+  line-height: 24px;
+}
+
+.jump_box .check_choose {
+  /*height: 53px!important;
+  line-height: 24px!important;*/
+}
+.jump_box .check_choose .per_tips {
+  /*height: 66px!important;
+  line-height: 24px!important;*/
+}
+.jump_box .check_choose label {
+  font-size: 18px;
+  float: left;
+  width: 108px;
+  height: 24px;
+  line-height: 24px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+.jump_box .check_choose label input[type=checkbox] {
+  float: left;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border: 2px #5a87aa solid;
+  -webkit-appearance: none;
+  cursor: pointer !important;
+}
+.jump_box .check_choose label input[type=checkbox]:before {
+  position: absolute;
+  content: '';
+  width: 16px;
+  height: 16px;
+  top: 0px;
+}
+.jump_box .check_choose label input[type=checkbox]:checked:before {
+  width: 21px;
+  height: 22px;
+  background: url(../../img/shuizhi/dui.png) no-repeat -1px -2px;
+}
+.jump_box .check_choose label span {
+  float: left;
+  margin-left: 5px;
+}
+.jump_box .check_choose2 {
+  height: 28px !important;
+}
+.jump_box .check_choose2 .per_tips {
+  height: 28px !important;
+}
+
+select {
+  width: 313px;
+  height: 24px;
+  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: 2px solid #517da2;
+  border-radius: 5px;
+  /*很关键：将默认的select选择框样式清除*/
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("../../img/shuizhi/select_bg.png") no-repeat scroll 292px center transparent;
+  color: #fff;
+  font-size: 18px;
+  line-height: 24px;
+  padding: 0 5px;
+}
+
+select option {
+  color: #000;
+}
+
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+select::-ms-expand {
+  display: none;
+}
+
+.btn_wrap {
+  width: 235px;
+  height: 48px;
+  margin: 34px auto 0;
+}
+.btn_wrap a {
+  float: left;
+  width: 62px;
+  height: 42px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  font-size: 18px;
+  color: #fff;
+  line-height: 42px;
+  padding-left: 40px;
+}
+.btn_wrap a:nth-child(1) {
+  margin-right: 14px;
+  background: #fb675f url("../../img/shuizhi/fabu.png") no-repeat 23px center;
+}
+.btn_wrap a:nth-child(2) {
+  background: #797c85 url("../../img/shuizhi/quxiao.png") no-repeat 23px center;
+}

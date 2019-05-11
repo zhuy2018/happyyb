@@ -1,0 +1,539 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="《决战紫禁》大型民族网游" />
+<meta name="description" content="《决战紫禁》新资料片论英雄 进击公测" />
+<meta name="baidu-site-verification" content="aac46501efc3ae026dd33fc795f778db"/>
+<title>《决战紫禁》大型民族网游 进击公测</title>
+<link href="guide/ad20140416/css/basic.css" rel="stylesheet" type="text/css" />
+<link href="guide/ad20140416/css/Stip.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="guide/ad20140416/js/jquery.js"></script>
+<script type="text/javascript" src="guide/ad20140416/js/jquery.cookies.js"></script>
+<script type="text/javascript" src="guide/ad20140416/js/reg_jzzj.js"></script>
+<script type="text/javascript" src="guide/ad20140416/js/reg_jzzj2.js"></script>
+<script type="text/javascript" src="guide/ad20140416/js/Stip.js"></script>
+<script type="text/javascript" src="guide/ad20140416/js/common.js"></script>
+<script type="text/javascript">
+//四大门派/八大职业...切换效果
+function a(n){for(var i=1;i<=8;i++){if(i==n){document.getElementById("t"+i).style.display="block";document.getElementById("s"+i).className="oW"}else{document.getElementById("t"+i).style.display="none";document.getElementById("s"+i).className=""}}};
+function close_windows(id){
+	if(id == 1){$(".registered_successfully").hide();$("#bg").hide();}
+	if(id == 2){$(".exclusive_privilege_six_print").hide();}
+	if(id == 3){$(".hero_post_gift_bag").hide();$("#bg").hide();}
+	if(id == 4){$("#y1").hide();$(".index_left_toview_co3_ck").show();}
+	if(id == 5){$("#y2").hide();$(".index_left_toview_co5c").show();}
+	if(id == 6){$("#y3").hide();$(".index_left_toview_co6_ck").show();}
+	if(id == 7){$("#y4").hide();$(".index_left_toview_co4c").show();}
+	<!--if(id == 8){$("#y5").hide();$("a.reservation_process_co").show();$("#bg").hide();}-->
+	return false;
+}
+function open_windows(id){
+	if(id == 4){$("#y1").show();$(".index_left_toview_co3_ck").hide();}
+	if(id == 5){$("#y2").show();$(".index_left_toview_co5c").hide();}
+	if(id == 6){$("#y3").show();$(".index_left_toview_co6_ck").hide();}
+	if(id == 7){$("#y4").show();$(".index_left_toview_co4c").hide();}
+	<!--if(id == 8){$("#y5").show();$("#bg").show();}-->
+	return false;
+}
+function getlinbaoma(id){
+	var isReg = false;
+	if($.cookie('username_reg'))isReg = true;
+	if(!isReg){
+		$(".exclusive_privilege_six_print").show();
+	}else{
+		$.ajax({	
+			url:"http://activity.jzzjol.com/ad/20140415/action.php",		
+			type: 'GET', 	
+			async: false,
+			dataType:"jsonp",
+			timeout:25000,
+			jsonp:"callback",	
+			data:{m:"activationcode",username:$.cookie('username_reg')},
+			success:function(obj){
+				if(obj.code){
+				
+					var b = new Base64();  
+					var str = b.encode($.cookie('username_reg'))
+				
+					if(id == 2){
+						$("#jhm").attr("value",obj.code);
+						$("#lj").attr("value",'和我一起来玩《决战紫禁》吧，全新资料片论英雄进击公测了，送你专属英雄特权，激活还能获得京东卡抽奖资格。http://activity.jzzjol.com/ad/20140415/registered.php?xid='+str);
+						$("#zzid").hide();
+						$(".registered_successfully").show();
+						$("#bg").show();
+					}else
+					{
+						$("#jhm0").attr("value",obj.code);
+						$("#lj0").attr("value",'和我一起来玩《决战紫禁》吧，全新资料片论英雄进击公测了，送你专属英雄特权，激活还能获得京东卡抽奖资格。http://activity.jzzjol.com/ad/20140415/registered.php?xid='+str);
+						$(".hero_post_gift_bag").show();
+						$("#bg").show();
+					}
+				}else{}
+			}  
+		});
+	}
+}
+</script>
+</head>
+
+<body>
+<!--头部--> 
+<div class="index_top">
+  <div class="logo"><a target="_blank" href="http://www.jzzjol.com/index.html">进入官网</a></div>
+  <a class="logo_jsxz" href="http://download1.jzzjol.com/client/I_bf100_NewServer-1.2.29.exe" title="下载完整客户端创建新角色时可额外获得礼包哦！">极速下载</a>
+  <span>适龄提示：适合18岁以上玩家使用</span>
+  <a class="logo_xjz" target="_blank" href="http://activity.jzzjol.com/ad/20140409">2014新决战开启</a>
+</div>
+<!--头部 end-->
+
+<div class="index_co">
+  <!--左边-->
+  <div class="index_left">
+    <!--专享六大绝版特权-->
+    <div class="index_left_toview">
+      <div class="index_left_toview_co">
+        <!--01-->
+        <div class="index_left_toview_co1">
+          <div class="index_left_toview_co1s"><a href="http://activity.jzzjol.com/ad/20140415/" target="_blank">点击查看</a></div>
+        </div>
+        <!--01 end-->
+        <!--02-->
+        <div class="index_left_toview_co2">
+          <div class="index_left_toview_co2s" onclick="getlinbaoma(2);"><a  href="javascript:;" onclick="getlinbaoma(2);">点击查看</a></div>
+        </div>
+        <!--02 end-->
+        <!--03-->
+        <div class="index_left_toview_co3">
+          <div class="index_left_toview_co3_ck" onclick="open_windows(4)"><a  onclick="open_windows(4)" href="javascript:;">点击查看</a></div>
+          <div class="index_left_toview_co3_tc" style="display:none;" id="y1">
+            <h4><span>稀有坐骑特权</span><a class="close" onclick="close_windows(4)" href="javascript:;">×</a></h4>
+            <p>开服前预约注册并进行手机认证，开服后即可获得与众不同</p>
+            <p class="p1">品质拉风坐骑</p>
+            <p class="p1">稀有独显珍贵</p>
+          </div>
+        </div>
+        <!--03 end-->
+        <!--04-->
+        <div class="index_left_toview_co4">
+          <div class="index_left_toview_co4s">
+            <div class="index_left_toview_co4c" onclick="open_windows(7)"><a onclick="open_windows(7)" href="javascript:;">点击查看</a></div>
+            <div class="index_left_toview_co3_tc index_left_toview_co4_tc" id="y4" style="display:none;">
+              <h4><span>关注微信</span><a class="close"  onclick="close_windows(7)" href="javascript:;">×</a></h4>
+              <p>关注微信，咨询抢先，领取微信特权礼包</p>
+              <img src="guide/ad20140416/image/index_left_toview_co4s_wx.png" />
+            </div>
+          </div>
+        </div>
+        <!--04 end-->
+        <!--05-->
+        <div class="index_left_toview_co5">
+          <div class="index_left_toview_co5s">
+            <div class="index_left_toview_co5c" onclick="open_windows(5)"><a  onclick="open_windows(5)" href="javascript:;">点击查看</a></div>
+            <div class="index_left_toview_co3_tc" style="display:none;" id="y2">
+              <h4><span>大奖特权</span><a class="close"  onclick="close_windows(5)" href="javascript:;">×</a></h4>
+              <p>美女视频主播在线互动问答，新服冲级赛，新服pk赛，看谁眼疾手快，头脑灵活，各种礼包大奖等你来拿。</p>
+            </div>
+          </div>
+        </div>
+        <!--05 end-->
+        <!--06-->
+        <div class="index_left_toview_co6">
+          <div class="index_left_toview_co6_ck" onclick="open_windows(6)"><a onclick="open_windows(6)" href="javascript:;">点击查看</a></div>
+          <div class="index_left_toview_co3_tc index_left_toview_co6_tc" style="display:none;" id="y3">
+            <h4><span>新手成长特权</span><a class="close"  onclick="close_windows(6)" href="javascript:;">×</a></h4>
+            <p>初次登陆游戏即可获得新手成长礼包，助你一路顺畅冲级。</p>
+            <p class="p1">时装坐骑 强化宝石</p>
+            <p class="p1">武器装备</p>
+            <p class="p2">帮助新手迅速融入游戏，即刻上手。</p>
+          </div>
+        </div>
+        <!--06 end-->
+      </div>
+    </div>
+    <!--专享六大绝版特权 end-->
+    
+    <!--紫禁战场切换-->
+    <div class="index_left_zjcc">
+      <div class="index_left_zjcc_cont">
+        <div id="Intro1" style="display:block;"><a target="_blank" href="http://www.jzzjol.com/ziliao/qmzz/"><img src="guide/ad20140416/image/index_left_zjcc1.jpg" /></a></div>
+        <div id="Intro2" style="display: none;"><a target="_blank" href="http://activity.jzzjol.com/ad/20140409/"><img src="guide/ad20140416/image/index_left_zjcc2.jpg" /></a></div>
+        <div id="Intro3" style="display: none;"><a target="_blank" href="http://ziliao.jzzjol.com/news2013/news_42/173.html"><img src="guide/ad20140416/image/index_left_zjcc3.jpg" /></a></div>
+        <div id="Intro4" style="display: none;"><a target="_blank" href="http://www.jzzjol.com/realv/"><img src="guide/ad20140416/image/index_left_zjcc4.jpg" /></a></div>
+      </div>
+      <div class="index_left_zjcc_ul">
+        <ul>
+          <li class="active" onmousemove="getTab(this,'#Intro1')"><a target="_blank" href="http://www.jzzjol.com/ziliao/qmzz/"><img src="guide/ad20140416/image/index_left_zjcc1_1.jpg" /></a></li>
+          <li onmousemove="getTab(this,'#Intro2')"><a target="_blank" href="http://activity.jzzjol.com/ad/20140409/"><img src="guide/ad20140416/image/index_left_zjcc1_2.jpg" /></a></li>
+          <li onmousemove="getTab(this,'#Intro3')"><a target="_blank" href="http://ziliao.jzzjol.com/news2013/news_42/173.html"><img src="guide/ad20140416/image/index_left_zjcc1_3.jpg" /></a></li>
+          <li onmousemove="getTab(this,'#Intro4')" class="li"><a target="_blank" href="http://www.jzzjol.com/realv/"><img src="guide/ad20140416/image/index_left_zjcc1_4.jpg" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <!--紫禁战场切换 end-->
+    
+    <!--四大门派 八大职业-->
+    <div class="index_left_factions_professional">
+      <h2>四大门派 八大职业</h2>
+      <ul>
+        <li id="s1" class="oW" onclick="a(1);_stopPro();">统领士</li>
+        <li id="s2" onclick="a(2);_stopPro();">战狂士</li>
+        <li id="s3" onclick="a(3);_stopPro();">炼冰手</li>
+        <li id="s4" onclick="a(4);_stopPro();">天罗手</li>
+        <li id="s5" onclick="a(5);_stopPro();">遁影手</li>
+        <li id="s6" onclick="a(6);_stopPro();">火枪手</li>
+        <li id="s7" onclick="a(7);_stopPro();">炼药师</li>
+        <li id="s8" onclick="a(8);_stopPro();" style="border:0 none; width:85px;">祷文师</li>
+      </ul>
+      <div class="index_left_factions_professional_qh">
+        <!--统领士-->
+        <div id="t1" class="index_left_factions_professional_1" style="display:block;">
+          <h3>战宿门派</h3>
+          <a onclick="_replaceSwf(this,'guide/ad20140416/video/pro1.swf')" href="javascript:;">
+            <img src="guide/ad20140416/image/index_left_factions_professional_1.jpg" />
+          </a>
+          <h4>特色技能：</h4>
+          <p class="pins">
+            <img src="guide/ad20140416/image/j1.jpg" description="沉星击：发挥基础攻击的高百分比攻击力，并对敌人额外造成伤害" />
+            <img src="guide/ad20140416/image/j2.jpg" description="浴日流光：嘲讽周围目标，并反弹伤害" />
+            <img src="guide/ad20140416/image/j3.jpg" description="铁臂金钟：在一定时间内减少自身所受伤害，提高生命值" />
+            <img src="guide/ad20140416/image/j4.jpg" description="断魂击：发挥高百分比的攻击力，并晕眩敌人" />
+            <img src="guide/ad20140416/image/j5.jpg" description="方圆之阵：使周围友方单位都获得一层护盾" />
+          </p>
+        </div>
+        <!--统领士 end-->
+        <!--战狂士-->
+        <div id="t2" class="index_left_factions_professional_2">
+          <h3>战宿门派</h3>
+          <a onclick="_replaceSwf(this,'guide/ad20140416/video/pro2.swf')" href="javascript:;">
+            <img src="guide/ad20140416/image/index_left_factions_professional_2.jpg" />
+          </a>
+          <h4>特色技能：</h4>
+          <p class="pins">
+            <img src="guide/ad20140416/image/tl2_1.jpg" description="金戈吟：在一定时间免疫控制效果，并增加移动速度和攻击速度" />
+            <img src="guide/ad20140416/image/tl2_2.jpg" description="刑天决：在血量低到一定程度时可激发自身攻击力，发挥超常实力" />
+            <img src="guide/ad20140416/image/tl2_3.jpg" description="龙卷八荒舞：横扫周围单位，发挥高百分比攻击，并额外造成伤害" />
+            <img src="guide/ad20140416/image/tl2_4.jpg" description="酒神锤：发挥高倍攻击力并造成额外伤害的同时，晕眩敌人" />
+            <img src="guide/ad20140416/image/tl2_6.jpg" description="销魂斩：对敌人发起高攻击的连斩" />
+          </p>
+        </div>
+        <!--战狂士 end-->
+        <!--炼冰手-->
+        <div id="t3" class="index_left_factions_professional_3">
+          <h3>奇门门派</h3>
+          <a onclick="_replaceSwf(this,'guide/ad20140416/video/pro3.swf')" href="javascript:;">
+            <img src="guide/ad20140416/image/index_left_factions_professional_3.jpg" />
+          </a>
+          <h4>特色技能：</h4>
+          <p class="pins">
+            <img src="guide/ad20140416/image/tl3_1.jpg" description="凝寒引：对敌人造成大量内功伤害" />
+            <img src="guide/ad20140416/image/tl3_2.jpg" description="天瀑寒霜：读秒内对区域内所有敌人持续造成伤害" />
+            <img src="guide/ad20140416/image/tl3_3.jpg" description="期霜赛雪：立刻移动到目标点" />
+            <img src="guide/ad20140416/image/tl3_5.jpg" description="寂灭霜天：对区域内所有敌人造成伤害的同时冰冻对方，并使其降低防御" />
+            <img src="guide/ad20140416/image/tl3_6.jpg" description="风卷残雪：降低目标移动速度，有一定几率使敌人冰冻无法移动" />
+          </p>
+        </div>
+        <!--炼冰手 end-->
+        <!--天罗手-->
+        <div id="t4" class="index_left_factions_professional_4">
+          <h3>奇门门派</h3>
+          <a onclick="_replaceSwf(this,'guide/ad20140416/video/pro4.swf')" href="javascript:;">
+            <img src="guide/ad20140416/image/index_left_factions_professional_4.jpg" />
+          </a>
+          <h4>特色技能：</h4>
+          <p class="pins">
+            <img src="guide/ad20140416/image/tl4_1.jpg" description="毒杀掌：对敌人造成大量内功伤害" />
+            <img src="guide/ad20140416/image/tl4_2.jpg" description="假寐：使自己短时间获得无敌状态，同时无法攻击敌人" />
+            <img src="guide/ad20140416/image/tl4_3.jpg" description="吸星法：每一秒吸取敌人生命，并转化为自身生命" />
+            <img src="guide/ad20140416/image/tl4_4.jpg" description="天罗地网：使目标区域内单位无法移动并受到毒伤持续掉血" />
+            <img src="guide/ad20140416/image/tl4_6.jpg" description="魑魅缓：束缚目标降低其移动速度，并使之中毒持续掉血" />
+          </p>
+        </div>
+        <!--天罗手 end-->
+        <!--遁影手-->
+        <div id="t5" class="index_left_factions_professional_5">
+          <h3>流星门派</h3>
+          <a onclick="_replaceSwf(this,'guide/ad20140416/video/pro5.swf')" href="javascript:;">
+            <img src="guide/ad20140416/image/index_left_factions_professional_5.jpg" />
+          </a>
+          <h4>特色技能：</h4>
+          <p class="pins">
+            <img src="guide/ad20140416/image/tl5_1.jpg" description="夺命追魂：发挥高分比的攻击力，并额外造成伤害" />
+            <img src="guide/ad20140416/image/tl5_3.jpg" description="刺棱箭：每秒对敌人造成一定伤害并降低敌人移动速度" />
+            <img src="guide/ad20140416/image/tl5_4.jpg" description="虎心箭：发挥高攻击力并追加额外伤害的同时击退身前敌人" />
+            <img src="guide/ad20140416/image/tl5_5.jpg" description="孤胆豪龙：瞬移至目标点，在移动过程中敌人无法攻击" />
+            <img src="guide/ad20140416/image/tl5_6.jpg" description="影遁术：使自己隐身，在此过程中外攻攻击增强移动速度降低" />
+          </p>
+        </div>
+        <!--遁影手 end-->
+        <!--火枪手-->
+        <div id="t6" class="index_left_factions_professional_6">
+          <h3>战宿门派</h3>
+          <a onclick="_replaceSwf(this,'guide/ad20140416/video/pro6.swf')" href="javascript:;">
+            <img src="guide/ad20140416/image/index_left_factions_professional_6.jpg" />
+          </a>
+          <h4>特色技能：</h4>
+          <p class="pins">
+            <img src="guide/ad20140416/image/tl6_1.jpg" description="炽烈弹：发挥高百分比攻击力，并额外造成高伤害" />
+            <img src="guide/ad20140416/image/tl6_2.jpg" description="迷醉弹：使敌人麻痹并降低外攻防御" />
+            <img src="guide/ad20140416/image/tl6_4.jpg" description="精准射击：增强自己的攻击力，对敌人造成致命一击并使敌人无法攻击" />
+            <img src="guide/ad20140416/image/tl6_5.jpg" description="雷火铳：对目标区域发出集体攻击，给予额外伤害，并使敌人迷乱" />
+            <img src="guide/ad20140416/image/tl6_6.jpg" description="冰骨寒霜：冰冻敌人，使敌人降低外攻防御" />
+          </p>
+        </div>
+        <!--火枪手 end-->
+        <!--炼药师-->
+        <div id="t7" class="index_left_factions_professional_7">
+          <h3>药宗门派</h3>
+          <a onclick="_replaceSwf(this,'guide/ad20140416/video/pro7.swf')" href="javascript:;">
+            <img src="guide/ad20140416/image/index_left_factions_professional_7.jpg" />
+          </a>
+          <h4>特色技能：</h4>
+          <p class="pins">
+            <img src="guide/ad20140416/image/tl7_1.jpg" description="赤炼手：发挥高百分比攻击力，并造成额外伤害" />
+            <img src="guide/ad20140416/image/tl7_2.jpg" description="墨罂粟：使敌人麻痹并降低防御力" />
+            <img src="guide/ad20140416/image/tl7_3.jpg" description="刃舔霜寒：使友方单位增加高攻击力，升级技能可延长持续时间" />
+            <img src="guide/ad20140416/image/tl7_5.jpg" description="紫气东来：一定时间内可增加友方单位的生命值" />
+            <img src="guide/ad20140416/image/tl7_6.jpg" description="天心兰：一定时间内提高友方单位的全部属性" />
+          </p>
+        </div>
+        <!--炼药师 end-->
+        <!--祷文师-->
+        <div id="t8" class="index_left_factions_professional_8">
+          <h3>药宗门派</h3>
+          <a onclick="_replaceSwf(this,'guide/ad20140416/video/pro8.swf')" href="javascript:;">
+            <img src="guide/ad20140416/image/index_left_factions_professional_8.jpg" />
+          </a>
+          <h4>特色技能：</h4>
+          <p class="pins">
+            <img src="guide/ad20140416/image/tl8_2.jpg" description="醍醐灌顶：读秒内大量恢复友方生命值" />
+            <img src="guide/ad20140416/image/tl8_3.jpg" description="烟水还魂：复活友方单位并恢复其一定生命值" />
+            <img src="guide/ad20140416/image/tl8_4.jpg" description="悬壶济世：治疗周围所有友方单位，使其恢复一定生命值" />
+            <img src="guide/ad20140416/image/tl8_5.jpg" description="迷魂术：使敌人进入昏睡状态，被攻击后清醒，清醒后将降低外攻攻击" />
+            <img src="guide/ad20140416/image/tl8_6.jpg" description="天地无极：使周围敌人恐惧退散，并对敌人造成群体伤害" />
+          </p>
+        </div>
+        <!--祷文师 end-->
+      </div>
+    </div>
+    <!--四大门派 八大职业 end-->
+  </div>
+  <!--左边 end-->
+  
+  <!--右边-->
+  <div class="index_right">
+    <!--1-->
+    <div class="index_right1">
+      <!--填写注册信息-->
+      <form target="_self" id="register-form" action="http://www.2133.com/index.php?r=site/csregister" method="post">
+        <div class="index_right1_co">
+          <ul>
+            <li>
+              <strong>用户账号：</strong>
+              <p><input type="text" id="smart_input" value="" name="RegisterCsForm[username]" onblur="checkuser()" /></p>
+            </li>
+            <li>
+              <strong>设置密码：</strong>
+              <p><input type="password" id="txtPassWord" value="" name="RegisterCsForm[password]" onblur="UserPassName()" /></p>
+            </li>
+            <li>
+              <strong>确定密码：</strong>
+              <p><input type="password" id="txtRPassWord" value="" name="RegisterCsForm[repassword]" onblur="UserRPass()" /></p>
+            </li>
+<!--            <li class="yzm">
+              <strong>验证码：</strong>
+              <p><input style="width:50px" type="text" maxlength="4" id="RegisterCsForm_verifyCode" value="" name="RegisterCsForm[verifyCode]" onblur="UserVc()" />
+               </p>
+               <img style="width:65px;margin:0 0 0 6px;height:25px;" id="yw0" onclick="newverifypic()"src="http://www.2133.com/index.php?r=site/getcaptcha" alt=""/>
+            </li>-->
+          </ul>
+          <label>
+            <input id="RegisterForm_agree" type="checkbox" onblur="UserAgree()" name="RegisterForm_agree" checked="checked" />
+            同意<a target="_blank" href="http://www.jzzjol.com//news2013/news_5/209.html">《用户注册协议书》</a>
+          </label>
+		  <input type="hidden" id="channelid1" name="RegisterCsForm[channelid]" value="">
+          <script type="text/javascript">
+			var LocString=String(window.document.location.href);
+			function GetQueryString(str){
+				var rs=new RegExp("(^|)"+str+"=([^\&]*)(\&|$)","gi").exec(LocString),tmp;
+				if(tmp=rs)return tmp[2];
+				return 0;
+			}
+			//alert("id："+GetQueryString("id"));
+			$("#channelid1").val(GetQueryString("id"));
+
+			</script> 
+          <a class="ljzc" href="javascript:;" onclick="SumbiteInfo()">立即注册</a>
+        </div>
+      </form>
+      <!--填写注册信息 end-->
+      <!--已填写完注册信息-->
+      <div class="index_right1_ywc" style="display:none;">
+        <h4>恭喜您注册成功！</h4>
+        <p>温馨提示：您的账号还未进行防沉迷认证<br />可能将影响您在游戏中的体验</p>
+        <a target="_blank" href="http://www.2133.com/index.php?r=csUser/countercheck">立即进行防沉迷认证</a>
+      </div>
+      <!--已填写完注册信息 end-->
+    </div>
+    <!--1 end-->
+    
+    <!--2-->
+    <div class="index_right2">
+      <a href="http://download1.jzzjol.com/client/I_bf100_NewServer-1.2.29.exe" title="下载完整客户端创建新角色时可额外获得礼包哦！">完整端下载</a>
+      <a class="wd" href="http://download1.jzzjol.com/client/bf100_NewServer-1.2.29.exe" title="建议网速2M以下用户下载完整客户端">微端下载</a>
+    </div>
+    <!--2 end-->
+    
+    <!--3--><div class="index_right3"><a id="hero_gift_bag" class="hero_gift_bag" href="javascript:;" onclick="getlinbaoma(1);">领取英雄礼包</a></div><!--3 end-->
+    
+    <!--4-->
+    <div class="index_right4">
+      <div class="index_right4_co">
+        <p>大漠孤烟<span>( 火爆 )</span></p>
+        <p class="right">长河落月<span>( 火爆 )</span></p>
+        <p>雄霸天下<span>( 火爆 )</span></p>
+      </div>
+      <!--<a class="reservation_process_co" href="javascript:;" onclick="open_windows(8)">预约流程</a>-->
+      <!--<h4>4月30日开启预约！</h4>-->
+    </div>
+    <!--4 end-->
+    
+    <!--5-->
+    <script type="text/javascript" src="guide/ad20140416/js/index_right5_co.js"></script>
+    <div class="index_right5">
+      <div class="index_right5_co ranklist">
+        <ul>
+          <li>◆誓言丶：游戏就是让人开心的，在NB的游戏，玩起来不开心就不叫游戏了，最起码在决战里我hen开心</li>
+          <li>◆承诺丶：在帮会里认识10个兄弟，祝他们天天开心，游戏挺好的，就凭认识了这么多哥们。</li>
+          <li>無詺ぃ：喜欢PK的在这里会经常打，像我这种不喜欢打架的人，平时搞搞装备，做活动，搞帮会也是可以比较休闲的。</li>
+          <li>泡沫ぐ：总体职业平衡不错，见仁见智，没有说哪个职业最强，都有偏重的地方，所以那些为职业纠结的人，就别再争论谁强了，只有NB的操作是王道。</li>   
+          <li>乖丫丫：很好玩的，不用充什么钱，游戏就是娱乐，一起呗，我是新手求带</li>
+          <li>一座城池?2013：操作挺简单，你可以先买个老账号体验一下。</li>
+          <li>☆Bigbang☆：就这么说吧，好玩是不假的，上手又不是很难，游戏就是娱乐，看你用什么心态了，其实啥游戏都一样。</li>
+          <li>少女待嫁闺中坐：一年换一个服务器，一个服务器一个新老婆，相当酷炫哈哈哈哈</li>
+          <li>洛?水?红?尘?：游戏好玩不好玩看有没有和你乐趣相同的人和你一起玩，这个游戏一个阵营人少，大家都很熟了，天天泡YY，微信圈，差不多快和现实朋友差不多了，也就离不开这个游戏了。</li>
+          <li>Э永恒の逍遥づ：几个朋友介绍来玩，已经有一份感情在里面了。</li>
+          <li>╭ァ 随风。：第一款网络游戏，之前找了好久，和《决战》算是一种缘分吧。</li>
+          <li>猴子派来的救兵：游戏里认识了很多朋友，天天打架，天天侃大山山</li>
+		  <li>◆誓言丶：游戏就是让人开心的，在NB的游戏，玩起来不开心就不叫游戏了，最起码在决战里我hen开心</li>
+          <li>◆承诺丶：在帮会里认识10个兄弟，祝他们天天开心，游戏挺好的，就凭认识了这么多哥们。</li>
+          <li>無詺ぃ：喜欢PK的在这里会经常打，像我这种不喜欢打架的人，平时搞搞装备，做活动，搞帮会也是可以比较休闲的。</li>
+          <li>泡沫ぐ：总体职业平衡不错，见仁见智，没有说哪个职业最强，都有偏重的地方，所以那些为职业纠结的人，就别再争论谁强了，只有NB的操作是王道。</li>   
+          <li>乖丫丫：很好玩的，不用充什么钱，游戏就是娱乐，一起呗，我是新手求带</li>
+          <li>一座城池?2013：操作挺简单，你可以先买个老账号体验一下。</li>
+          <li>☆Bigbang☆：就这么说吧，好玩是不假的，上手又不是很难，游戏就是娱乐，看你用什么心态了，其实啥游戏都一样。</li>
+          <li>少女待嫁闺中坐：一年换一个服务器，一个服务器一个新老婆，相当酷炫哈哈哈哈</li>
+          <li>洛?水?红?尘?：游戏好玩不好玩看有没有和你乐趣相同的人和你一起玩，这个游戏一个阵营人少，大家都很熟了，天天泡YY，微信圈，差不多快和现实朋友差不多了，也就离不开这个游戏了。</li>
+          <li>Э永恒の逍遥づ：几个朋友介绍来玩，已经有一份感情在里面了。</li>
+          <li>╭ァ 随风。：第一款网络游戏，之前找了好久，和《决战》算是一种缘分吧。</li>
+          <li>猴子派来的救兵：游戏里认识了很多朋友，天天打架，天天侃大山山</li>
+        </ul>
+      </div>
+    </div>
+    <!--5 end-->
+  </div>
+  <!--右边 end-->
+  <div style="clear:both;"></div>
+</div>
+
+<!--版权-->
+<div class="footer">
+  <p>网络文化经营许可证：浙网文【2013】0497-049号   增值电信业务经营许可证：浙B2-20090273   互联网出版许可证：新出网证(浙)字31号</p>
+    <p>版号批准文号：新出审字【2013】567号   文网游备字[2011]C-RPG002号 <a target="_blank" href="http://www.jzzjol.com//news2013/news_5/70.html">用户协议</a></p>
+    <p>Copyright © Since 2012 All Rights Reserved Copyright 上海浩方在线信息技术有限公司 版权所有</p>
+</div>
+<!--版权 end-->
+</div>
+
+<!--四大门派八大职业 遮罩层--><div id='jInfo'></div><!--四大门派八大职业 遮罩层 end-->
+
+<!--注册成功弹窗-->
+<div class="registered_successfully" style="display:none;">
+  <a class="close" href="javascript:;" onclick="close_windows(1)">×</a>
+  <div class="registered_successfully_co">
+    <div class="registered_successfully_co_left">
+      <h3 id="zzid">恭喜您注册成功！</h3>
+      <p>您已获得价值288英雄帖礼包，发送邀请链接给您的好友<br />即可有机会抽取iphone5s等大奖</p>
+      <ul>
+        <li><span>激活码：</span><input type="text" id="jhm" /><a href="javascript:;" onclick="copyText('jhm')">点击复制</a></li>
+        <div style="clear:both;"></div>
+        <li class="links"><span>复制链接：</span><textarea id="lj"></textarea></li>
+        <li class="fz"><a href="javascript:;"  onclick="copyText('lj')">点击复制</a></li>
+      </ul>
+    </div>
+    <div class="registered_successfully_co_right">
+      <p>现在下载客户端，登录游戏，<br />即可获得完整客户端礼包</p>
+      <a href="http://download1.jzzjol.com/client/I_bf100_NewServer-1.2.29.exe">官方下载</a>
+    </div>
+    <div style="clear:both;"></div>
+  </div>
+</div>
+<!--注册成功弹窗 end-->
+
+<!--专享六大绝版特权弹出页面弹窗-->
+<div class="exclusive_privilege_six_print" style="display:none;">
+  <a class="close" href="javascript:;" onclick="close_windows(2)">×</a>
+  <div class="exclusive_privilege_six_print_co">
+    <div class="exclusive_privilege_six_print_left">
+    <form target="_self" id="register-form2" action="http://www.2133.com/index.php?r=site/csregister" method="post">
+      <ul>
+        <li><span>游戏账号：</span><input type="text" id="smart_input2" value="" name="RegisterCsForm[username]" onblur="checkuser2()" /><strong style="display:;" id="u22"></strong></li>
+        <li><span>输入密码：</span><input type="password" id="txtPassWord2" value="" name="RegisterCsForm[password]" onblur="UserPassName2()" /><strong style="display:;" id="p22"></strong></li>
+        <li><span>重输密码：</span><input type="password" id="txtRPassWord2" value="" name="RegisterCsForm[repassword]" onblur="UserRPass2()" /><strong style="display:;" id="rp22"></strong></li>
+        <!--<li><span>验证码：</span><input type="text" id="RegisterCsForm_verifyCode2" value="" name="RegisterCsForm[verifyCode]" onblur="UserVc2()" style="width:68px; margin:0 4px 0 0;" maxlength="4" /><img style="width:69px;margin:0 2px 0 0;height:25px;" id="yw02" onclick="newverifypic2()" src="http://www.2133.com/index.php?r=site/getcaptcha" alt=""/><strong style="display:none;" id="yy22"></strong></li>-->
+      </ul>
+      <label>
+        <input id="RegisterForm_agree2" type="checkbox" onblur="UserAgree2()" name="RegisterForm_agree" checked="checked" />
+        <a href="http://www.jzzjol.com//news2013/news_5/209.html" target="_blank">《用户注册协议书》</a>
+      </label>
+      <a class="registered" href="javascript:;" onclick="SumbiteInfo2()">账号注册</a>
+      </form>
+    </div>
+    <div class="exclusive_privilege_six_print_right">
+      <p>下载客户端登录游戏，获得完整客户端礼包</p>
+      <a href="http://download1.jzzjol.com/client/I_bf100_NewServer-1.2.29.exe">官方下载</a>
+    </div>
+  </div>
+</div>
+<!--专享六大绝版特权弹出页面弹窗 end-->
+
+<!--预约流程指导弹窗-->
+<!--<div id="y5" class="reservation_process" style="display:none;">
+  <a class="close" href="javascript:;" onclick="close_windows(8)">×</a>
+  <a class="wd" title="建议网速2M以下用户下载完整客户端" href="http://download1.jzzjol.com/client/bf100_NewServer-1.2.29.exe">微端下载</a>
+  <a class="wzd" title="下载完整客户端创建新角色时可额外获得礼包哦！" href="http://download1.jzzjol.com/client/I_bf100_NewServer-1.2.29.exe">完整端下载</a>
+</div>-->
+<!--预约流程指导弹窗 end-->
+
+<!--决战紫禁英雄帖礼包页面弹窗-->
+<div id="bg"></div>
+<div id="alert" class="hero_post_gift_bag" style="display:none;">
+  <a class="close" href="javascript:;" onclick="close_windows(3)">×</a>
+  <div class="hero_post_gift_bag_co">
+    <ul>
+      <li><span>激活码：</span><input type="text" id="jhm0" /><a href="javascript:;" onclick="copyText('jhm0')">点击复制</a></li>
+      <li class="wz">您已获得价值288英雄帖礼包，发送邀请链接给您的好友<br />即可有机会抽取iphone5s等大奖</li>
+      <li class="links"><span>专属链接：</span><textarea id="lj0"></textarea><a href="javascript:;" onclick="copyText('lj0')">点击复制</a></li>
+    </ul>
+  </div>
+</div>
+<div style="display:none;">
+<!--决战紫禁英雄帖礼包页面弹窗 end-->
+<script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fc57c592464f274f6a23640662664cec9' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+<script type="text/javascript"> 
+function copyText(id) { 
+	var targetText = document.getElementById(id); 
+	try { 
+		var clipText = targetText.createTextRange(); 
+		clipText.execCommand("Copy"); 
+		alert('复制成功，可以按Ctrl+V粘贴'); 
+	}catch(e) { 
+		targetText.focus();//获得焦点 
+		targetText.select();//选中文本 
+		alert('您的浏览器不支持剪贴板复制,请手工复制文本框内容！'); 
+	} 
+} 
+</script> 
+</body>
+</html>

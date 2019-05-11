@@ -1,0 +1,245 @@
+var clientWidth = window.screen.width;
+
+var st; //开始时间
+var et; //结束时间
+var title; //标题
+var titles; //标题 
+
+var resultdata;//结果数据集
+var count; //数量
+var result;//结果数据集
+jQuery(function($) {
+	scenesList();
+	if(mobileTrackList != null && mobileTrackList != ""){
+		resultdata = mobileTrackList;
+		startTime = $('#startTime1007').val();
+		endTime = $('#endTime1007').val();
+		st = startTime;
+		et = endTime;
+		
+		//控制分辨率
+		if(clientWidth > 1800){
+			title = '<span style="font-size: 24px;font-weight:bold;">'+st+'月至'+et+'月从'+ scenesname +'出发到景区轨迹统计分析图(月)</span>';
+		}else{
+			title = '<b>'+st+'月至'+et+'月从'+ scenesname +'出发到景区轨迹统计分析图(月)</b>';
+		}
+		titles = st+'月至'+et+'月从'+ scenesname +'出发到景区轨迹统计分析图(月)';
+		result = resultdata.result;
+		count = resultdata.count; //数量
+		showChart(resultdata.xdata);
+	}
+});
+
+function getData(){
+	st = startTime;
+	et = endTime;
+	
+	//控制分辨率
+	if(clientWidth > 1800){
+		title = '<span style="font-size: 24px;font-weight:bold;">'+st+'月至'+et+'月从'+ scenesname +'出发到景区轨迹统计分析图(月)</span>';
+	}else{
+		title = '<b>'+st+'月至'+et+'月从'+ scenesname +'出发到景区轨迹统计分析图(月)</b>';
+	}
+	titles = st+'月至'+et+'月从'+ scenesname +'出发到景区轨迹统计分析图(月)';
+	var url = 'dataanalysis/mobileYkgj/queryMobileTrackList.do';
+	var postData = {"timeStart":st,"timeEnd":et,"startId":scenesid,"startName":scenesname,"flag":flag};
+	$.post(url,postData,function(data){
+		if(data != null){
+			resultdata = data.mobileTrackList;
+			result = resultdata.result;
+			count = resultdata.count; //数量
+			showChart(resultdata.xdata);
+		}
+	});
+}
+
+/**
+ * 选择出发点
+ */
+function scenesList(){
+	var jqname="";
+	if(null != document.getElementById("scenesChoice")){
+		var temp = "<table style='text-align:center;'><tr style='font-family: 微软雅黑, 宋体, 黑体;'><td width=50px; style='text-align:left;' >出发点：</td>";
+		$.each(scenes, function(i, mess){ 
+			if(i != 0 && i % 3 == 0){
+				temp += "</tr><tr style='font-family: 微软雅黑, 宋体, 黑体;'><td width=70px; style='text-align:left;'></td>";
+			}
+			jqname = mess.startName; //要展示的字符串
+			if(jqname.length > 6){
+				jqname = jqname.substring(0,6)+"..";
+			}
+			temp += "<td width=100px; style='text-align:left;height:28px;white-space:nowrap;cursor: pointer;'>" +
+						" <label id='start_"+i+"' onclick=scenesSelect("+i+",'"+mess.startId+"','"+mess.startName+"') >"+(jqname)+"</label>" +
+					"</td>";
+		});
+		temp += "</tr></table>";
+		document.getElementById("sceneslist").innerHTML = temp;
+	}
+}
+
+var tbar = 0;
+function scenesSelect(flog, startId, startName){
+	document.getElementById("start_"+flog).style.color="#0066FF"; //选中的改变颜色
+	document.getElementById("start_"+tbar).style.color="";
+	tbar = flog;
+	temp_scenesid = startId;
+	temp_scenesname = startName;
+}
+
+function showChart(xdata){
+	if(result == undefined || result == null || result == ''){
+		$("#chart").empty();
+		var emptyHtml = '<table style="border:1px solid #c4cdd8;" class="table table-bordered table-hover "><thead><tr>'
+						+ '<th style="font-weight:normal;">&nbsp;</th><th style="font-weight:normal;">&nbsp;</th></tr></thead>'
+						+ '<tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>';
+		document.getElementById("data").innerHTML = emptyHtml;
+		layer.alert('没有相关数据！');
+		return;
+	}
+	Highcharts.setOptions({
+		global : {
+			useUTC : false
+		}
+	});
+	var etdata = [];
+	var ettemp = {};
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	
+	ettemp['obj0'] = '日期';
+	ettemp['obj1'] = '景区';
+	ettemp['obj2'] = '游客数';
+	etdata.push(ettemp);
+	
+	table += '<thead><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+	table += '<td style="text-align:center;">日期</td>';
+	table += '<td style="text-align:center;">景区</td>';
+	table += '<td style="text-align:center;">游客数</td>';
+	table += '</tr></thead>';
+	
+	var sdata = [];
+	var ydata=[];//Y轴数据
+	var leged = false;
+	$.each(result, function(i, list){
+		ydata = [];
+		$.each(list, function(i, mess){
+			ydata.push({name:mess.track,y:Number(mess.counts)});
+			ettemp = {};
+			table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+			table += '<td style="text-align:center;">'+(mess['lasttime'] == null?0:mess['lasttime'])+'</td>';
+			table += '<td style="text-align:center;">'+(mess['trackall'] == null?0:mess['trackall'])+'</td>';
+			table += '<td style="text-align:center;">'+toThousands(mess['counts'] == null?0:mess['counts'])+'</td>';
+			table += '</tr>';
+
+			ettemp['obj0'] = (mess['lasttime'] == null?0:mess['lasttime']);
+			ettemp['obj1'] = (mess['trackall'] == null?0:mess['trackall']);
+			ettemp['obj2'] = toThousands(mess['counts'] == null?0:mess['counts']);
+			etdata.push(ettemp);
+		});
+		sdata.push({name:i,data:ydata,turboThreshold:2000});
+		leged = true;
+	});
+	table += '</table>';
+	
+	var etstr = '{"result":'+JSON.stringify(etdata)+',"count":'+count+'}';	//导出
+	var chart = new Highcharts.Chart({
+	    chart: {
+			animation: Highcharts.svg, // don't animate in old IE
+		    marginRight: 30,
+		    renderTo: 'chart',
+		    type: 'column' //column 柱 / spline 线 
+	    },
+	    title: {
+	        text: title
+	    },
+	    legend: {
+	    	enabled: leged
+	    },
+	    credits:{  //右下角地址
+	        text:''  
+	    },
+	    xAxis: {
+	    	type: 'category',
+	    	categories:xdata,
+	    	labels: {
+	 			style: {
+	    			color: '#000000'
+	 			}
+	 		}
+	    },
+	    yAxis: {
+	        title: {
+	            text: '游客轨迹'
+	        },
+	        labels: {
+	            format: '{value}',
+	            style: {
+	   				color: '#000000'
+	   			}
+	        },
+	        min:0,
+	        plotLines: [{
+	            value: 0,
+	            width: 1,
+	            color: '#808080'
+	        }]
+	        
+	    },
+	    tooltip: {
+	    	backgroundColor: '#999999',   // 背景颜色
+	    	borderColor: 'ffffff',         // 边框颜色
+			borderRadius: 5,             // 边框圆角
+			animation: true,               // 是否启用动画效果
+	        useHTML: true,
+	        shared: true, //共享提示框
+		   	formatter: function() {
+	    		var temp ='<div style="color:#ffffff">';
+					temp += '<div style="padding:0px 0px 8px 10px; font-size:14px;width:100%;">'+(this.points[0].x)+'</div>';
+			        for(var i = 0 ;i < this.points.length; i++){
+			        	temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+						temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+						temp += '		<span style="margin-left:8px;">'+(this.points[i].series.name)+'</span>';
+						temp += '		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:'+this.points[i].series.color+';">&nbsp;</span>';
+						temp += '		<span style="heigt:8px;font-size:13px;margin-left:8px;margin-right:8px;">'+toThousands(this.points[i].y)+'</span>';
+						temp += '	</div>';
+			        	temp += '</div>';
+			        }
+					temp += '	</div>';
+		        	temp += '</div>';
+ 	 			return temp;
+			}
+	    },
+	    plotOptions: {
+	    	column: {
+			   	 pointPadding: 0.4,
+			     borderWidth: 0
+    		},
+	   	 	series: {
+		        cursor: 'pointer',  
+		        marker: {
+		            enabled: true //false false的时候就不会突出显示点 
+		        }
+	    	}
+	    },
+	    exporting:{
+	           enabled:true,
+	           filename:titles,  
+	           type:'image/png',
+	           exporttable:etstr,
+	           sourceWidth:(screen.availWidth - 365),
+	           url:'kpi/export/export.do'
+	       }, 
+	      series: sdata
+	});
+	document.getElementById("data").innerHTML = table;
+}
+
+function toThousands(num) {
+    var result = [ ], counter = 0;
+    num = (num || 0).toString().split('');
+    for (var i = num.length - 1; i >= 0; i--) {
+        counter++;
+        result.unshift(num[i]);
+        if (!(counter % 3) && i != 0) { result.unshift(','); }
+    }
+    return result.join('');
+}

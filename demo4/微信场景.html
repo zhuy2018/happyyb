@@ -1,0 +1,602 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=320,initial-scale=1, maximum-scale=1,user-scalable=no,target-densityDpi=devie-dpi">
+<meta name="apple-mobile-web-app-capable" content="yes"><!-- 删除默认的苹果工具栏和菜单栏。content有两个值"yes"和"no",当我们需要显示工具栏和菜单栏时，这个行meta就不用加了，默认就是显示。-->
+<meta name="apple-mobile-web-app-status-bar-style" content="black"><!--  该meta可以看出内容为"苹果设备web 应用程序xx"，就是说该meta是专门定义web 应用的-->
+<title>微信场景应用_1</title>
+<link href="basic.css" rel="stylesheet" type="text/css">
+<script src="./jquery-2.1.3.min.js"></script>
+<script type="text/javascript">
+//<meta name="viewport" content="width=device-width,user-scalable=no,target-densityDpi=device-dpi">  视口宽度等于设备宽度
+$(document).on('touchmove',function(ev){
+	ev.preventDefault();
+});
+$(function (){
+	document.getElementsByTagName("html")[0].style.fontSize = document.documentElement.clientWidth / 16 + "px";
+	var $main=$('.main');
+	var $main_ul=$('.main_ul');
+	var $li=$main_ul.find('>li');
+	var viewHeight=$(window).height();
+	var viewWidth=$(window).width();
+	
+	//第一屏
+	$('.one').css('marginLeft', -$main.width()/2 );
+	$('.one_tmall').css({
+		'top': (viewHeight-$('.one_tmall').height())/2.6,
+		'left':( viewWidth-$('.one_tmall').width())/2
+	});
+	$('.one_click').css('left', ( viewWidth-$('.one_click').width() )/2 );
+	
+	//第二屏
+	$('.main_ul > li:nth-of-type(2) .one_tmall').css({
+		'top': (viewHeight-$('.one_tmall').height())/6,
+		'left':( viewWidth-$('.one_tmall').width())/2
+	});
+	
+	//第六屏
+	var isPhone4inches = (window.screen.height==480);
+	if( isPhone4inches ){
+		$('.share').css('marginTop', '35%');
+		$(' .main_ul > li:nth-of-type(6) .index_size p,.main_ul > li:nth-of-type(6) .index_size h2 ').css('lineHeight', '0.75rem');
+	}
+	Sliding();  //整体上下滑屏
+	function Sliding(){
+		var downY = 0;
+		var step = 1/4;
+		
+		var nowIndex = 0;
+		var nextorprevIndex = 0;
+		var bBtn = true;
+		
+		$li.on('touchstart',function(ev){
+			if(!bBtn){return;}
+			bBtn = false;
+			var touch = ev.originalEvent.changedTouches[0];
+			downY = touch.pageY;
+			nowIndex = $(this).index();
+			
+			$li.on('touchmove',function(ev){
+				var touch = ev.originalEvent.changedTouches[0];
+				
+				$(this).siblings().hide();
+				
+				if( touch.pageY < downY ){  //↑
+					nextorprevIndex = nowIndex == $li.length-1 ? 0 : nowIndex + 1;
+					$li.eq(nextorprevIndex).css('transform','translate(0,'+(viewHeight + touch.pageY - downY)+'px)');
+				}
+				else if( touch.pageY > downY ){  //↓
+					nextorprevIndex = nowIndex == 0 ? $li.length-1 : nowIndex - 1;
+					$li.eq(nextorprevIndex).css('transform','translate(0,'+(-viewHeight + touch.pageY - downY)+'px)');
+				}
+				else{
+					bBtn = true;
+				}
+				$li.eq(nextorprevIndex).show().addClass('zIndex');
+				$(this).css('transform','translate(0,'+(touch.pageY - downY)*step+'px) scale('+(1-Math.abs(touch.pageY - downY)/viewHeight*step)+')');
+				
+			});
+			
+			$li.on('touchend',function(ev){
+				var touch = ev.originalEvent.changedTouches[0];
+				if( touch.pageY < downY ){  //↑
+					$(this).css('transform','translate(0,'+(-viewHeight * step)+'px) scale('+(1-step)+')');
+				}
+				else if( touch.pageY > downY ){  //↓
+					$(this).css('transform','translate(0,'+(viewHeight * step)+'px) scale('+(1-step)+')');
+				}
+				$(this).css('transition','.3s');
+				$li.eq(nextorprevIndex).css('transform','translate(0,0)');
+				$li.eq(nextorprevIndex).css('transition','.3s');
+			});
+			
+		});
+		
+		$li.on('transitionEnd webkitTransitionEnd',function(ev){
+			cjAnimate[0].inAn();
+			resetFn();
+			
+		});
+		
+		$li.on('transitionEnd webkitTransitionEnd',function(ev){
+			if( $li.is(ev.target) ){
+				resetFn();
+				if(cjAnimate[nowIndex]){
+					cjAnimate[nowIndex].outAn();
+				}
+				if(cjAnimate[nextorprevIndex]){
+					cjAnimate[nextorprevIndex].inAn();
+				}
+				
+			}
+		});
+		
+		function resetFn(){
+			$li.css('transition','');
+			$li.eq(nextorprevIndex).removeClass('zIndex').siblings().hide();
+			bBtn = true;
+		}
+	}
+	
+	var cjAnimate = [
+		{
+			inAn : function(){
+				//第一个 头像进去
+				var $liChild = $li.eq(0).find('.one_tx');
+				var $liChild1 = $li.eq(0).find('.ont_bt');
+				$liChild1=$liChild.stop().delay(2000).fadeIn(800).animate({},2000,function(){
+					$(this).addClass("yain");
+				});
+				
+				//第一个 文字左右进去
+				var $liChild = $li.eq(0).find('.one_click').find('p').eq(0);
+				var $liChild1 = $li.eq(0).find('.one_click').find('p').eq(1);
+				var $liChild2 = $li.eq(0).find('.one_click').find('p').eq(2);
+				var $liChild3 = $li.eq(0).find('.one_click').find('a');
+				
+				$liChild.css({
+					'opacity':1,
+					'transition':'0.5s'
+				}).addClass('h1');
+				$liChild1.css({
+					'opacity':1,
+					'transition':'0.8s'
+				}).addClass('h2');
+				$liChild2.css({
+					'opacity':1,
+					'transition':'1.2s'
+				}).addClass('h3');
+				$liChild3.css({
+					'opacity':1,
+					'transition':'1.5s'
+				}).addClass('h4');
+				/*$liChild.css('opacity',1);
+				$liChild.css('transform','translate(0,0)');
+				$liChild.css('transition','1s');*/
+				
+				$('.one_tmall_halo').css('transition','2s').addClass('one_tmall_halo_hover');
+			},
+			outAn : function(){
+				//第一个 头像出去
+				var $liChild = $li.eq(0).find('.one_tx');
+				var $liChild1 = $li.eq(0).find('.ont_bt');
+				$liChild1=$liChild.stop().delay(2000).fadeOut(800).animate({},2000,function(){
+					$(this).removeClass("yain");
+				});
+				
+				//第一个 文字左右出去
+				var $liChild = $li.eq(0).find('.one_click').find('p').eq(0);
+				var $liChild1 = $li.eq(0).find('.one_click').find('p').eq(1);
+				var $liChild2 = $li.eq(0).find('.one_click').find('p').eq(2);
+				var $liChild3 = $li.eq(0).find('.one_click').find('a');
+				
+				$liChild.removeClass('h1').css({
+					'opacity':0,
+					'transition':''
+				});
+				$liChild1.removeClass('h2').css({
+					'opacity':0,
+					'transition':''
+				});
+				$liChild2.removeClass('h3').css({
+					'opacity':0,
+					'transition':''
+				});
+				$liChild3.removeClass('h4').css({
+					'opacity':0,
+					'transition':''
+				});
+				
+				/*var $liChild = $li.eq(0).find('.one_click p');
+				$liChild.css('transition','');
+				$liChild.css('opacity',0);
+				$liChild.filter(':even').css('transform','translate(-400px,0)');
+				$liChild.filter(':odd').css('transform','translate(400px,0)');*/
+				
+				$('.one_tmall_halo').css('transition','1s').removeClass('one_tmall_halo_hover');
+			}
+		},
+		{
+			inAn : function(){
+				//第二个 LOGO进去
+				var $divChild = $li.eq(1).find('.one_tmall');
+				$divChild.css('transform','rotateY(360deg)');
+				$divChild.css('transition','2s');
+				
+				//第二个 文字左右进去
+				var $liChild = $li.eq(1).find('.index_size p');
+				$liChild.css('opacity',1);
+				$liChild.css('transform','translate(0,0)');
+				$liChild.css('transition','1s');
+			},
+			outAn : function(){
+				//第二个 LOGO出去
+				var $divChild =$li.eq(1).find('.one_tmall');
+				$divChild.css('transform','rotateY(0)');
+				$divChild.css('transition','');
+				
+				//第二个 文字左右出去
+				var $liChild = $li.eq(1).find('.index_size p');
+				$liChild.css('transition','');
+				$liChild.css('opacity',0);
+				$liChild.filter(':even').css('transform','translate(-100px,0)');
+				$liChild.filter(':odd').css('transform','translate(100px,0)');
+			}
+		},
+		{
+			inAn : function(){
+				//第三个 文字左右进去
+				var $liChild = $li.eq(2).find('.index_size_3 p');
+				$liChild.css('opacity',1);
+				$liChild.css('transform','translate(0,0)');
+				$liChild.css('transition','1s');
+				
+				$('.index_size_3 a').css({
+					animation: "rollIn 0.6s linear",
+					opacity: 1
+				});
+			},
+			outAn : function(){
+				//第三个 文字左右出去
+				var $liChild = $li.eq(2).find('.index_size_3 p');
+				$liChild.css('transition','');
+				$liChild.css('opacity',0);
+				$liChild.filter(':even').css('transform','translate(-300px,0)');
+				$liChild.filter(':odd').css('transform','translate(300px,0)');
+				
+				$('.index_size_3 a').css({
+					animation: "",
+					opacity: 0
+				});
+			}
+		},
+		{
+			inAn : function(){
+				//第四个 文字左右进去
+				var $liChild = $li.eq(3).find('.index_size_4 p');
+				$liChild.css('opacity',1);
+				$liChild.css('transform','translate(0,0)');
+				$liChild.css('transition','1s');
+				
+				//第四个 banner进去
+				var $divChild = $li.eq(3).find('.index_size_4 img');
+				$divChild.css('transform','rotateY(360deg)');
+				$divChild.css('transition','2.5s');
+			},
+			outAn : function(){
+				//第四个 文字左右出去
+				var $liChild = $li.eq(3).find('.index_size_4 p');
+				$liChild.css('transition','');
+				$liChild.css('opacity',0);
+				$liChild.filter(':even').css('transform','translate(-300px,0)');
+				$liChild.filter(':odd').css('transform','translate(300px,0)');
+				
+				//第四个 banner出去
+				var $divChild =$li.eq(3).find('.index_size_4 img');
+				$divChild.css('transform','rotateY(0)');
+				$divChild.css('transition','');
+			}
+		},
+		{
+			inAn : function(){
+				//第五个 头像进去
+				var $liChild = $li.eq(4).find('.one_tx');
+				
+				//第五个 左边文字进去
+				var $liChildH6 = $li.eq(4).find('h6');
+				
+				toDajin( $liChild );
+				toDajin( $liChildH6 );
+				function toDajin( $obj ){
+					$obj.stop().delay(3000).fadeIn(800).animate({},3000,function(){
+						$(this).addClass("yain");
+					});
+				}
+				
+				//第五个 打进去
+				var $divChild = $li.eq(4).find('.index_size_5');
+				$divChild.css('transform','rotateX(720deg)');
+				$divChild.css('transition','4s');
+				
+			},
+			outAn : function(){
+				//第五个 头像出去
+				var $liChild = $li.eq(4).find('.one_tx');
+				//第五个 左边文字出去
+				var $liChildH6 = $li.eq(4).find('h6');
+				
+				toDachu( $liChild );
+				toDachu( $liChildH6 );
+				function toDachu( $obj ){
+					$obj.stop().delay(2000).fadeOut(800).animate({},2000,function(){
+						$(this).removeClass("yain");
+					});
+				}
+				
+				//第五个 打出去
+				var $divChild =$li.eq(4).find('.index_size_5');
+				$divChild.css('transform','rotateX(0)');
+				$divChild.css('transition','');
+			}
+		},
+		{
+			inAn : function(){
+				//第六个 文字左右进去
+				var $liChild = $li.eq(5).find('.index_size_3 p');
+				$liChild.css('opacity',1);
+				$liChild.css('transform','translate(0,0)');
+				$liChild.css('transition','1s');
+				
+				//第六个简介进去
+				$('.share').css({
+					animation: "rollIn 1s linear",
+					opacity: 1
+				});
+				$('body').css( 'backgroundImage', 'url(img/bj1.jpg)' );
+			},
+			outAn : function(){
+				//第六个 文字左右出去
+				var $liChild = $li.eq(5).find('.index_size_3 p');
+				$liChild.css('transition','');
+				$liChild.css('opacity',0);
+				$liChild.filter(':even').css('transform','translate(-100px,0)');
+				$liChild.filter(':odd').css('transform','translate(100px,0)');
+				
+				//第六个简介出去
+				$('.share').css({
+					animation: "",
+					opacity: 0
+				});
+				$('body').css( 'backgroundImage', 'url(img/bj1.jpg)' );
+			}
+		},
+		{
+			inAn : function(){
+				//第七个 打进去
+				var $divChild = $li.eq(6).find('.index_size_5');
+				$divChild.css('transform','rotateY(360deg)');
+				$divChild.css('transition','4s');
+				
+				//第七个主题猫进去
+				$li.eq(6).find('.one_tmall').css({
+					animation: "rollIn 1s linear",
+					opacity: 1
+				});
+				$('body').css( 'backgroundImage', 'url(img/bj1.jpg)' );
+			},
+			outAn : function(){
+				//第七个 打出去
+				var $divChild =$li.eq(6).find('.index_size_5');
+				$divChild.css('transform','rotateY(0)');
+				$divChild.css('transition','');
+				
+				//第七个主题猫出去
+				$li.eq(6).find('.one_tmall').css({
+					animation: "",
+					opacity: 0
+				});
+				$('body').css( 'backgroundImage', 'url(img/bj1.jpg)' );
+			}
+		},
+		{
+			inAn : function(){
+				//第八个 文字左右进去
+				var $liChild = $li.eq(7).find('.index_size p');
+				$liChild.css('opacity',1);
+				$liChild.css('transform','translate(0,0)');
+				$liChild.css('transition','1s');
+				
+				//第八个 按钮进去
+				$('.main_ul > li:nth-of-type(8) .index_size a').css({
+					animation: "rollIn 0.6s linear",
+					opacity: 1
+				});
+				$('body').css( 'backgroundImage', 'url(img/bj1.jpg)' );
+			},
+			outAn : function(){
+				//第八个 文字左右出去
+				var $liChild = $li.eq(7).find('.index_size p');
+				$liChild.css('transition','');
+				$liChild.css('opacity',0);
+				$liChild.filter(':even').css('transform','translate(-100px,0)');
+				$liChild.filter(':odd').css('transform','translate(100px,0)');
+				
+				//第八个 按钮出去
+				$('.main_ul > li:nth-of-type(8) .index_size a').css({
+					animation: "",
+					opacity: 0
+				});
+				$('body').css( 'backgroundImage', 'url(img/bj1.jpg)' );
+			}
+		},
+	];
+	$.each(cjAnimate,function(i,obj){
+		obj.outAn();
+		$('html, body').css('overflow', 'hidden');
+		$('body').css( 'backgroundImage', 'url(img/bj.jpg)' );
+	});
+	
+	function touChange( obj ){
+		var ospan=$( obj ).get(0);
+		ospan.style.WebkitTransform="scale(1)";
+		ospan.style.opacity=1;
+		ospan.style.bottom='-1.2rem';
+		setTimeout(function(){
+			ospan.style.WebkitTransform="scale(0)";
+			ospan.style.opacity=0;
+			ospan.style.bottom='-2.5rem';
+		},1000);
+	}
+	$('.index_size_3 a').on('touchend', function (){
+		touChange( '.main_ul > li:nth-of-type(3) span' );
+	});
+	$('.main_ul > li:nth-of-type(8) .index_size a').on('touchend', function (){
+		touChange( '.main_ul > li:nth-of-type(8) span' );
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="main">
+  <ul class="main_ul">
+    <!--1-->
+    <li>
+      <div class="one">
+        <!--<div class="one_r">查看谁打了我</div>-->
+        <div class="ont_bt"></div>
+        <div class="one_tx"></div>
+        <div class="one_tmall">
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+        </div>
+        <div class="one_tmall_halo"></div>
+        <div class="one_click">
+          <p>参与<span>快来打我活动！</span>让好友来打你！</p>
+          <p class="duo">打满以上3个部位即可抽取5~500不等面额的Q币<br /><span>最高奖励为500Q币！</span></p>
+		  <p><span>100%中奖！</span>赶紧让朋友来打你吧！</p>
+          <a href="javascript:;">快来打我</a>
+        </div>
+      </div>
+    </li>
+    <!--1 end-->
+    
+    <!--2-->
+    <li>
+      <div class="one">
+        <div class="ont_bt"></div>
+        <div class="one_tmall">
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+        </div>
+        <div class="index_size">
+          <p>"快来打我"忍者修行活动规则：</p>
+          <p>1.为迎接"忍者村大战2"6月12日开放不限号测试，官方特举办忍者修行之"快来打我"微信活动！活动时间为6月11日~12月20日。</p>
+          <p>2.活动期间，分享至朋友圈或好友，让朋友帮忙来打你，被打集满"屁股、脸蛋、胸"这3个部位就可以参与抽奖。100%中奖哦！</p>
+          <p>3.每位朋友只有一次打你的机会，打你的好友越多越快集满3个部位哦！</p>
+          <p>4.本次活动奖励为5~500元不等面值的Q币，大奖为500Q币哦，已关注"忍者村大战2"微信公众账号的更有几率中更高面额的Q币哟！</p>
+        </div>
+      </div>
+    </li>
+    <!--2 end-->
+    
+    <!--3-->
+    <li>
+      <div class="one">
+        <div class="ont_bt"></div>
+        <div class="one_tx"></div>
+        <div class="one_tmall"></div>
+        <div class="index_size_3">
+          <p>"快来打我"忍者修行活动规则：</p>
+          <p>1.分享至朋友圈或好友，让朋友帮忙来打你，被打集满3个部位就可以参与抽奖。100%中奖！（每位朋友只有一次打你的机会）</p>
+          <p>2.本次活动奖励为5~500元不等面值的Q币，关注"忍者村大战2"微信公众账号可提升奖励，更有几率中更高面额的Q币哟！</p>
+          <span>谢谢关注</span>
+          <a href="javascript:;">关注微信号</a>
+        </div>
+      </div>
+    </li>
+    <!--3 end-->
+    
+    <!--4-->
+    <li>
+      <div class="one">
+        <div class="ont_bt"></div>
+        <div class="one_tx"></div>
+        <div class="one_tmall"></div>
+        <div class="index_size_4">
+          <p><a href="javascript:;">抽取奖励</a></p>
+          <p class="green">恭喜你3个部位都被打中咯，修行成功，赶紧抽奖吧！</p>
+          <p><a href="javascript:;">提交信息领取奖励</a></p>
+          <img src="http://www.rzcdz2.com/statics/rencun/image/index_content_r_news_zong3.jpg" />
+        </div>
+      </div>
+    </li>
+    <!--4 end-->
+    
+    <!--5-->
+    <li>
+      <div class="one">
+        <div class="ont_bt"></div>
+        <div class="one_tx"></div>
+        <div class="one_tmall">
+          <h6></h6>
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+        </div>
+        <div class="index_size_5">
+          <img src="img/content_br.png" />
+        </div>
+      </div>
+    </li>
+    <!--5 end-->
+    
+    <!--6-->
+    <li>
+      <div class="one">
+        <div class="ont_bt"></div>
+        <div class="share">
+          <img src="img/photo_img.jpg" />
+          <p>说："你轻轻的打到了我的胸上，打的我好舒服哟！！"</p>
+          <a href="javascript:;">我也要抽Q币</a>
+        </div>
+
+        <div class="index_size_3">
+          <p>"快来打我"忍者修行活动规则：</p>
+          <p>1.为迎接"忍者村大战2"6月12日开放不限号测试，官方特举办忍者修行之"快来打我"微信活动！活动时间为6月11日~12月20日。</p>
+          <p>2.活动期间，分享至朋友圈或好友，让朋友帮忙来打你，被打集满"屁股、脸蛋、胸"这3个部位就可以参与抽奖。100%中奖哦！</p>
+          <p>3.每位朋友只有一次打你的机会，打你的好友越多越快集满3个部位哦！</p>
+          <p>4.本次活动奖励为5~500元不等面值的Q币，大奖为500Q币哦，已关注"忍者村大战2"微信公众账号的更有几率中更高面额的Q币哟！</p>
+        </div>
+      </div>
+    </li>
+    <!--6 end-->
+    
+    <!--7-->
+    <li>
+      <div class="one">
+        <div class="ont_bt"></div>
+        <div class="one_tx"></div>
+        <div class="one_tmall">
+          <h6>朋友求给力！还差2个部位挨打，对方就可以抽Q币哦！100%中Q币！</h6>
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+        </div>
+        <div class="index_size_5">
+          <img src="img/content_br.png" />
+        </div>
+      </div>
+    </li>
+    <!--7 end-->
+    
+    <!--8-->
+    <li>
+      <div class="one">
+        <div class="ont_bt"></div>
+        <div class="one_tx"></div>
+        <div class="one_tmall">
+          <h6>您的朋友挨打已经集满3个部位，TA已经可以获得Q币！</h6>
+        </div>
+        <div class="index_size">
+          <h2>"快来打我"忍者修行活动规则：</h2>
+          <p>1.分享至朋友圈或好友，让朋友帮忙来打你，被打集满3个部位就可以参与抽奖。100%中奖！（每位朋友只有一次打你的机会）</p>
+    	  <p>2.本次活动奖励为5~500元不等面值的Q币，关注"忍者村大战2"微信公众账号可提升奖励，更有几率中更高面额的Q币哟！</p>
+          <span>谢谢关注</span>
+          <a href="javascript:;">关注微信号</a>
+        </div>
+      </div>
+    </li>
+    <!--8 end-->
+  </ul>
+  <div class="arr"></div>
+</div>
+</body>
+</html>

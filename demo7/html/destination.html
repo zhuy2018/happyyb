@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>市民出游目的地</title>
+	<link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/common.css"/><!--公共 清除默认 样式表-->
+<link rel="stylesheet" type="text/css" href="../css/topBar.css"/><!--头部导航栏样式表-->
+<link rel="stylesheet" type="text/css" href="../css/destination.css"/>
+<link rel="stylesheet" type="text/css" href="../css/zhuanti_barbot.css"/>
+</head>
+<body>
+
+	<div class="content_wrap">
+		<div class="JQueryiframe"></div>
+		<!--上方导航 开始-->
+		<div class="top_bar">
+			<h3 class="top_title">临安旅游大数据平台</h3>
+			<ul class="top_main">
+				<li><a href="../index.html">综合信息</a></li>
+				<li class="active"><a href="subject.html">专题分析</a></li>
+				<li><a href="villageSubject.html">乡村旅游</a></li>
+				<li><a href="../any.html">数据分析</a></li>
+				<li><a href="热力图.html">热力图</a></li>
+				<span class="bot_line"></span>
+			</ul>
+			<div class="login_box">
+				<div class="user_name">
+					你好,管理员
+				</div>
+				<div class="choose_box">
+					<span class="exit_box">退出</span>
+				</div>
+			</div>
+		</div>
+		<!--上方导航 结束-->
+		<div class="content_main">
+			<div class="title">市民出游目的地</div>
+			<div class="main_left">
+				<div class="l_top">
+					<div class="per_title">上月国际国内出游比例</div>
+					<div id="nation_percent"></div>
+				</div>
+				<div class="l_bot">
+					<div class="per_title">上月出游目的地排行
+						<div class="tab_wrap">
+							<div class="per_tab active">国内</div>
+							<div class="per_tab">国际</div>
+						</div>
+					</div>
+					<div id="area_rank">
+						<!-- 人  增长 添加class名.up ;结果减少 添加class名 .down -->
+						<div class="per_rank">
+							<div class="rank_num">1</div>
+							<div class="city">安徽省宣州市</div>
+							<div class="city_percent">19862人</div>
+							<div class="up_down up">↑2%</div>
+						</div>
+						<div class="per_rank">
+							<div class="rank_num">2</div>
+							<div class="city">上海市上海市</div>
+							<div class="city_percent">8726人</div>
+							<div class="up_down up">↑1%</div>
+						</div>
+						<div class="per_rank">
+							<div class="rank_num">3</div>
+							<div class="city">安徽省黄山市</div>
+							<div class="city_percent">7619人</div>
+							<div class="up_down down">↓3%</div>
+						</div>
+						<div class="per_rank">
+							<div class="rank_num">4</div>
+							<div class="city">江苏省无锡市</div>
+							<div class="city_percent">6533人</div>
+							<div class="up_down down">↓2%</div>
+						</div>
+						<div class="per_rank">
+							<div class="rank_num">5</div>
+							<div class="city">江苏省苏州市</div>
+							<div class="city_percent">5458人</div>
+							<div class="up_down down">↓3%</div>
+						</div>
+						<div class="per_rank">
+							<div class="rank_num">6</div>
+							<div class="city">江苏省南京市</div>
+							<div class="city_percent">4699人</div>
+							<div class="up_down down">↓1%</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+			<div class="main_right">
+				<div class="r_top">
+					<div class="per_title">上月出游目的地
+						<div class="tab_wrap">
+							<div class="per_tab active">国内</div>
+							<div class="per_tab">国际</div>
+						</div>
+					</div>
+					<div id="destination"></div>
+				</div>
+			</div>
+			<div class="bar_bot">
+				<ul>
+					<li>
+						<a href="realtimeVisitor.html">
+							<span class="">游客专题</span>
+						</a>
+					</li>
+					<li>
+						<a href="figure.html">
+							<span class="">游客画像</span>
+						</a>
+					</li>
+					<li>
+						<a href="destination.html" class="active">
+							<span class="">市民出游目的地</span>
+						</a>
+					</li>
+					<li>
+						<a href="consume1.html">
+							<span class="">景区实时游客</span>
+						</a>
+					</li>
+					<li>
+						<a href="villageTour.html">
+							<span class="">乡村特色旅游</span>
+						</a>
+					</li>
+					<li>
+						<a href="activity.html">
+							<span class="">游客活动轨迹</span>
+						</a>
+					</li>
+					<li>
+						<a href="buyTickit.html">
+							<span class="">景区购票专题</span>
+						</a>
+					</li>
+					<li>
+						<a href="weather.html">
+							<span class="">天气对游客影响</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
+<script type="text/javascript" src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/plugins/geoCoord.js"></script>
+<script type="text/javascript" src="../js/plugins/echarts-all.js"></script>
+<script type="text/javascript" src="../js/autoSize.js"></script>
+<script type="text/javascript" src="../js/topBar.js"></script>
+<script type="text/javascript" src="../js/activity.js"></script>
+<script type="text/javascript" src="../js/destination.js"></script>
+
+</body>
+</html>

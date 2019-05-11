@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>景区实时游客</title>
+	<link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/common.css"/><!--公共 清除默认 样式表-->
+<link rel="stylesheet" type="text/css" href="../css/topBar.css"/><!--头部导航栏样式表-->
+<link rel="stylesheet" type="text/css" href="../css/consume1.css"/>
+<link rel="stylesheet" type="text/css" href="../css/zhuanti_barbot.css"/>
+</head>
+<body>
+
+	<div class="content_wrap">
+		<div class="JQueryiframe"></div>
+		<!--上方导航 开始-->
+		<div class="top_bar">
+			<h3 class="top_title">临安旅游大数据平台</h3>
+			<ul class="top_main">
+				<li><a href="../index.html">综合信息</a></li>
+				<li class="active"><a href="subject.html">专题分析</a></li>
+				<li><a href="villageSubject.html">乡村旅游</a></li>
+				<li><a href="../any.html">数据分析</a></li>
+				<li><a href="热力图.html">热力图</a></li>
+				<span class="bot_line"></span>
+			</ul>
+			<div class="login_box">
+				<div class="user_name">
+					你好,管理员
+					<!--<img src="" alt="" />-->
+				</div>
+				<div class="choose_box">
+					<span class="exit_box">退出</span>
+					<!--<span class="edit_box">修改资料</span>-->
+				</div>
+			</div>
+		</div>
+		<!--上方导航 结束-->
+		<div class="content_main">
+			<div class="title">景区实时游客</div>
+			<div class="main_left">
+				<div class="l_top">
+					<div id="area_tickit">
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">白水涧</div>
+								<div class="detail">实时游客数 <span  id="sskl">83</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">大明山</div>
+								<div class="detail">实时游客数 <span  id="sskl">168</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">东天目山</div>
+								<div class="detail">实时游客数 <span  id="sskl">198</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">太湖源</div>
+								<div class="detail">实时游客数 <span  id="sskl">418</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">天目山</div>
+								<div class="detail">实时游客数 <span  id="sskl">24</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">瑞晶石花洞</div>
+								<div class="detail">实时游客数 <span  id="sskl">16</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">玲珑山</div>
+								<div class="detail">实时游客数 <span  id="sskl">70</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">青山湖</div>
+								<div class="detail">实时游客数 <span  id="sskl">638</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">柳溪江</div>
+								<div class="detail">实时游客数 <span	  id="sskl">160</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">河桥古镇</div>
+								<div class="detail">实时游客数 <span  id="sskl">367</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">清凉峰旅游度假区</div>
+								<div class="detail">实时游客数 <span  id="sskl">546</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">神龙川</div>
+								<div class="detail">实时游客数 <span  id="sskl">360</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">西径山</div>
+								<div class="detail">实时游客数 <span  id="sskl">231</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">临安八百里风情岛</div>
+								<div class="detail">实时游客数 <span  id="sskl">4</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">钱王陵园</div>
+								<div class="detail">实时游客数 <span  id="sskl">707</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">十门峡</div>
+								<div class="detail">实时游客数 <span  id="sskl">41</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">龙井峡</div>
+								<div class="detail">实时游客数 <span  id="sskl">46</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">浙西大龙湾</div>
+								<div class="detail">实时游客数 <span  id="sskl">7</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">天目大峡谷</div>
+								<div class="detail">实时游客数 <span id="sskl">50</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">天目源</div>
+								<div class="detail">实时游客数 <span  id="sskl">103</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">月亮湾</div>
+								<div class="detail">实时游客数 <span  id="sskl">293</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">湍口众安氡温泉</div>
+								<div class="detail">实时游客数 <span  id="sskl">291</span>人</div>
+							</div>
+						</div>
+						<div class="per_spot">
+							<div class="detail_wrap">
+								<div class="spot_title">红叶指南</div>
+								<div class="detail">实时游客数 <span  id="sskl">366</span>人</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main_right">
+				<div class="r_top">
+					<div class="per_title">景区实时游客量排行</div>
+					<div id="area_rank">
+						<div class="area_rank_wrap"><div class="per_rank"><div class="rank_num">1</div> <div class="city1 ">钱王陵园</div><div class="number1">游客量：707人</div></div><div class="per_rank"><div class="rank_num">2</div> <div class="city1 ">青山湖</div><div class="number1">游客量：638人</div></div><div class="per_rank"><div class="rank_num">3</div> <div class="city1 ">清凉峰旅游度假区</div><div class="number1">游客量：546人</div></div><div class="per_rank"><div class="rank_num">4</div> <div class="city1 ">太湖源</div><div class="number1">游客量：418人</div></div><div class="per_rank"><div class="rank_num">5</div> <div class="city1 ">河桥古镇</div><div class="number1">游客量：367人</div></div><div class="per_rank"><div class="rank_num">6</div> <div class="city1 ">红叶指南</div><div class="number1">游客量：366人</div></div><div class="per_rank"><div class="rank_num">7</div> <div class="city1 ">神龙川</div><div class="number1">游客量：360人</div></div><div class="per_rank"><div class="rank_num">8</div> <div class="city1 ">月亮湾</div><div class="number1">游客量：293人</div></div><div class="per_rank"><div class="rank_num">9</div> <div class="city1 ">湍口众安氡温泉</div><div class="number1">游客量：291人</div></div><div class="per_rank"><div class="rank_num">10</div> <div class="city1 ">西径山</div><div class="number1">游客量：231人</div></div><div class="per_rank"><div class="rank_num">11</div> <div class="city1 ">东天目山</div><div class="number1">游客量：198人</div></div><div class="per_rank"><div class="rank_num">12</div> <div class="city1 ">大明山</div><div class="number1">游客量：168人</div></div><div class="per_rank"><div class="rank_num">13</div> <div class="city1 ">柳溪江</div><div class="number1">游客量：160人</div></div><div class="per_rank"><div class="rank_num">14</div> <div class="city1 ">天目源</div><div class="number1">游客量：103人</div></div><div class="per_rank"><div class="rank_num">15</div> <div class="city1 ">白水涧</div><div class="number1">游客量：83人</div></div><div class="per_rank"><div class="rank_num">16</div> <div class="city1 ">玲珑山</div><div class="number1">游客量：70人</div></div><div class="per_rank"><div class="rank_num">17</div> <div class="city1 ">天目大峡谷</div><div class="number1">游客量：50人</div></div><div class="per_rank"><div class="rank_num">18</div> <div class="city1 ">龙井峡</div><div class="number1">游客量：46人</div></div><div class="per_rank"><div class="rank_num">19</div> <div class="city1 ">十门峡</div><div class="number1">游客量：41人</div></div><div class="per_rank"><div class="rank_num">20</div> <div class="city1 ">天目山</div><div class="number1">游客量：24人</div></div><div class="per_rank"><div class="rank_num">21</div> <div class="city1 ">瑞晶石花洞</div><div class="number1">游客量：16人</div></div><div class="per_rank"><div class="rank_num">22</div> <div class="city1 ">浙西大龙湾</div><div class="number1">游客量：7人</div></div><div class="per_rank"><div class="rank_num">23</div> <div class="city1 ">临安八百里风情岛</div><div class="number1">游客量：4人</div></div></div>
+					</div>
+				</div>
+			</div>
+			<div class="bar_bot">
+				<ul>
+					<li>
+						<a href="realtimeVisitor.html">
+							<span class="">游客专题</span>
+						</a>
+					</li>
+					<li>
+						<a href="figure.html">
+							<span class="">游客画像</span>
+						</a>
+					</li>
+					<li>
+						<a href="destination.html">
+							<span class="">市民出游目的地</span>
+						</a>
+					</li>
+					<li>
+						<a href="consume1.html" class="active">
+							<span class="">景区实时游客</span>
+						</a>
+					</li>
+					<li>
+						<a href="villageTour.html">
+							<span class="">乡村特色旅游</span>
+						</a>
+					</li>
+					<li>
+						<a href="activity.html">
+							<span class="">游客活动轨迹</span>
+						</a>
+					</li>
+					<li>
+						<a href="buyTickit.html">
+							<span class="">景区购票专题</span>
+						</a>
+					</li>
+					<li>
+						<a href="weather.html">
+							<span class="">天气对游客影响</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
+<script type="text/javascript" src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/autoSize.js"></script>
+<script type="text/javascript" src="../js/topBar.js"></script>
+<script type="text/javascript" src="../js/activity.js"></script>
+<script type="text/javascript">
+//鼠标划过  显示  购票数
+$(".per_spot").mouseover(function(){
+	$(this).children(".detail_wrap").show();
+}).mouseout(function(){
+	$(this).children(".detail_wrap").hide();
+})
+</script>
+</body>
+</html>

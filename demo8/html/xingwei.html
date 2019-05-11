@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><!-- 告诉IE使用最新的引擎渲染网页， -->
+    <meta name="renderer" content="webkit"><!-- 360安全浏览器，默认打开 极速模式。 -->
+    <!--#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.-->
+    <title>环保行为督察系统</title>
+    <link rel="stylesheet" href="../css/public/common.css">
+    <link rel="stylesheet" href="../css/topBar/topBar.css">
+    <link rel="stylesheet" href="../css/xingwei/xingwei.css">
+</head>
+<body>
+<div class="content_wrap">
+    <!--头部导航开始-->
+    <div class="topBar">
+		<div class="logo">环保行为督察系统</div>
+		<ul class="topMain">
+			<li><a href="../index.html">首页</a></li>
+			<li><a href="huanbao.html">环保应用</a></li>
+			<li class="active"><a href="xingwei.html">行为督察</a></li>
+			<li><a href="xingwei2.html">人群分析</a></li>
+			<li><a href="#">更多功能</a></li>
+		</ul>
+		<div class="login_box">
+			<div class="user_name">
+				你好,系统管理员
+			</div>
+		</div>
+	</div>
+    <!--头部导结束-->
+    <div class="content_main">
+        <!--<ul class="enter">
+            <li class="now_active"><a href="xingwei.html">行为督察指数</a></li>
+            <li><a href="xingwei2.html">人群结构分析</a></li>
+        </ul>-->
+        <ul class="lei_shuju">
+            <li class="active">水源防护</li>
+            <li>森林防护</li>
+            <li>大气防护</li>
+            <li>城市环保</li>
+            <li>土地监测</li>
+            <li>治污减排</li>
+            <li>全部</li>
+        </ul>
+        <div class="content">
+            <div class="left_main">
+                <div class="pre_title">短信发送量分布</div>
+                <div id="ditu"></div>
+            </div>
+            <div class="right_main">
+                <div class="pre_title">上月水源防护短信发送量排名</div>
+                <div id="area_rank">
+                    <div class="area_rank_wrap">
+                        <div class="per_rank">
+                            <div class="rank_num">1</div>
+                            <div class="city1 ">湖州市</div>
+                            <div class="number1">短信发送量：16000</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">2</div>
+                            <div class="city1 ">衢州市</div>
+                            <div class="number1">短信发送量：14000</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">3</div>
+                            <div class="city1 ">温州市</div>
+                            <div class="number1">短信发送量：13000</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">4</div>
+                            <div class="city1 ">绍兴市</div>
+                            <div class="number1">短信发送量：12000</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">5</div>
+                            <div class="city1 ">嘉兴市</div>
+                            <div class="number1">短信发送量：11000</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">6</div>
+                            <div class="city1 ">杭州市</div>
+                            <div class="number1">短信发送量：10000</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">7</div>
+                            <div class="city1 ">金华市</div>
+                            <div class="number1">短信发送量：9800</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">8</div>
+                            <div class="city1 ">舟山市</div>
+                            <div class="number1">短信发送量：9000</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">9</div>
+                            <div class="city1 ">台州市</div>
+                            <div class="number1">短信发送量：8000</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">10</div>
+                            <div class="city1 ">丽水市</div>
+                            <div class="number1">短信发送量：7000</div>
+                        </div>
+                        <div class="per_rank">
+                            <div class="rank_num">11</div>
+                            <div class="city1 ">宁波市</div>
+                            <div class="number1">短信发送量：6000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="area_rank_wrap11" style="display:block;opacity:0;">
+    <div class="per_rank">
+        <div class="rank_num">1</div>
+        <div class="city1 ">湖州市</div>
+        <div class="number1">短信发送量：16000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">2</div>
+        <div class="city1 ">衢州市</div>
+        <div class="number1">短信发送量：14000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">3</div>
+        <div class="city1 ">温州市</div>
+        <div class="number1">短信发送量：13000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">4</div>
+        <div class="city1 ">绍兴市</div>
+        <div class="number1">短信发送量：12000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">5</div>
+        <div class="city1 ">嘉兴市</div>
+        <div class="number1">短信发送量：11000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">6</div>
+        <div class="city1 ">杭州市</div>
+        <div class="number1">短信发送量：10000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">7</div>
+        <div class="city1 ">金华市</div>
+        <div class="number1">短信发送量：9800</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">8</div>
+        <div class="city1 ">舟山市</div>
+        <div class="number1">短信发送量：9000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">9</div>
+        <div class="city1 ">台州市</div>
+        <div class="number1">短信发送量：8000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">10</div>
+        <div class="city1 ">丽水市</div>
+        <div class="number1">短信发送量：7000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">11</div>
+        <div class="city1 ">宁波市</div>
+        <div class="number1">短信发送量：6000</div>
+    </div>
+</div>
+<div class="area_rank_wrap22" style="display:block;opacity:0;">
+    <div class="per_rank">
+        <div class="rank_num">1</div>
+        <div class="city1 ">湖州市</div>
+        <div class="number1">短信发送量：15000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">2</div>
+        <div class="city1 ">衢州市</div>
+        <div class="number1">短信发送量：13000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">3</div>
+        <div class="city1 ">温州市</div>
+        <div class="number1">短信发送量：12000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">4</div>
+        <div class="city1 ">绍兴市</div>
+        <div class="number1">短信发送量：11000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">5</div>
+        <div class="city1 ">嘉兴市</div>
+        <div class="number1">短信发送量：9000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">6</div>
+        <div class="city1 ">杭州市</div>
+        <div class="number1">短信发送量：8000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">7</div>
+        <div class="city1 ">金华市</div>
+        <div class="number1">短信发送量：6600</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">8</div>
+        <div class="city1 ">舟山市</div>
+        <div class="number1">短信发送量：6000</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">9</div>
+        <div class="city1 ">台州市</div>
+        <div class="number1">短信发送量：5800</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">10</div>
+        <div class="city1 ">丽水市</div>
+        <div class="number1">短信发送量：5500</div>
+    </div>
+    <div class="per_rank">
+        <div class="rank_num">11</div>
+        <div class="city1 ">宁波市</div>
+        <div class="number1">短信发送量：5200</div>
+    </div>
+</div>
+
+
+<script src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script src="../js/plugins/echarts.min.js"></script>
+<script src="../js/plugins/citymap.js"></script>
+<script src="../js/plugins/zhejiang.js"></script>
+<script src="../js/plugins/zhejiang.js"></script>
+<script src="../js/plugins/city.js"></script>
+<script src="../js/xingwei/xingwei.js"></script>
+<script src="../js/public/autoSize.js"></script>
+<script>
+    var a = 1;
+    var aa=$(".area_rank_wrap11").html();
+    var bb=$(".area_rank_wrap22").html();
+    $(".lei_shuju li").click(function(){
+        var title = $(this).html();
+        console.log(title,$(".right_main .pre_title"));
+        $(".right_main .pre_title").html('上月'+ title +'短信发送量排名');
+        $(this).addClass("active").siblings().removeClass("active");
+        if(a){
+//          console.log(11,aa);
+            $("#area_rank").html(aa);
+            a = 0;
+        }else{
+//          console.log(22,bb);
+            $("#area_rank").html(bb);
+            a = 1;
+        }
+        renderMap('zhejiang',mapdata);
+    })
+</script>
+</body>
+</html>

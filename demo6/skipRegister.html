@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>优安APP - 注册</title>
+<link href="css/basic.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/content_width.js"></script>
+<script type="text/javascript" src="js/register.js"></script>
+<script type="text/javascript" src="js/skipRegister.js"></script>
+<script type="text/javascript">
+//优安鲜品服务协议
+$(function (){
+	$('.skipRegister_checked span a').click(function (){
+		$('.modal').fadeIn(500);
+	});
+	$('.modal_co_bt button').click(function (){
+		$('.modal').fadeOut(200);
+	});
+	$('.modal_co h2 span').click(function (){
+		$('.modal').fadeOut(200);
+	});
+})
+</script>
+</head>
+
+<body>
+<div class="modal">
+  <div class="modal_co">
+    <h2>优安鲜品服务协议<span>×</span></h2>
+    <div class="modal_co1"></div>
+    <div class="modal_co_bt"><button type="button">关闭</button></div>
+  </div>
+</div>
+
+<article class="page">
+  <section class="wrap">
+    <div class="wrap_header">
+      <span onClick="window.history.go(-1)"></span>
+      <span>优安鲜品注册</span>
+    </div>
+    <div class="login">
+      <div class="login_co skipRegister">
+        <form>
+          <div class="skipRegister_input"><input type="text" placeholder="用户名"><span></span></div>
+          <div class="skipRegister_input"><input type="password" placeholder="密码"></div>
+          <div class="skipRegister_input"><input type="password" placeholder="确认密码"></div>
+          <div class="skipRegister_input"><input type="text" placeholder="手机号码"></div>
+          <p><input type="text" placeholder="验证码"><input type="button" value="免费获取验证码"></p>
+          <div id="warnId" class="warnId"></div>
+          <div class="skipRegister_checked">
+            <input id="pro" type="checkbox" checked="true">
+            <span>同意 <a>《优安鲜品服务协议》</a></span>
+          </div>
+          <p>
+            <button id="registerWap" type="button">注册</button>
+            <a href="login.html">已有账号？请登录</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+</article>
+</body>
+</html>

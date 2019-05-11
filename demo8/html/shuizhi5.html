@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><!-- 告诉IE使用最新的引擎渲染网页， -->
+    <meta name="renderer" content="webkit"><!-- 360安全浏览器，默认打开 极速模式。 -->
+    <!--#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.-->
+    <title>环保行为督察系统</title>
+    <link rel="stylesheet" href="../css/public/common.css">
+    <link rel="stylesheet" href="../css/topBar/topBar.css">
+    <link rel="stylesheet" href="../css/shuizhi/shuizhi5.css">
+</head>
+<body>
+<div class="content_wrap">
+    <!--头部导航开始-->
+    <div class="topBar">
+		<div class="logo">环保行为督察系统</div>
+		<ul class="topMain">
+			<li><a href="../index.html">首页</a></li>
+			<li class="active"><a href="huanbao.html">环保应用</a></li>
+			<li><a href="xingwei.html">行为督察</a></li>
+			<li><a href="xingwei2.html">人群分析</a></li>
+			<li><a href="#">更多功能</a></li>
+		</ul>
+		<div class="login_box">
+			<div class="user_name">
+				你好,系统管理员
+			</div>
+		</div>
+	</div>
+    <!--头部导结束-->
+    <div class="content_main">
+        <!--上一步按钮-->
+        <a class="prev_btn" href="shuizhi2.html"></a>
+        <div class="title_tip">
+            <span>监控场景</span>
+            <span>监控水源</span>
+            <span>监控范围</span>
+            <!--<span>监控内容</span>-->
+            <span>任务发布</span>
+        </div>
+        <div class="content">
+            <div class="per_content">
+                <div class="con_before">监控类型：</div>
+                <div class="per_con">水源防护</div>
+                <!--<input type="text" value="水质防护">-->
+            </div>
+            <div class="per_content">
+                <div class="con_before">监控场景：</div>
+                <div class="per_con" style="height:68px;">区域位置监控(非常驻人口，男性，21-25岁，26-30岁，省内，高中以下，高中，消费低，信用度低，停留两小时，工作地，事件出行)</div>
+                <!--<input type="text" value="区域位置监控">-->
+            </div>
+            <div class="per_content">
+                <div class="con_before">监控水源：</div>
+                <div class="per_con">青山水库</div>
+                <!--<input type="text" value="白沙溪">-->
+            </div>
+            <div class="per_content">
+                <div class="con_before">监控范围：</div>
+                <div class="per_con">上游、下游、白天、良好天气、工作日、500米</div>
+                <!--<input type="text" value="上游">-->
+            </div>
+            <div class="per_content">
+                <div class="con_before">监控时间：</div>
+                <!--<div class="per_con">2017.11.01 - 2017.12.31</div>-->
+                <input class="time_input" type="date" value="2017-11-01" style="color:red!important;"/>
+                <span style="color:#000;">-</span>
+                <input class="time_input" type="date" value="2017-12-31"  style="color:red!important;"/>
+            </div>
+            <div class="per_content">
+                <div class="con_before">短信总量：</div>
+                <!--<div class="per_con">50000</div>-->
+                <input  class="per_con" type="text" value="50000">
+            </div>
+           <!-- <div class="per_content">
+                <div class="con_before">上游短信内容：</div>
+                <p class="per_con message">温馨提醒:您已进入饮用水源一级保护区,敬请遵守相关法律法规,禁止游泳、垂钓、非法捕捞等一切污染水源行为，违者将依法查处。</p>
+            </div>
+            <div class="per_content">
+                <div class="con_before">下游短信内容：</div>
+                <p class="per_con message">温馨提醒:您已进入饮用水源一级保护区,敬请遵守相关法律法规,禁止烧烤、抛撒垃圾等污染水源行为,违者将依法查处。</p>
+             </div>-->
+             <div class="per_content">
+                <div class="con_before">上游短信内容：</div>
+                <textarea class="message_con">温馨提醒:您已进入饮用水源一级保护区,敬请遵守相关法律法规,禁止游泳、垂钓、非法捕捞等一切污染水源行为，违者将依法查处。</textarea>
+            </div>
+            <div class="per_content">
+                <div class="con_before">下游短信内容：</div>
+                <textarea class="message_con">温馨提醒:您已进入饮用水源一级保护区,敬请遵守相关法律法规,禁止烧烤、抛撒垃圾等污染水源行为,违者将依法查处。</textarea>
+            </div>
+            <div class="btn_wrap">
+                <a href="javascript:void(0);" class="fabu" >发布</a>
+                <a href="">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--弹出框-->
+<div class="jump" style="height:100%;background:rgba(13, 47, 85, 0.9);color:#fff;font-size:18px;text-align:center;display:none;">
+    <div style="line-height:80px;">任务发布成功。</div>
+    <div class="btn_wrap2">
+        <a href="" id="sure_btn">确定</a>
+    </div>
+</div>
+
+<script src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/plugins/layer.js"></script>
+<script src="../js/public/autoSize.js"></script>
+<script>
+    $(".per_view").click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+    $(".fabu").click(function(){
+        window.layer.open({
+            type: 1,
+            title:["任务发布状态","height:46px;font-size:22px;color:#fff;line-height:46px;background:rgba(13,47,85,0.9);text-indent:139px;border-bottom:0;"],
+            skin: 'layui-layer-rim1', //加上自定义边框样式  修改源码css
+            area: ['450px','200px'], //宽高
+            content: $(".jump"),
+            shade: [0.6, '#000'],
+            move:false,
+            //btn: ["确定"],
+            yes:function(index,layero){
+
+            }
+        })
+    })
+    $("#sure_btn").click(function(){
+        console.log(111);
+        window.open("xingwei.html",'_blank');
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,1838 @@
+//拿到分辨率放到Session
+var clientWidth = window.screen.width;
+var flag = 0;//标识在哪层
+var st;
+var et;
+var title;
+var titles;
+
+var provdata; //存放省级结果集
+var citydata; //存放市级结果集
+var result;//第一级结果集
+var counts;
+
+var resultdata;//主景点后台查询后的结果数据集
+var tabledata;
+var count;
+
+////////分页处理参数start//////////
+var totalPage = 1;//总页数（初始为1）
+var pageSize = 7;//每页码显示几列数据(第一列和最生一个合计列不算)
+var currentPage = 1;	//当前页（初始为1）
+var showStar = 1;//显示分页起始页（初始为1）
+var pageStr='';//分页String
+var figureRefresh = true; //每次翻页不用刷新图形
+
+
+/**
+ * 行业、区域明细数据
+ * @return {TypeName} 
+ */
+detailData = function(){
+	figureRefresh = true;
+	
+	//如果有分页，屏蔽分页：
+	document.getElementById("pageNum").style.display="none";
+	
+	
+	if(kpiId == '1007'){
+		st = startTime;
+		et = endTime;
+	}
+	
+	//查询淳安县
+	if(areapm == ''){
+		areapm = '淳安县';
+	}
+	
+	//默认浙江省：
+	if((temp_provname == ''||temp_provname==null)){
+		temp_provname = '浙江省';
+		$('#displaycsjvalue').html(temp_provname);	
+	}
+	
+	if(clientWidth > 1800){
+		title = '<span style="font-size: 24px;font-weight:bold;">'+areapm+st+'月至'+et+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)</span>';
+		titles = areapm+st+'月至'+et+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)';
+	}else{
+		title = '<b>'+areapm+st+'月至'+et+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)</b>';
+		titles = areapm+st+'月至'+et+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)';
+	}
+	$.ajax({
+			type:"post",
+			url:"ylzh/ylzhCitymonth/queryylzhCityMonthDetailList.do",
+			data:{
+				timeStart:st,
+				timeEnd:et,
+				sjidu:startTime2,
+				ejidu:endTime2,
+				kpiId:kpiId,
+				radioId:radioId,
+				province:temp_provname,
+				city:temp_cityname,
+				citys:areapm
+				
+			},
+			timeout: 60000,
+			dataType: "json",
+			success:function(data,textStatus) {
+				resultdata = data;
+				count = resultdata.count; //数量
+				tabledata = resultdata.tabledata;
+				showDetailChart();
+			}
+		});
+}
+
+getData = function(){
+	figureRefresh = true;
+	//如果有分页，展开分页：
+	document.getElementById("pageNum").style.display="block";
+	
+	st = startTime;
+	et = endTime;
+
+	if(areapm == ''){
+		areapm = '淳安县';
+	}
+	
+	if(radioId == '1000'){
+		detailData();
+	}else{
+		//根据所选区域进行查询：
+			if((temp_provname != null && temp_provname != '') || temp_cityname != null && temp_cityname != ''){
+				$.ajax({
+					type:"post",
+					url:"ylzh/ylzhCitymonth/queryylzhMonthAreaList.do",
+					data:{
+						timeStart:st,
+						timeEnd:et,
+						sjidu:startTime2,
+						ejidu:endTime2,
+						kpiId:kpiId,
+						radioId:radioId,
+						province:temp_provname,
+						city:temp_cityname,
+						citys:areapm
+						
+					},
+					timeout: 60000,
+					dataType: "json",
+					success:function(data,textStatus) {
+						provdata = data;
+						if(provdata.counts <= 0){
+							layer.alert('没有相关数据！');
+							return;
+						}
+						showAreaChart(1);
+					}
+				});
+				
+			}else{
+				$.ajax({
+					type:"post",
+					url:"ylzh/ylzhCitymonth/queryYlzhCityMonthList.do",
+					data:{
+						timeStart:st,
+						timeEnd:et,
+						sjidu:startTime2,
+						ejidu:endTime2,
+						kpiId:kpiId,
+						radioId:radioId,
+						citys:areapm
+					},
+					timeout: 60000,
+					dataType: "json",
+					success:function(data,textStatus) {
+						result = data;
+						flag = 0;
+						showChart();
+					}
+				});
+			}
+	}
+}
+
+
+
+showChart = function(tempcharttype){
+	figureRefresh = true;
+	if(flag == 0){
+		counts = result.counts;
+	}else if(flag == 1){
+		counts = provdata.counts;
+	}else if(flag == 2){
+		counts = citydata.counts;
+	}
+	
+	if(counts <= 0){
+		layer.alert('没有相关数据！');
+		return
+	}
+	
+	if(flag == 0){
+		showBing(1);
+	}else if(flag == 1){
+		showSubBing('1',1);
+	}else if(flag == 2){
+		showSubBing('2',1);
+	}
+	
+}
+
+
+
+
+/**
+ * 行业、区域明细数据
+ * @memberOf {TypeName} 
+ * @return {TypeName} 
+ */
+showDetailChart = function() {
+	var colors = Highcharts.getOptions().colors;
+	Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+	if (tabledata == '' || tabledata.length <= 0) {
+		layer.alert('没有相关数据！');
+		return;
+	}
+	var ssdata = [];
+	var xdata = [];
+	var ydata = [];
+	var leged = false;
+	
+	var lasttime = '';
+	var names = '';
+	var asf=0;
+	var dff=0;
+	var k = 1;
+	var p = 1;
+	var jyje = 0;
+	var jybs = 0;
+	var sdata = [];
+	var ettemp = {};
+	var table = '<table  style="border:1px solid #c4cdd8; " class="table table-bordered table-hover ">';
+	
+	ettemp['obj0'] = '时间';
+	ettemp['obj1'] = '行业';
+	ettemp['obj2'] = '区域';
+	ettemp['obj3'] = '消费金额';
+	ettemp['obj4'] = '消费人数';
+	ettemp['obj5'] = '消费金额同比';
+	ettemp['obj6'] = '消费金额环比';
+	ettemp['obj7'] = '消费人数同比';
+	ettemp['obj8'] = '消费人数环比';
+	ettemp['obj9'] = '次单价同比';
+	ettemp['obj10'] = '次单价环比';
+	sdata.push(ettemp);
+	
+	table += '<thead><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+	table += '<td style="text-align:center;">时间</td>';
+	table += '<td style="text-align:center;">行业</td>';
+	table += '<td style="text-align:center;">区域</td>';
+	table += '<td style="text-align:center;">消费金额</td>';
+	table += '<td style="text-align:center;">消费人数</td>';
+	table += '<td style="text-align:center;">消费金额同比</td>';
+	table += '<td style="text-align:center;">消费金额环比</td>';
+	table += '<td style="text-align:center;">消费人数同比</td>';
+	table += '<td style="text-align:center;">消费人数环比</td>';
+	table += '<td style="text-align:center;">次单价同比</td>';
+	table += '<td style="text-align:center;">次单价环比</td>';
+	table += '</tr></thead>';
+	
+	$.each(tabledata, function(i, mess){
+		leged = true;
+		if(lasttime == ''){
+			lasttime = mess.lasttime;
+		}
+		names = mess.citys;
+		//每循环一个都和所有的比较一遍,并赋给ydate
+		$.each(tabledata, function(j, jess){
+				if(jess.citys == names){ //找行业相同的
+					if(p <= tabledata.length){
+						xdata.push(jess.lasttime);
+						ydata.push({y:Number(jess.amount)}); //取消X轴：x:jess.lasttime,
+					}
+				}else{
+					return;
+				}
+				p++;
+		});
+		if(dff == 0){
+			if(lasttime == mess.lasttime){
+				ssdata.push({dashStyle : 'solid',name:names,data:ydata,color:colors[i%10]});
+				ydata = []; //push完就赋为空值以免重复
+			}else{
+				dff = 1;
+			}	
+		}
+		lasttime = mess.lasttime;
+	});	
+	
+//	console.info(ssdata);
+	
+	$.each(tabledata, function(i, mess){
+		ettemp = {};
+		table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+		table += '<td style="text-align:center;">'+(mess['lasttime'] == null?0:mess['lasttime'])+'</td>';	
+		table += '<td style="text-align:center;">'+(mess['citys'] == null?0:mess['citys'])+'</td>';
+		table += '<td style="text-align:center;">'+(mess['province'] == null?0:mess['province'])+'</td>';
+		table += '<td style="text-align:center;">'+(mess['amount'] == null?0:mess['amount'])+'</td>';
+		table += '<td style="text-align:center;">'+(mess['counts'] == null?0:mess['counts'])+'</td>';
+		table += '<td style="text-align:center;">'+(mess['yoyAmount'] == null?0:mess['yoyAmount'])+'%</td>';
+		table += '<td style="text-align:center;">'+(mess['qoqAmount'] == null?0:mess['qoqAmount'])+'%</td>';
+		table += '<td style="text-align:center;">'+(mess['yoyCount'] == null?0:mess['yoyCount'])+'%</td>';
+		table += '<td style="text-align:center;">'+(mess['qoqCount'] == null?0:mess['qoqCount'])+'%</td>';
+		table += '<td style="text-align:center;">'+(mess['yoySingle'] == null?0:mess['yoySingle'])+'%</td>';
+		table += '<td style="text-align:center;">'+(mess['qoqSingle'] == null?0:mess['qoqSingle'])+'%</td>';
+		table += '</tr>';
+
+		jyje += Number((mess['amount'] == null?0:mess['amount']));
+		jybs += Number((mess['counts'] == null?0:mess['counts']));
+		
+		ettemp['obj0'] = (mess['lasttime'] == null?0:mess['lasttime']);	
+		ettemp['obj1'] = (mess['citys'] == null?0:mess['citys']);
+		ettemp['obj2'] = (mess['province'] == null?0:mess['province']);
+		ettemp['obj3'] = (mess['amount'] == null?0:mess['amount']);
+		ettemp['obj4'] = (mess['counts'] == null?0:mess['counts']);
+		ettemp['obj5'] = (mess['yoyAmount'] == null?0:mess['yoyAmount'])+'%';
+		ettemp['obj6'] = (mess['qoqAmount'] == null?0:mess['qoqAmount'])+'%';
+		ettemp['obj7'] = (mess['yoyCount'] == null?0:mess['yoyCount'])+'%';
+		ettemp['obj8'] = (mess['qoqCount'] == null?0:mess['qoqCount'])+'%';
+		ettemp['obj9'] = (mess['yoySingle'] == null?0:mess['yoySingle'])+'%';
+		ettemp['obj10'] = (mess['qoqSingle'] == null?0:mess['qoqSingle'])+'%';
+		sdata.push(ettemp);		
+	});
+ ////月、季、年
+	if(tabledata.length > 0){
+		ettemp = {};
+		ettemp['obj0'] = '合计';
+		ettemp['obj1'] = '-';
+		ettemp['obj2'] = '-';
+		ettemp['obj3'] = Number(jyje).toFixed(2);
+		ettemp['obj4'] = (jybs);
+		ettemp['obj5'] = '-';
+		ettemp['obj6'] = '-';
+		ettemp['obj7'] = '-';
+		ettemp['obj8'] = '-';
+		ettemp['obj9'] = '-';
+		ettemp['obj10'] = '-';
+		
+	    table += '<tr  style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+	    table += '	<td colspan="3" style="text-align:center;">合计</td>';
+	    table += '	<td style="text-align:center;">'+Number(jyje).toFixed(2)+'</td>';
+	    table += '	<td style="text-align:center;">'+(jybs)+'</td>';
+	    table += '	<td colspan="6" style="text-align:center;"></td>';
+		table += '</tr>';
+		
+	    sdata.push(ettemp);
+	}
+	
+	table += '</table>';
+	var etstr = '{"result":'+JSON.stringify(sdata)+',"count":'+11+'}';	//导出
+		var chart = new Highcharts.Chart({
+		    chart: {
+				animation: Highcharts.svg, // don't animate in old IE
+			    marginRight: 30, //宽度自适应
+			    renderTo: 'chart',
+			    type: 'spline' //column 柱 / spline 线 
+		    },
+		    
+		    title: {
+		        text: title
+		    },
+		    
+		    legend: {
+		    	enabled: leged
+		    },
+		    
+		    credits:{  //右下角地址
+		        text:''  
+		    },
+		    xAxis: {
+	       	 categories:xdata,
+	       	 labels: {
+	    			style: {
+	    				color: '#000000'
+	    			}
+	    		}
+		    },
+		    yAxis: {
+				    title: {
+				        text: '消费金额'
+				    },
+				    labels: {
+				        format: '{value}',
+				        style: {
+								color: '#000000'
+							}
+				    },
+				    min:0,
+				    plotLines: [{
+				        value: 0,
+				        width: 1,
+				        color: '#808080'
+				    }]
+				}, 
+		    tooltip: {
+		    	backgroundColor: '#999999',   // 背景颜色
+		    	borderColor: 'ffffff',         // 边框颜色
+				borderRadius: 5,             // 边框圆角
+				animation: true,               // 是否启用动画效果
+		        useHTML: true,
+		        shared: true, //共享提示框
+		        formatter: function() {
+					var temp ='<div style="color:#ffffff">';
+					temp += '<div style="padding:0px 0px 8px 10px; font-size:14px;width:100%;">'+(this.points[0].x)+'</div>';
+					
+			        for(var i = 0 ;i < this.points.length; i++){
+			        	temp += '<div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">';
+						temp += '	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">';
+						temp += '		<span style="margin-left:7px;">'+(this.points[i].series.name)+'</span>';
+						temp += '		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:'+this.points[i].series.color+';">&nbsp;</span>';
+						temp += '		<span style="heigt:8px;font-size:13px;margin-left:5px;">'+(this.points[i].y)+'</span>';
+						temp += '	</div>';
+			        	temp += '</div>';
+			        }
+					temp += '	</div>';
+		        	temp += '</div>';
+	 	 			return temp;
+	     		}
+		    },
+		    plotOptions: {
+		    	series: { //曲线图专用
+		             cursor: 'pointer',  
+		             marker: {
+		                 enabled: true //false false的时候就不会突出显示点 
+		             }
+	         	},
+	        },
+		    exporting:{
+		           enabled:true,
+		           filename:titles,  
+		           type:'image/png',
+		           exporttable:etstr,
+		           sourceWidth:(screen.availWidth - 365),
+		           url:'kpi/export/export.do'
+		       }, 
+		     series: ssdata
+		});
+	document.getElementById("data").innerHTML = table;
+}
+
+
+
+
+/**
+ * 饼图： 主页 - 五大类别
+ * @memberOf {TypeName} 
+ * @return {TypeName} 
+ */
+var hjarr = {};
+showBing = function(tempShow){
+	var count = result.count;
+	var data = result.result;
+		
+	currentPage = tempShow;	//当前页
+	var temp = tempShow-1;
+	totalPage = Math.ceil((Number(count)-1)/pageSize);//总页数
+	
+	var jiduTemp;
+	var jiduEndTemp;
+	if(startTime2 == '01'){
+		jiduTemp = '第一季度';
+	}else if(startTime2 == '04'){
+		jiduTemp = '第二季度';
+	}else if(startTime2 == '07'){
+		jiduTemp = '第三季度';
+	}else if(startTime2 == '10'){
+		jiduTemp = '第四季度';
+	}
+	//必须分开写：
+	if(endTime2 == '01'){
+		jiduEndTemp = '第一季度';
+	}else if(endTime2 == '04'){
+		jiduEndTemp = '第二季度';
+	}else if(endTime2 == '07'){
+		jiduEndTemp = '第三季度';
+	}else if(endTime2 == '10'){
+		jiduEndTemp = '第四季度';
+	}
+		if(clientWidth > 1800){
+			if(radioId == '2000'){ //消费金额
+				if(kpiId == '1007'){ //月
+					title = '<span style="font-size: 24px;font-weight:bold;">【消费金额】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)</span>';
+					titles = '【消费金额】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)';
+				}else if(kpiId == '1008'){ //季
+					title = '<span style="font-size: 24px;font-weight:bold;">【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)</span>';
+					titles = '【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)';
+				}else{ //年
+					title = '<span style="font-size: 24px;font-weight:bold;">【消费金额】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)</span>';
+					titles = '【消费金额】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)';
+				}
+			}else{ //消费人数
+				if(kpiId == '1007'){ //月
+					title = '<span style="font-size: 24px;font-weight:bold;">【消费人数】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)</span>';
+					titles = '【消费人数】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)';
+				}else if(kpiId == '1008'){ //季
+					title = '<span style="font-size: 24px;font-weight:bold;">【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)</span>';
+					titles = '【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)';
+				}else{ //年
+					title = '<span style="font-size: 24px;font-weight:bold;">【消费人数】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)</span>';
+					titles = '【消费人数】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)';
+				}
+			}
+			
+		}else{
+			if(radioId == '2000'){ //消费金额
+				if(kpiId == '1007'){ //月
+					title = '<b>【消费金额】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)</b>';
+					titles = '【消费金额】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)';
+				}else if(kpiId == '1008'){ //季
+					title = '<b>【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)</b>';
+					titles = '【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)';
+				}else { //年
+					title = '<b>【消费金额】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)</b>';
+					titles = '【消费金额】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)';
+				}
+			}else{
+				if(kpiId == '1007'){ //月
+					title = '<b>【消费人数】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)</b>';
+					titles = '【消费人数】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)';
+				}else if(kpiId == '1008'){ //季
+					title = '<b>【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)</b>';
+					titles = '【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)';
+				}else{ //年
+					title = '<b>【消费人数】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)</b>';
+					titles = '【消费人数】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)';
+				}
+			}
+			
+			
+		}
+		
+		var sdata = [];
+		var table = '<table  style="border:1px solid #c4cdd8;" class="table table-bordered table-hover ">';
+		var etdata = [];
+		hjarr = {};
+		hjarr['obj0'] = '合计';
+		var ettemp = {};
+		
+		//1.先求出每天的合计数量：
+		var asd={};
+		var asdNum={};
+		$.each(data, function(i, mess){
+			if(mess.obj0 != '0'){
+				if(i > 0){
+					for(var i = 0;i < count;i++){
+						if(i > 0){
+							asd['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(asd['obj'+i] == null?0:asd['obj'+i]);
+						}
+						
+					}
+				}
+			}
+			
+		});
+		var sum=0;
+		if(data.length > 1){
+			for(var i = 1;i < count;i++){
+				if(i < count-1){
+					sum += Number(Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]).toFixed(2));
+				}else{
+					sum += Number(Number(asd['obj'+i] == null?0:asd['obj'+i]).toFixed(2));
+				}
+			
+			}
+		}
+		
+		var hezi=0;
+		var zhi;
+		var jiduTitle = '';
+		$.each(data, function(j, mess){
+			if(mess.obj0 != 0 && mess.obj0 != '0'){
+				ettemp = {};
+				if(j > 0){
+//					sdata.push({name:(mess.obj0+'['+(mess['obj'+(count - 1)])+']'),y:Number(mess['obj'+(count - 1)])/zj*100,id:mess.obj});//toThousands
+					table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+					for(var i = 0;i < count;i++){
+						if(i == 0){
+							table += '<td style="text-align:center;" >'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+							ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+						}else if(i > 0 && i < count-1){ //境内、境外的值
+							if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+								table += '<td style="text-align:center;">'+Number(Number(mess['obj'+i] == null?0:mess['obj'+i]))+'</td>';
+							}
+							ettemp['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i]);
+						}else{ //境内、境外的总计
+							if(mess['obj'+i] == null){
+								table += '<td style="text-align:center;">0%</td>';
+								ettemp['obj'+i] = '0%';
+							}else{
+								if(sum == 0){
+									table += '<td style="text-align:center;">0%</td>';
+									ettemp['obj'+i] = '0%';
+								}else{
+									table += '<td style="text-align:center;">'+Number(Number((mess['obj'+i]=='undefined'||mess['obj'+i]=='NaN'?0:mess['obj'+i]/sum)*100).toFixed(2))+'%</td>';
+									zhi = Number((Number(mess['obj'+i]=='undefined'||mess['obj'+i]=='NaN'?0:mess['obj'+i])/sum)*100).toFixed(2);
+									hezi += Number(zhi); //总计的合计
+									sdata.push({name:mess.obj0,y:Number(zhi),id:mess.obj});
+									
+									ettemp['obj'+i] = Number((mess['obj'+i]=='undefined'||mess['obj'+i]=='NaN'?0:mess['obj'+i]/sum)*100).toFixed(2)+'%';
+								}
+							}
+						}
+						if(i > 0 && i < count-1){
+							hjarr['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+						}else if(i > 0 && i >= count-1){
+							hjarr['obj'+i] = Number(hezi); //总计的合计
+						}
+					}
+					table += '</tr>';
+				}else{
+					table += '<thead ><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+					if(kpiId == '1008'){ //季度才显示这种效果
+						for(var i = 0;i < count;i++){
+							if(i == 0){
+								table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+								ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+							}else if(i > 0){
+								jiduTitle = (mess['obj'+i] == null?0:mess['obj'+i]);
+								if(jiduTitle == '1'){
+									jiduTitle = '第一季度';
+								}else if(jiduTitle == '2'){
+									jiduTitle = '第二季度';
+								}else if(jiduTitle == '3'){
+									jiduTitle = '第三季度';
+								}else if(jiduTitle == '4'){
+									jiduTitle = '第四季度';
+								}
+								table += '<td style="font-weight:normal;text-align:center;">'+jiduTitle+'</td>';
+								ettemp['obj'+i] = jiduTitle;
+							}
+						
+						}
+					}else{
+						for(var i = 0;i < count;i++){
+							if(i == 0){
+								table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+							}else if(i > 0 && i < (count-1)){
+								if(i <= (pageSize+(temp*pageSize)) && i > (0+(temp*pageSize)) ){
+									table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i]).substr(0,7)+'</td>';
+								}
+							}else{
+								table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i]).substr(0,7)+'</td>';
+							}
+							ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+						}
+					}
+					
+					table += '</tr></thead>';
+				}
+				etdata.push(ettemp);
+			}
+        });
+		
+		if(data.length > 1){
+			ettemp = {};
+			table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">合计</td>';
+			ettemp['obj0'] = '合计';
+			for(var i = 1;i < count;i++){
+				if(i < count-1){
+					if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+						table += '<td style="text-align:center;" >'+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]).toFixed(2)+'</td>';
+					}
+					ettemp['obj'+i] = Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]).toFixed(2);
+				}else{
+					table += '<td style="text-align:center;" >100%</td>';
+					ettemp['obj'+i] = '100%';
+				}
+			}
+			table += '</tr>';
+		    etdata.push(ettemp);
+		}
+		
+		
+		table += '</table>';
+		
+		var etstr = '{"result":'+JSON.stringify(etdata)+',"count":'+count+'}';
+	if(figureRefresh){ //翻页不需要重复刷新曲线图
+	    $('#chart').highcharts({
+	        chart: {
+	            plotBackgroundColor: null,
+	            plotBorderWidth: null,
+	            plotShadow: false
+	        },
+	        title: {
+	            text: title
+	        },
+	        tooltip: {
+	        	backgroundColor: '#999999',   // 背景颜色
+	  			borderColor: 'ffffff',         // 边框颜色
+	  			borderRadius: 5,             // 边框圆角
+	  			shared: true,
+	           	useHTML: true,
+	     		formatter: function() {
+//	          		 var point = this.point,
+//	              // s = this.x +':<b>'+ this.y ; 
+//	           	 s='<div style="color:#ffffff"><div style="padding:0px 8px 8px 15px; font-size:14px;"></div><div style="height:30px;background:#666666;border-radius: 5px;line-height:30px;margin:0px 0px 5px 0px;"><div style="float:left;height:24px;margin:0px 8px 8px 8px;"><span style="margin-left:7px;">消费占比：</span><span style="display:inline-block;line-height:30px;margin-top:8px;margin-left:10px;background-color:'+this.point.color+';width:12px;height:12px;">&nbsp;</span><span style="margin-left:7px;">'+this.point.name+'</span><span style="heigt:10px;font-size:10px;margin-left:5px;">&nbsp;&nbsp;&nbsp;&nbsp;</span></div></div>' +
+//	           	 '<div style="height:30px;background:#666666;border-radius: 5px;line-height:30px;margin:0px 0px 5px 0px;"><div style="float:left;height:24px;margin:0px 8px 8px 8px;"><span style="margin-left:7px;">占比：'+Highcharts.numberFormat(this.percentage, 1)+'%</span><span style="heigt:10px;font-size:10px;margin-left:5px;">&nbsp;&nbsp;&nbsp;&nbsp;</span></div></div></div>';
+//	 	            return s;
+	        		return '<div style="color:#ffffff"><div style="padding:0px 8px 8px 15px; font-size:14px;"></div><div style="height:30px;background:#666666;border-radius: 5px;line-height:30px;margin:0px 0px 5px 0px;"><div style="float:left;height:24px;margin:0px 8px 8px 8px;"><span style="margin-left:7px;">'+this.point.name+'</span><span style="display:inline-block;line-height:30px;margin-top:8px;margin-left:30px;background-color:'+this.point.color+';width:12px;height:12px;">&nbsp;</span><span style="heigt:10px;font-size:12px;margin-left:55px;">'+Number(this.y)+'%</span></div></div>' ;
+	        	}
+	        },
+	        plotOptions: {
+	        	series: {
+	            cursor: 'pointer',  
+	            events: {  
+	                click: function(e) {  //点击子景点信息
+	        		var str = e.point.name;
+//	        		var temp = str.substring(0,str.indexOf("["));
+//	        			alert(str+" = str, temp = "+temp);
+//	        			getSubData(temp,e.point.id);
+	        			//杭州、其他两个种类不需要后台
+	        			if(str != '杭州' && str != '其他'){
+	        				getSubData(str);	
+	        			}
+	                }  
+	            },
+	            
+	            marker: {
+	                enabled: false //false false的时候就不会突出显示点 
+	            }
+	        },
+	            pie: {
+	                allowPointSelect: true,
+	                cursor: 'pointer',
+	                dataLabels: {
+	                    enabled: true,
+	                    color: '#000000',
+	                    connectorColor: '#000000',
+//	                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+	                    formatter: function(){
+							var val = Number(this.y);
+					    	if(!isNaN(val)){
+					    		val = val+'%';
+					    	}else{
+					    		val = '0%';
+					    	}
+					    	return '<b>'+this.point.name+'</b>: '+val;
+			    		}
+	                }
+	            }
+	        },
+	        exporting:{  
+	            // 是否允许导出  
+	            enabled:true,  
+	            // 文件名  
+	            filename: titles,  
+	            // 导出文件默认类型  
+	            type:'image/png',
+	            exporttable:etstr,
+	            sourceWidth:(screen.availWidth - 365),
+	            url:'kpi/export/export.do'
+	        }, 
+	        legend: {
+	            enabled: false
+	        },
+	        credits:{  //右下角地址
+	            text:''  
+	        },
+	        series: [{
+	            type: 'pie',
+	            name: '游客比例',
+	            data: sdata
+	        }]
+	    });
+	   }
+	    document.getElementById("data").innerHTML = table;
+	    createPageFoot();
+}
+
+function createPageFoot(){
+	figureRefresh = false;
+//	console.info('方法内部：总数量totalPage = '+totalPage);
+	if(totalPage>1){
+//		console.info('进来了。。。。');
+		var nextpage = currentPage+1;//下一页
+		var previouspage = currentPage-1;//上一页
+		
+		if(currentPage > 4){
+			showStar = currentPage-4;//显示分页起始页（初始为1）
+		}
+		pageStr = "";
+		if(previouspage == 0){
+			pageStr=pageStr+'<span style="cursor:pointer;"><<</span> ';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showBing('+previouspage+')"><<</span> ';
+		}
+		var tempShow = showStar;
+		
+		for(var showCount=showStar;showCount<=showStar+4;showCount++ ){
+			if(tempShow<=totalPage){
+				if(tempShow == currentPage){
+					pageStr=pageStr+'<span style="cursor:pointer;color:#1f7bbf;" onclick="showBing('+tempShow+')">'+tempShow+'</span> ';
+				}else{
+					pageStr=pageStr+'<span style="cursor:pointer;" onclick="showBing('+tempShow+')">'+tempShow+'</span> ';
+				}
+				tempShow = tempShow + 1;
+			}
+		}
+		if(currentPage == totalPage){
+			pageStr=pageStr+'<span style="cursor:pointer;">>></span>';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showBing('+nextpage+')">>></span>';
+		}
+		
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+		document.getElementById("pageNum").innerHTML = pageStr;
+		
+//		console.info(document.getElementById("pageNum"));
+//		console.info('已成功拼接！：'+pageStr);
+	}else{
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+	}
+}
+
+
+
+
+getSubData = function(name){
+	figureRefresh = true;
+	if(areapm == ''){
+		areapm = '淳安县';
+	}
+	st = startTime;
+	et = endTime;
+	$.ajax({
+		type:"post",
+		url:"ylzh/ylzhCitymonth/queryYlzhCityMonthListPov.do",
+		data:{
+			timeStart:st,
+			timeEnd:et,
+			sjidu:startTime2,
+			ejidu:endTime2,
+			kpiId:kpiId,
+			province:name,
+			radioId:radioId,
+			citys:areapm
+		},
+		timeout: 10000,
+		dataType: "json",
+		success:function(data,textStatus) {
+			provdata = data;
+			if(provdata.counts <= 0){
+				layer.alert('没有相关数据！');
+				return;
+			}
+				
+			flag = 1;//省
+			showChart();
+			
+		}
+	});
+}
+
+//var citydata;
+getCityData = function(name,id){
+	figureRefresh = true;
+	if(areapm == ''){
+		areapm = '淳安县';
+	}
+	st = startTime;
+	et = endTime;
+	$.ajax({
+		type:"post",
+		url:"ylzh/ylzhCitymonth/queryYlzhCityMonthListPov2.do",
+		data:{
+			timeStart:st,
+			timeEnd:et,
+			sjidu:startTime2,
+			ejidu:endTime2,
+			kpiId:kpiId,
+			province:name,
+			radioId:radioId,
+			citys:areapm
+		},
+		timeout: 10000,
+		dataType: "json",
+		success:function(data,textStatus) {
+			citydata = data;
+			if(citydata.counts <= 0){
+				layer.alert('没有相关数据！');
+				return;
+			}
+			
+			flag = 2;//省
+			showChart();
+			
+		}
+	});
+	
+}
+
+showSubBing = function(id,tempShow){
+	var count;
+	var data;
+	
+	if(flag == 1){ //省
+		 count = provdata.count;
+		 data = provdata.result;
+	}else{ //市
+		 count = citydata.count;
+		 data = citydata.result;
+	}
+	
+	currentPage = tempShow;	//当前页
+	var temp = tempShow-1;
+	totalPage = Math.ceil((Number(count)-1)/pageSize);//总页数
+	
+	var zj = 0;
+	if(data.length <= 1){
+		return;
+	}
+	
+	if(id == '1'){
+		flag = 1;//省
+	}else{
+		flag = 2;//城市
+	}
+	
+	var jiduTemp;
+	var jiduEndTemp;
+	
+	if(startTime2 == '01'){
+		jiduTemp = '第一季度';
+	}else if(startTime2 == '04'){
+		jiduTemp = '第二季度';
+	}else if(startTime2 == '07'){
+		jiduTemp = '第三季度';
+	}else if(startTime2 == '10'){
+		jiduTemp = '第四季度';
+	}
+	
+	//必须分开写：
+	if(endTime2 == '01'){
+		jiduEndTemp = '第一季度';
+	}else if(endTime2 == '04'){
+		jiduEndTemp = '第二季度';
+	}else if(endTime2 == '07'){
+		jiduEndTemp = '第三季度';
+	}else if(endTime2 == '10'){
+		jiduEndTemp = '第四季度';
+	}
+	
+	if(clientWidth > 1800){
+		if(radioId == '2000'){ //消费金额
+			if(kpiId == '1007'){ //月
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费金额】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)</span>';
+				titles = '【消费金额】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)';
+			}else if(kpiId == '1008'){ //季
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)</span>';
+				titles = '【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)';
+			}else{ //年
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费金额】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)</span>';
+				titles = '【消费金额】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)';
+			}
+		}else{ //消费人数
+			if(kpiId == '1007'){ //月
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费人数】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)</span>';
+				titles = '【消费人数】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)';
+			}else if(kpiId == '1008'){ //季
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)</span>';
+				titles = '【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】商户消费占比统计分析图(季)';
+			}else{ //年
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费人数】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)</span>';
+				titles = '【消费人数】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)';
+			}
+		}
+		
+	}else{
+		if(radioId == '2000'){ //消费金额
+			if(kpiId == '1007'){ //月
+				title = '<b>【消费金额】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)</b>';
+				titles = '【消费金额】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)';
+			}else if(kpiId == '1008'){ //季
+				title = '<b>【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】季度商户消费占比统计分析图(季)</b>';
+				titles = '【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】季度商户消费占比统计分析图(季)';
+			}else { //年
+				title = '<b>【消费金额】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)</b>';
+				titles = '【消费金额】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)';
+			}
+		}else{
+			if(kpiId == '1007'){ //月
+				title = '<b>【消费人数】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)</b>';
+				titles = '【消费人数】'+areapm+startTime+'月至'+endTime+'月商户消费占比统计分析图(月)';
+			}else if(kpiId == '1008'){ //季
+				title = '<b>【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】【'+jiduEndTemp+'】商户消费占比统计分析图(季)</b>';
+				titles = '【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】【'+jiduEndTemp+'】商户消费占比统计分析图(季)';
+			}else{ //年
+				title = '<b>【消费人数】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)</b>';
+				titles = '【消费人数】'+areapm+startTime+'年至'+endTime+'年商户消费占比统计分析图(年)';
+			}
+		}
+	}
+	
+	
+	
+	var table = '<table  style="border:1px solid #c4cdd8;" class="table table-bordered table-hover ">';
+
+	var etdata = [];
+	var sdata = [];
+	
+	hjarr = {};
+	hjarr['obj0'] = '合计';
+	var ettemp = {};
+	
+	//1.先求出每天的合计数量：
+	var asd={};
+	var asdNum={};
+	$.each(data, function(i, mess){
+		if(mess.obj0 != '0'){
+			if(i > 0){
+				for(var i = 0;i < count;i++){
+					if(i > 0){
+						asd['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(asd['obj'+i] == null?0:asd['obj'+i]);
+					}
+					
+				}
+			}
+		}
+		
+	});
+	var sum=0;
+	if(data.length > 1){
+		for(var i = 1;i < count;i++){
+			if(i < count-1){
+				sum += Number(Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]).toFixed(2));
+			}else{
+				sum += Number(Number(asd['obj'+i] == null?0:asd['obj'+i]).toFixed(2));
+			}
+		
+		}
+	}
+	
+	var hezi=0;
+	var zhi;
+	var jiduTitle = '';
+	$.each(data, function(i, mess){
+		if(mess.obj0 != '0'){
+			ettemp = {};
+			if(i > 0){
+				table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+				for(var i = 0;i < count;i++){
+					if(i == 0){
+						table += '<td style="text-align:center;" >'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+						ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+					}else if(i > 0 && i < count-1){ //省市的值
+						if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+							table += '<td style="text-align:center;">'+Number(Number(mess['obj'+i] == null?0:mess['obj'+i]))+'</td>';
+						}
+						ettemp['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i]);
+					}else{ //省市的总计
+						if(mess['obj'+i] == null){
+							table += '<td style="text-align:center;">0%</td>';
+							ettemp['obj'+i] = '0%';
+						}else{
+							if(sum == 0){
+								table += '<td style="text-align:center;">0%</td>';	
+								ettemp['obj'+i] = '0%';
+							}else{
+								table += '<td style="text-align:center;">'+Number(Number((mess['obj'+i]=='undefined'||mess['obj'+i]=='NaN'?0:mess['obj'+i]/sum)*100).toFixed(2))+'%</td>';
+								zhi = Number((Number(mess['obj'+i]=='undefined'||mess['obj'+i]=='NaN'?0:mess['obj'+i])/sum)*100).toFixed(2);
+								hezi += Number(zhi); //总计的合计
+								sdata.push({name:mess.obj0,y:Number(zhi),id:mess.obj}); 
+								
+								ettemp['obj'+i] = Number((mess['obj'+i]=='undefined'||mess['obj'+i]=='NaN'?0:mess['obj'+i]/sum)*100).toFixed(2)+'%';
+							}
+						}
+					}
+					if(i > 0 && i < count-1){
+						hjarr['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+					}else if(i > 0 && i >= count-1){
+						hjarr['obj'+i] = Number(hezi); //总计的合计
+					}
+				}
+				table += '</tr>';
+			}else{
+				table += '<thead ><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+				if(kpiId == '1008'){ //季度才显示这种效果
+						for(var i = 0;i < count;i++){
+							if(i == 0){
+								table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+								ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+							}else if(i > 0){
+								jiduTitle = (mess['obj'+i] == null?0:mess['obj'+i]);
+								if(jiduTitle == '1'){
+									jiduTitle = '第一季度';
+								}else if(jiduTitle == '2'){
+									jiduTitle = '第二季度';
+								}else if(jiduTitle == '3'){
+									jiduTitle = '第三季度';
+								}else if(jiduTitle == '4'){
+									jiduTitle = '第四季度';
+								}
+								table += '<td style="font-weight:normal;text-align:center;">'+jiduTitle+'</td>';
+								ettemp['obj'+i] = jiduTitle;
+							}
+						
+						}
+					}else{
+						for(var i = 0;i < count;i++){
+							if(i == 0){
+								table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+							}else if(i > 0 && i < (count-1)){
+								if(i <= (pageSize+(temp*pageSize)) && i > (0+(temp*pageSize)) ){
+									table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';	
+								}
+							}else{
+								table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+							}
+							ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+						}
+					}
+				
+				table += '</tr></thead>';
+			}
+			etdata.push(ettemp);
+		}
+    });
+	
+	if(data.length > 1){
+		ettemp = {};
+		table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">合计</td>';
+		ettemp['obj0'] = '合计';
+		for(var i = 1;i < count;i++){
+			if(i < count-1){
+				if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+					table += '<td style="text-align:center;" >'+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]).toFixed(2)+'</td>';
+				}
+				ettemp['obj'+i] = Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]).toFixed(2);
+			}else{
+				table += '<td style="text-align:center;" >100%</td>';
+				ettemp['obj'+i] = '100%';
+			}
+		}
+		table += '</tr>';
+	    etdata.push(ettemp);
+	}
+	table += '</table>';
+	var etstr = '{"result":'+JSON.stringify(etdata)+',"count":'+count+'}';
+if(figureRefresh){ //翻页不需要重复刷新曲线图
+    $('#chart').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: title
+        },
+        tooltip: {
+        	 backgroundColor: '#999999',   // 背景颜色
+  			borderColor: 'ffffff',         // 边框颜色
+  			borderRadius: 5,             // 边框圆角
+           shared: true,
+           useHTML: true,
+     		formatter: function() {
+        		return '<div style="color:#ffffff"><div style="padding:0px 8px 8px 15px; font-size:14px;"></div><div style="height:30px;background:#666666;border-radius: 5px;line-height:30px;margin:0px 0px 5px 0px;"><div style="float:left;height:24px;margin:0px 8px 8px 8px;"><span style="margin-left:7px;">'+this.point.name+'</span><span style="display:inline-block;line-height:30px;margin-top:8px;margin-left:30px;background-color:'+this.point.color+';width:12px;height:12px;">&nbsp;</span><span style="heigt:10px;font-size:12px;margin-left:55px;">'+Number(this.y)+'%</span></div></div>' ;
+        	}
+        },
+        plotOptions: {
+        	series: {
+            cursor: 'pointer',  
+            events: {  
+                click: function(e) {  //点击子景点信息
+        			if(id == '1'){
+        				var str = e.point.name;
+//        	    		var temp = str.substring(0,str.indexOf("["));
+//        				alert(temp+" -- "+e.point.id);
+//        				getCityData(temp,e.point.id,'2');
+        	    		getCityData(str,'2');
+        			}else{
+        				flag = 1;
+        				showChart();
+        			}
+                }  
+            },
+            
+            marker: {
+                enabled: false //false false的时候就不会突出显示点 
+            }
+        },
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+//                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    formatter: function(){
+						var val = Number(this.y);
+				    	if(!isNaN(val)){
+				    		val = val+'%';
+				    	}else{
+				    		val = '0%';
+				    	}
+				    	return '<b>'+this.point.name+'</b>: '+val;
+					}
+                }
+            }
+        },
+        exporting:{  
+            // 是否允许导出  
+            enabled:true,  
+            // 按钮配置  
+            // 文件名  
+            filename: titles,  
+            // 导出文件默认类型  
+            type:'image/png',
+            exporttable:etstr,
+            sourceWidth:(screen.availWidth - 365),
+            url:'kpi/export/export.do'
+        }, 
+        
+        legend: {
+            enabled: false
+        },
+        credits:{  //右下角地址
+            text:''  
+            
+        },
+        series: [{
+            type: 'pie',
+            name: '游客比例',
+            data: sdata
+        }]
+    });
+   }
+	    document.getElementById("data").innerHTML = table;
+	    createPageFootPro();
+}
+function createPageFootPro(){
+	figureRefresh = false;
+	if(totalPage>1){
+		var nextpage = currentPage+1;//下一页
+		var previouspage = currentPage-1;//上一页
+		
+		if(currentPage > 4){
+			showStar = currentPage-4;//显示分页起始页（初始为1）
+		}
+		pageStr = "";
+		if(previouspage == 0){
+			pageStr=pageStr+'<span style="cursor:pointer;"><<</span> ';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showSubBing('+flag+','+previouspage+')"><<</span> ';
+		}
+		var tempShow = showStar;
+		
+		for(var showCount=showStar;showCount<=showStar+4;showCount++ ){
+			if(tempShow<=totalPage){
+				if(tempShow == currentPage){
+					pageStr=pageStr+'<span style="cursor:pointer;color:#1f7bbf;" onclick="showSubBing('+flag+','+tempShow+')">'+tempShow+'</span> ';
+				}else{
+					pageStr=pageStr+'<span style="cursor:pointer;" onclick="showSubBing('+flag+','+tempShow+')">'+tempShow+'</span> ';
+				}
+				tempShow = tempShow + 1;
+			}
+		}
+		if(currentPage == totalPage){
+			pageStr=pageStr+'<span style="cursor:pointer;">>></span>';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showSubBing('+flag+','+nextpage+')">>></span>';
+		}
+		
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+		document.getElementById("pageNum").innerHTML = pageStr;
+	}else{
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+	}
+}
+
+
+
+
+
+/**
+ * 根据所选区域进行查询
+ * @param {Object} id
+ * @param {Object} tempShow
+ * @memberOf {TypeName} 
+ * @return {TypeName} 
+ */
+showAreaChart = function(tempShow){
+	var count;
+	var data;
+	 count = provdata.count;
+	 data = provdata.result;
+	
+	currentPage = tempShow;	//当前页
+	var temp = tempShow-1;
+	totalPage = Math.ceil((Number(count)-1)/pageSize);//总页数
+	
+	
+	var zj = 0;
+	if(data.length <= 1){
+		return;
+	}
+	
+	var jiduTemp;
+	var jiduEndTemp;
+	
+	if(startTime2 == '01'){
+		jiduTemp = '第一季度';
+	}else if(startTime2 == '04'){
+		jiduTemp = '第二季度';
+	}else if(startTime2 == '07'){
+		jiduTemp = '第三季度';
+	}else if(startTime2 == '10'){
+		jiduTemp = '第四季度';
+	}
+	
+	//必须分开写：
+	if(endTime2 == '01'){
+		jiduEndTemp = '第一季度';
+	}else if(endTime2 == '04'){
+		jiduEndTemp = '第二季度';
+	}else if(endTime2 == '07'){
+		jiduEndTemp = '第三季度';
+	}else if(endTime2 == '10'){
+		jiduEndTemp = '第四季度';
+	}
+	
+	if(clientWidth > 1800){
+		if(radioId == '2000'){ //消费金额
+			if(kpiId == '1007'){ //月
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费金额】'+areapm+startTime+'月至'+endTime+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)</span>';
+				titles = '【消费金额】'+areapm+startTime+'月至'+endTime+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)';
+			}else if(kpiId == '1008'){ //季
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(季)</span>';
+				titles = '【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(季)';
+			}else{ //年
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费金额】'+areapm+startTime+'年至'+endTime+'年【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(年)</span>';
+				titles = '【消费金额】'+areapm+startTime+'年至'+endTime+'年【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(年)';
+			}
+		}else{ //消费人数
+			if(kpiId == '1007'){ //月
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费人数】'+areapm+startTime+'月至'+endTime+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)</span>';
+				titles = '【消费人数】'+areapm+startTime+'月至'+endTime+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)';
+			}else if(kpiId == '1008'){ //季
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(季)</span>';
+				titles = '【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(季)';
+			}else{ //年
+				title = '<span style="font-size: 24px;font-weight:bold;">【消费人数】'+areapm+startTime+'年至'+endTime+'年【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(年)</span>';
+				titles = '【消费人数】'+areapm+startTime+'年至'+endTime+'年【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(年)';
+			}
+		}
+		
+	}else{
+		if(radioId == '2000'){ //消费金额
+			if(kpiId == '1007'){ //月
+				title = '<b>【消费金额】'+areapm+startTime+'月至'+endTime+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)</b>';
+				titles = '【消费金额】'+areapm+startTime+'月至'+endTime+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)';
+			}else if(kpiId == '1008'){ //季
+				title = '<b>【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(季)</b>';
+				titles = '【消费金额】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(季)';
+			}else { //年
+				title = '<b>【消费金额】'+areapm+startTime+'年至'+endTime+'年【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(年)</b>';
+				titles = '【消费金额】'+areapm+startTime+'年至'+endTime+'年【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(年)';
+			}
+		}else{
+			if(kpiId == '1007'){ //月
+				title = '<b>【消费人数】'+areapm+startTime+'月至'+endTime+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)</b>';
+				titles = '【消费人数】'+areapm+startTime+'月至'+endTime+'月【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(月)';
+			}else if(kpiId == '1008'){ //季
+				title = '<b>【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(季)</b>';
+				titles = '【消费人数】'+areapm+startTime+'年【'+jiduTemp+'】至【'+jiduEndTemp+'】【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(季)';
+			}else{ //年
+				title = '<b>【消费人数】'+areapm+startTime+'年至'+endTime+'年【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(年)</b>';
+				titles = '【消费人数】'+areapm+startTime+'年至'+endTime+'年【'+temp_provname+""+temp_cityname+'】重点商户消费占比统计分析图(年)';
+			}
+		}
+		
+		
+	}
+	
+	
+//	$.each(data, function(i, mess){
+//		if(mess.obj0 != '0'&&i > 0&&null != mess['obj'+(count - 1)]){
+//			zj += Number(mess['obj'+(count - 1)]);
+//		}
+//    });
+	
+	
+	var table = '<table  style="border:1px solid #c4cdd8;" class="table table-bordered table-hover ">';
+
+	var etdata = [];
+	var sdata = [];
+	
+	hjarr = {};
+	hjarr['obj0'] = '合计';
+	var ettemp = {};
+	
+	//1.先求出每天的合计数量：
+	var asd={};
+	var asdNum={};
+	$.each(data, function(i, mess){
+		if(mess.obj0 != '0'){
+			if(i > 0){
+				for(var i = 0;i < count;i++){
+					if(i > 0){
+						asd['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(asd['obj'+i] == null?0:asd['obj'+i]);
+					}
+					
+				}
+			}
+		}
+		
+	});
+	var sum=0;
+	if(data.length > 1){
+		for(var i = 1;i < count;i++){
+			if(i < count-1){
+				sum += Number(Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]).toFixed(2));
+			}else{
+				sum += Number(Number(asd['obj'+i] == null?0:asd['obj'+i]).toFixed(2));
+			}
+		
+		}
+	}
+	
+	var hezi=0;
+	var zhi;
+	
+	var jiduTitle = '';
+	$.each(data, function(i, mess){
+		if(mess.obj0 != '0'){
+			ettemp = {};
+			if(i > 0){
+				table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+				for(var i = 0;i < count;i++){
+					if(i == 0){
+						table += '<td style="text-align:center;" >'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+						ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+					}else if(i > 0 && i < count-1){ //省市的值
+						if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+							table += '<td style="text-align:center;">'+Number(Number(mess['obj'+i] == null?0:mess['obj'+i]))+'</td>';
+						}
+						ettemp['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i]);
+					}else{ //省市的总计
+						if(mess['obj'+i] == null){
+							table += '<td style="text-align:center;">0%</td>';
+							ettemp['obj'+i] = '0%';
+						}else{
+							if(sum == 0){
+								table += '<td style="text-align:center;">0%</td>';	
+								ettemp['obj'+i] = '0%';
+							}else{
+								table += '<td style="text-align:center;">'+Number(Number((mess['obj'+i]=='undefined'||mess['obj'+i]=='NaN'?0:mess['obj'+i]/sum)*100).toFixed(2))+'%</td>';
+								zhi = Number((Number(mess['obj'+i]=='undefined'||mess['obj'+i]=='NaN'?0:mess['obj'+i])/sum)*100).toFixed(2);
+								hezi += Number(zhi); //总计的合计
+								sdata.push({name:mess.obj0,y:Number(zhi),id:mess.obj}); 
+								
+								ettemp['obj'+i] = Number((mess['obj'+i]=='undefined'||mess['obj'+i]=='NaN'?0:mess['obj'+i]/sum)*100).toFixed(2)+'%';
+							}
+						}
+					}
+					if(i > 0 && i < count-1){
+						hjarr['obj'+i] = Number(mess['obj'+i] == null?0:mess['obj'+i])+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]);
+					}else if(i > 0 && i >= count-1){
+						hjarr['obj'+i] = Number(hezi); //总计的合计
+					}
+				}
+				table += '</tr>';
+			}else{
+				table += '<thead ><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;">';
+				if(kpiId == '1008'){ //季度才显示这种效果
+						for(var i = 0;i < count;i++){
+							if(i == 0){
+								table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+								ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+							}else if(i > 0){
+								jiduTitle = (mess['obj'+i] == null?0:mess['obj'+i]);
+								if(jiduTitle == '1'){
+									jiduTitle = '第一季度';
+								}else if(jiduTitle == '2'){
+									jiduTitle = '第二季度';
+								}else if(jiduTitle == '3'){
+									jiduTitle = '第三季度';
+								}else if(jiduTitle == '4'){
+									jiduTitle = '第四季度';
+								}
+								table += '<td style="font-weight:normal;text-align:center;">'+jiduTitle+'</td>';
+								ettemp['obj'+i] = jiduTitle;
+							}
+						
+						}
+					}else{
+						for(var i = 0;i < count;i++){
+							if(i == 0){
+								table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+							}else if(i > 0 && i < (count-1)){
+								if(i <= (pageSize+(temp*pageSize)) && i > (0+(temp*pageSize)) ){
+									table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+								}
+							}else{
+								table += '<td style="font-weight:normal;text-align:center;">'+(mess['obj'+i] == null?0:mess['obj'+i])+'</td>';
+							}
+							ettemp['obj'+i] = (mess['obj'+i] == null?0:mess['obj'+i]);
+						}
+					}
+				
+				table += '</tr></thead>';
+			}
+			etdata.push(ettemp);
+		}
+    });
+	
+	if(data.length > 1){
+		ettemp = {};
+		table += '<tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">合计</td>';
+		ettemp['obj0'] = '合计';
+		for(var i = 1;i < count;i++){
+			if(i < count-1){
+				if(i<=pageSize+(temp*pageSize) && i>0+(temp*pageSize) ){
+					table += '<td style="text-align:center;" >'+Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]).toFixed(2)+'</td>';
+				}
+				ettemp['obj'+i] = Number(hjarr['obj'+i] == null?0:hjarr['obj'+i]).toFixed(2);
+			}else{
+				table += '<td style="text-align:center;" >100%</td>';
+				ettemp['obj'+i] = '100%';
+			}
+		}
+		table += '</tr>';
+	    etdata.push(ettemp);
+	}
+	table += '</table>';
+	var etstr = '{"result":'+JSON.stringify(etdata)+',"count":'+count+'}';
+if(figureRefresh){ //翻页不需要重复刷新曲线图
+    $('#chart').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: title
+        },
+        tooltip: {
+        	 backgroundColor: '#999999',   // 背景颜色
+  			borderColor: 'ffffff',         // 边框颜色
+  			borderRadius: 5,             // 边框圆角
+           shared: true,
+           useHTML: true,
+     		formatter: function() {
+        		return '<div style="color:#ffffff"><div style="padding:0px 8px 8px 15px; font-size:14px;"></div><div style="height:30px;background:#666666;border-radius: 5px;line-height:30px;margin:0px 0px 5px 0px;"><div style="float:left;height:24px;margin:0px 8px 8px 8px;"><span style="margin-left:7px;">'+this.point.name+'</span><span style="display:inline-block;line-height:30px;margin-top:8px;margin-left:30px;background-color:'+this.point.color+';width:12px;height:12px;">&nbsp;</span><span style="heigt:10px;font-size:12px;margin-left:55px;">'+Number(this.y)+'%</span></div></div>' ;
+        	}
+        },
+        plotOptions: {
+        	series: {
+	            cursor: 'pointer',  
+	            marker: {
+	                enabled: false //false false的时候就不会突出显示点 
+	            }
+       		},
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+//                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    formatter: function(){
+						var val = Number(this.y);
+				    	if(!isNaN(val)){
+				    		val = val+'%';
+				    	}else{
+				    		val = '0%';
+				    	}
+				    	return '<b>'+this.point.name+'</b>: '+val;
+					}
+                }
+            }
+        },
+        exporting:{  
+            // 是否允许导出  
+            enabled:true,  
+            // 按钮配置  
+            // 文件名  
+            filename: titles,  
+            // 导出文件默认类型  
+            type:'image/png',
+            exporttable:etstr,
+            sourceWidth:(screen.availWidth - 365),
+            url:'kpi/export/export.do'
+        }, 
+        
+        legend: {
+            enabled: false
+        },
+        credits:{  //右下角地址
+            text:''  
+            
+        },
+        series: [{
+            type: 'pie',
+            name: '游客比例',
+            data: sdata
+        }]
+    });
+   }
+	    document.getElementById("data").innerHTML = table;
+	    createPageFootArea();
+}
+function createPageFootArea(){
+	figureRefresh = false;
+	if(totalPage>1){
+		var nextpage = currentPage+1;//下一页
+		var previouspage = currentPage-1;//上一页
+		
+		if(currentPage > 4){
+			showStar = currentPage-4;//显示分页起始页（初始为1）
+		}
+		pageStr = "";
+		if(previouspage == 0){
+			pageStr=pageStr+'<span style="cursor:pointer;"><<</span> ';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showAreaChart('+previouspage+')"><<</span> ';
+		}
+		var tempShow = showStar;
+		
+		for(var showCount=showStar;showCount<=showStar+4;showCount++ ){
+			if(tempShow<=totalPage){
+				if(tempShow == currentPage){
+					pageStr=pageStr+'<span style="cursor:pointer;color:#1f7bbf;" onclick="showAreaChart('+tempShow+')">'+tempShow+'</span> ';
+				}else{
+					pageStr=pageStr+'<span style="cursor:pointer;" onclick="showAreaChart('+tempShow+')">'+tempShow+'</span> ';
+				}
+				tempShow = tempShow + 1;
+			}
+		}
+		if(currentPage == totalPage){
+			pageStr=pageStr+'<span style="cursor:pointer;">>></span>';
+		}else{
+			pageStr=pageStr+'<span style="cursor:pointer;" onclick="showAreaChart('+nextpage+')">>></span>';
+		}
+		
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+		document.getElementById("pageNum").innerHTML = pageStr;
+	}else{
+		document.getElementById("bbpage").style.display="block";
+		document.getElementById("pageNum").innerHTML = "";
+	}
+}
+
+
+
+getData();
+
+
+function rq(){
+	var first;
+    var second;
+    if(kpiId == '1007'){
+    	first = et +'-01';
+    	second = st +'-01';
+    	
+    }else if(kpiId == '1009'){
+    	first = et +'-01-01';
+    	second = st +'-01-01';
+    }
+    var sign = "-";
+    var fArray = first.split(sign); 
+    var sArray = second.split(sign);
+    var fDate = new Date(fArray[0],fArray[1],fArray[2]); 
+    var sDate = new Date(sArray[0],sArray[1],sArray[2]); 
+    var t = Math.abs(fDate.getTime()-sDate.getTime()); 
+    var days;
+	if(kpiId == '1007'){ //月
+	    days = (t/1000/60/60/24)/30;
+	    if(days > 7){
+	    	layer.alert('时间范围小于等于7个月！');
+	    	return false;
+	    }
+	}else if(kpiId == '1009'){ //年
+		days = ((t/1000/60/60/24)/30)/12;
+	    if(days > 7){
+	    	layer.alert('时间范围小于等于7年！');
+	    	return false;
+	    }
+	}
+    
+	return true;
+}
+
+
+
+
+
+
+
+
+////数量 逗号分隔：
+function toThousands(num) {
+    var result = [ ], counter = 0;
+    num = (num || 0).toString().split('');
+    for (var i = num.length - 1; i >= 0; i--) {
+        counter++;
+        result.unshift(num[i]);
+        if (!(counter % 3) && i != 0) { result.unshift(','); }
+    }
+    return result.join('');
+}
+
+
+
+
+/////选择类别
+areaList = function(){
+	var citysTemp = citysTemps.queryCitys;
+	var jtitle="";
+	if(null != document.getElementById("areaChoice")){
+	var temp = "<table style='text-align:center;' border ='1' ><tr style='font-family: 微软雅黑, 宋体, 黑体;'>";
+	var flag = 100;
+	$.each(citysTemp, function(i, mess){
+		if(i != 0 && i % 4 == 0){
+			temp += "</tr><tr style='font-family: 微软雅黑, 宋体, 黑体;'>";
+		}
+		jtitle = mess['citys']; //要展示的字符串
+//		if(jtitle.length > 7){
+//			jtitle = jtitle.substring(0,7)+"..";
+//		}
+		temp += "<td width=80px; style='text-align:center;height:28px;white-space:nowrap;cursor: pointer;' >" +
+				" <label onclick=setJxs("+i+") id=jxslist_"+i+" value="+mess['citys']+" title='"+mess['citys']+"'>"+(jtitle)+"</label>" +
+				"</td>";
+		flag ++;
+	});
+		temp += "</tr></table>";
+		document.getElementById("arealist").innerHTML = temp;
+	}
+}
+
+var tbar='';
+setJxs = function(flog){
+	if(tbar == '' && tbar != '0'){ //刚进来
+		tbar = flog;
+	}
+	if(null != flog && document.getElementById("jxslist_"+flog)!= null){
+		document.getElementById("jxslist_"+flog).style.color="#0066FF"; //选中的改变颜色
+		if(flog != tbar){
+			document.getElementById("jxslist_"+tbar).style.color="";//没选中的返回默认颜色
+			tbar = flog;
+		}
+		temp_areapm = document.getElementById("jxslist_"+flog).innerHTML;  
+	}
+}
+areaList();
+
+
+
+
+
+/**
+ * 选择省市
+ */
+var csjList;
+queryProvCityList = function(){
+	$.ajax({
+		type:"post",
+		url:"kpi/provinceCity/queryProvCityList.do",
+		data:{},
+		timeout: 10000,
+		dataType: "json",
+		success:function(data,textStatus) {
+			csjList = data.csjList;
+			openCsjList(1);
+		}
+	});
+}
+queryProvCityList();
+
+var csj_areatype = {'areatype_1':'省份','areatype_2':'城市'};
+var cityid_areatype = {'areatype_1':'','areatype_2':''};
+
+openCsjList = function(areatype,onclickid){
+	if(null != document.getElementById("csjChoice")){
+//		temp_cityid = '';
+//		temp_cityname = '';
+		if(areatype == 2){
+			temp_provid = '';
+			temp_provname = '';
+			
+			temp_cityid = '';
+			temp_cityname = ''
+		}
+		if(null != document.getElementById("csjChoice")){
+			var temp = "<table style='text-align:center;font-family: 微软雅黑, 宋体, 黑体;'><tr><td width=56px; style='font-size:14px;'>"+csj_areatype['areatype_'+areatype]+"：</td>";
+			var flag = 0;
+			if(areatype == 1){
+				temp += "<td width=56px; style='cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;' onclick=openCsjList(2,0); id='cityid_0' style='font-size:14px;'>全部</td>";
+				flag = 1;
+			}
+			
+			if(document.getElementById("cityid_"+cityid_areatype['areatype_'+(areatype-1)])!= null){
+				document.getElementById("cityid_"+cityid_areatype['areatype_'+(areatype-1)]).style.color="";
+				
+			}
+			if(null != onclickid && document.getElementById("cityid_"+onclickid) != null){
+				document.getElementById("cityid_"+onclickid).style.color="#0066FF";
+				cityid_areatype['areatype_'+(areatype-1)] = onclickid;
+				
+				if(onclickid == 0){
+					temp_provname = '';
+					temp_provid = '';
+				}
+				
+			}
+			
+			$.each(csjList, function(i, mess){
+				if(mess.cityid == onclickid){
+					if(mess.lever == 2){
+						temp_cityname = mess.cityname;
+						temp_cityid = onclickid;
+					}else if(mess.lever == 1){
+						temp_provname = mess.cityname;
+						temp_provid = onclickid;
+					}
+				}
+				
+				if(mess.lever == areatype && (onclickid == null||onclickid == mess.pid)){
+					if(flag > 0 && flag%5 == 0){
+						temp += "</tr><tr><td></td>";
+					} 
+					//text-overflow:ellipsis; white-space: nowrap;
+					var cityname = mess.cityname;
+					if(cityname.length > 4){
+						cityname = cityname.substring(0,3)+"..";
+					}
+					temp += "<td width=56 style='cursor: pointer;display:inline-block;overflow:hidden;' title='"+mess.cityname+"' onclick=openCsjList("+(mess.lever+1)+","+mess.cityid+") id=cityid_"+mess.cityid+">"+cityname+"</td>";
+					flag ++;
+				}
+			});
+			if(flag == 0){
+				temp = "<div id='csjlist_"+(areatype+1)+"' ></div>";
+			}else{
+				while(flag%5 != 0 ){
+					temp +="<td style='width:56px;cursor: pointer;display:inline-block;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;'> </td>";
+					flag ++;
+				}
+				temp += "</tr></table><div style='height:15px;'></div><div id='csjlist_"+(areatype+1)+"' ></div>";
+			}
+			document.getElementById("csjlist_"+areatype).innerHTML = temp;
+			
+				if(flag == 0 && (areatype+1 <3)){
+					openCsjList(areatype+1,onclickid);
+				}
+			}
+	}
+}

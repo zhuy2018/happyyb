@@ -1,0 +1,95 @@
+$(function (){
+	var timer1=null;
+	$('.JQueryiframe').css({
+		'width':'100%',
+		'height':'5px',
+		'opacity': '0',
+		'-moz-opacity': '0',
+	    'position': 'fixed',
+	    'left':'0',
+    	'top':'0',
+    	'z-index':'1'
+	}).mouseover(function(){
+		clearTimeout(timer1);
+		$("#navbar1").css({
+            top: '0px'
+        });
+	});
+	$("#user_menu").mouseout(function() {
+	    clearTimeout(timer1);
+	    timer1 = setTimeout(function() {
+	        $("#navbar1").css('top', '-90px')
+	    }, 200)
+	});
+	$("#user_menu").mouseover(function() {
+	    clearTimeout(timer1);
+	    $("#navbar1").css({
+	        top: '0px'
+	    })
+	});
+	$("#navbar1").mouseover(function() {
+	    clearTimeout(timer1);
+	    $("#navbar").css({
+	        top: '0px'
+	    })
+	});
+	$("#navbar1").mouseout(function() {
+	    clearTimeout(timer1);
+	    timer1 = setTimeout(function() {
+	        $("#navbar1").css({
+	            top: '-90px'
+	        });
+	        $("#user_menu").fadeOut(1000)
+	    }, 1000)
+	});
+	$('.login_box').click(function (){
+		$(this).find('#user_menu').fadeIn(200)
+	});
+	/*document.onmousemove=function(ev)
+	{
+	   var oEvent=ev||event;
+	   if( oEvent.clientY < 10 ){
+		   console.log("x坐标是:"+oEvent.clientX+",y坐标是:"+oEvent.clientY);
+	        $("#navbar1",window.parent.document).css({
+	            top: '0px'
+	        })
+	   }
+	}*/
+	/*var timer2 = null;
+	document.onmouseover = function(ev) {
+	    var oEvent = ev || event;
+	    if (oEvent.clientY <= 20) {
+	        clearTimeout(timer2);
+	        $("#navbar1").css({
+	            top: '0px'
+	        })
+	    }
+	};
+	$("#user_menu").mouseover(function() {
+	    clearTimeout(timer2);
+	    $("#navbar1").css({
+	        top: '0px'
+	    })
+	});
+	$("#navbar1").mouseover(function() {
+	    clearTimeout(timer2);
+	    $("#navbar").css({
+	        top: '0px'
+	    })
+	});
+	$("#user_menu").mouseout(function() {
+	    clearTimeout(timer2);
+	    timer1 = setTimeout(function() {
+	        $("#navbar1").css('top', '-90px')
+	    }, 200)
+	});
+	$("#navbar1").mouseout(function() {
+	    clearTimeout(timer2);
+	    timer1 = setTimeout(function() {
+	        $("#navbar1").css({
+	            top: '-90px'
+	        });
+	        $("#user_menu").fadeOut(1000)
+	    }, 1000)
+	});*/
+});

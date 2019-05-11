@@ -1,0 +1,286 @@
+@charset "UTF-8";
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: "微软雅黑";
+  overflow: hidden;
+}
+
+/*
+ 
+ * content_wrap开始
+ * */
+.content_wrap {
+  width: 1920px;
+  height: 1080px;
+  background: url(../img/bg.png) no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+  position: relative;
+}
+.content_wrap .content_main {
+  height: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 10px;
+  position: relative;
+}
+.content_wrap .content_main .title {
+  text-align: center;
+  line-height: 58px;
+  font-size: 28px;
+  color: #fff;
+}
+.content_wrap .content_main .main_left {
+  width: 1265px;
+  height: 968px;
+  float: left;
+}
+.content_wrap .content_main .main_left .l_top {
+  width: 1265px;
+  height: 968px;
+  background: url(../img/ticket_bg.png) no-repeat;
+  float: left;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: url(../img/yellow_circle01.png) no-repeat;
+  background-size: 100% 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 10px yellow;
+  animation: bgsize_change 2s linear infinite;
+  cursor: pointer;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village .detail_wrap {
+  display: none;
+  width: 236px;
+  height: 180px;
+  background: rgba(18, 97, 149, 0.7);
+  border-radius: 5px;
+  color: #fff;
+  position: absolute;
+  z-index: 100;
+  top: -186px;
+  left: -90px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village .detail_wrap .village_title {
+  font-size: 22px;
+  text-align: center;
+  line-height: 60px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village .detail_wrap .detail {
+  padding-left: 20px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village .detail_wrap .detail span {
+  font-size: 44px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(1) {
+  left: 728px;
+  top: 311px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(2) {
+  left: 871px;
+  top: 215px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(3) {
+  left: 902px;
+  top: 181px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(4) {
+  left: 955px;
+  top: 211px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(5) {
+  left: 420px;
+  top: 635px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(6) {
+  left: 296px;
+  top: 370px;
+}
+/* 耕织图村落 */
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(7) {
+  left: 656px;
+  top: 389px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(8) {
+  left: 663px;
+  top: 414px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(9) {
+  left: 673px;
+  top: 441px;
+}
+/* 龙门秘境村落 */
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(10) {
+  left: 925px;
+  top: 183px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(11) {
+  left: 925px;
+  top: 202px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(12) {
+  left: 925px;
+  top: 232px;
+}
+/* 太阳公社村落 */
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(13) {
+  left: 538px;
+  top: 471px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(14) {
+  left: 538px;
+  top: 502px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(15) {
+  left: 538px;
+  top: 529px;
+}
+
+/*  忠孝文化村落*/
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(16) {
+  left: 162px;
+  top: 578px;
+}
+.content_wrap .content_main .main_left .l_top #area_tickit .per_village:nth-child(17) {
+  left: 187px;
+  top: 554px;
+}
+.content_wrap .content_main .main_right {
+  width: 625px;
+  height: 968px;
+  float: right;
+  color: #fff;
+}
+.content_wrap .content_main .main_right .r_top {
+  width: 625px;
+  height: 479px;
+  background: url(../img/realtimeVisitor/top_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  float: left;
+  background-size: 100% 100%;
+  margin-bottom: 10px;
+}
+.content_wrap .content_main .main_right .r_top .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 18px 0 10px;
+}
+.content_wrap .content_main .main_right .r_top .per_title .tab_wrap {
+  width: 177px;
+  height: 19px;
+  font-size: 16px;
+  border: 1px solid #116d72;
+  float: right;
+}
+.content_wrap .content_main .main_right .r_top .per_title .tab_wrap .per_tab {
+  width: 88px;
+  height: 19px;
+  line-height: 19px;
+  float: left;
+  cursor: pointer;
+  text-align: center;
+  color: #667a8e;
+  background: rgba(60, 88, 130, 0.7);
+}
+.content_wrap .content_main .main_right .r_top .per_title .tab_wrap .active {
+  color: #fff;
+}
+.content_wrap .content_main .main_right .r_top .per_title .tab_wrap .per_tab:nth-child(1) {
+  border-right: 1px solid #116d72;
+}
+.content_wrap .content_main .main_right .r_top .per_title .tab_wrap .per_tab:hover {
+  color: #fff;
+}
+.content_wrap .content_main .main_right .r_top #spot_tickit {
+  width: 100%;
+  height: 380px;
+}
+.content_wrap .content_main .main_right .r_bot {
+  width: 625px;
+  height: 479px;
+  background: url(../img/realtimeVisitor/top_bg.png) no-repeat;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  padding: 0 16px;
+  float: right;
+  background-size: 100% 100%;
+}
+.content_wrap .content_main .main_right .r_bot .per_title {
+  background: url(../img/title_bg.png) no-repeat 4px center;
+  height: 21px;
+  font-size: 20px;
+  line-height: 21px;
+  color: #6be9ff;
+  padding-left: 38px;
+  margin: 18px 0 10px;
+}
+.content_wrap .content_main .main_right .r_bot .per_title .tab_wrap {
+  width: 177px;
+  height: 19px;
+  font-size: 16px;
+  border: 1px solid #116d72;
+  float: right;
+}
+.content_wrap .content_main .main_right .r_bot .per_title .tab_wrap .per_tab {
+  width: 88px;
+  height: 19px;
+  line-height: 19px;
+  float: left;
+  cursor: pointer;
+  text-align: center;
+  color: #667a8e;
+  background: rgba(60, 88, 130, 0.7);
+}
+.content_wrap .content_main .main_right .r_bot .per_title .tab_wrap .active {
+  color: #fff;
+}
+.content_wrap .content_main .main_right .r_bot .per_title .tab_wrap .per_tab:nth-child(1) {
+  border-right: 1px solid #116d72;
+}
+.content_wrap .content_main .main_right .r_bot .per_title .tab_wrap .per_tab:hover {
+  color: #fff;
+}
+.content_wrap .content_main .main_right .r_bot #tickit_rank {
+  width: 100%;
+  height: 400px;
+}
+
+@-webkit-keyframes bgsize_change {
+  0% {
+    width: 24px;
+    height: 24px;
+  }
+  50% {
+    width: 36px;
+    height: 36px;
+  }
+  100% {
+    width: 24px;
+    height: 24px;
+  }
+}

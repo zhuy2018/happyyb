@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)http://218.205.68.159/laly/dataanalysis/mobileLskll/index.do -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--<base href="http://218.205.68.159:80/laly/">--><base href=".">
+	<!-- jsp文件头和头部 -->
+	
+<!--<base href="http://218.205.68.159:80/laly/">--><base href=".">
+	
+	<title></title>
+	<meta name="description" content="overview &amp; stats">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- basic styles -->
+	<link href="./bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./font-awesome.css">
+
+	<!-- ace styles -->
+	<link rel="stylesheet" href="./ace.min.css">
+	<script type="text/javascript" src="./jquery-1.9.1.min.js.下载"></script>
+
+	<script type="text/javascript" src="./bootbox.min.js.下载"></script>	<!-- 确认窗口 -->
+
+	<!-- 树-->
+	<link rel="stylesheet" href="./zTreeStyle.css" type="text/css">
+	
+	
+	<script type="text/javascript" src="./jquery.ztree.core-3.5.js.下载"></script>
+	<script type="text/javascript" src="./jquery.ztree.excheck-3.5.js.下载"></script>
+	
+	<script type="text/javascript" src="./zDrag.js.下载"></script>
+	<script type="text/javascript" src="./zDialog.js.下载"></script>
+	<script type="text/javascript" src="./layer.js.下载"></script><link rel="stylesheet" href="./layer.css" id="layui_layer_skinlayercss" style="">
+	<script type="text/javascript" src="./jquery.tips.js.下载"></script>
+	
+	<script type="text/javascript" src="./WdatePicker.js.下载"></script><link href="./WdatePicker.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="./form.js.下载"></script>
+	
+	
+	
+	<script type="text/javascript">
+	/** 
+ * 时间对象的格式化; 
+ */  
+Date.prototype.format = function(format) {  
+    /* 
+     * eg:format="yyyy-MM-dd hh:mm:ss"; 
+     */  
+    var o = {  
+        "M+" : this.getMonth() + 1, // month  
+        "d+" : this.getDate(), // day  
+        "h+" : this.getHours(), // hour  
+        "m+" : this.getMinutes(), // minute  
+        "s+" : this.getSeconds(), // second  
+        "q+" : Math.floor((this.getMonth() + 3) / 3), // quarter  
+        "S" : this.getMilliseconds()  
+        // millisecond  
+    }  
+  
+    if (/(y+)/.test(format)) {  
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4  
+                        - RegExp.$1.length));  
+    }  
+  
+    for (var k in o) {  
+        if (new RegExp("(" + k + ")").test(format)) {  
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1  
+                            ? o[k]  
+                            : ("00" + o[k]).substr(("" + o[k]).length));  
+        }  
+    }  
+    return format;  
+} 
+
+function initData(){
+	if(null != document.getElementById("data")){
+	document.getElementById("data").innerHTML = '';
+	}
+	if(null != document.getElementById("chart")){
+	document.getElementById("chart").innerHTML = '';
+	}
+	
+	
+}
+
+	
+	</script>
+
+	<link rel="stylesheet" href="./css.css">
+	<script type="text/javascript" src="./highcharts.js.下载"></script>
+	
+	<script type="text/javascript" src="./highcharts-more.js.下载"></script>
+	<script type="text/javascript" src="./highcharts-themes.js.下载"></script>
+	<script type="text/javascript" src="./exporting.js.下载"></script>
+	<style type="text/css">
+	html,body{
+		height: 100%;/*设置html和body的width和height为100%，可使全屏生效*/
+		width: 100%;
+		min-width: 600px;
+		min-height: 400px;
+		color:#63666d;
+		font-size: 14px;
+		font-family: 黑体;
+		margin: 0px; /*设置上下左右的相对位置为0，可避免超出范围出现滚动条*/
+		overflow: hidden;
+	}
+	</style>
+	<script type="text/javascript">
+	//提交参数
+	var scenesname = '临安市';
+	var kpiId = 1006;
+	var startTime = '';
+	var endTime = '';
+	var startTime2 = '';
+	var endTime2 = '';
+	//临时参数
+	var displayid = '';
+	var temp_scenesname = '';
+	
+	//景区 控件
+	function scenesOnclick(onclickid){
+		$('#'+onclickid).css({'display':'none'});
+		getScenesSelect();
+		scenesname = temp_scenesname;
+		if(scenesname != ''){	
+			$('#displayscenesvalue').html(scenesname);
+		}else{
+			$('#displayscenesvalue').html('请选择景区..');
+			layer.alert('请选择景区！');
+			return false;
+		}
+		getData();
+	}
+	
+	function changeKpiid(onclickid){
+		if(null == onclickid){
+			onclickid = 'timeChoice'+kpiId;
+		}else{
+			onclickid = 'timeChoice'+onclickid;
+		}
+		if($('#'+onclickid).css("display") == 'none'){
+			if(displayid!=''){
+				$('#'+displayid).css({'display':'none'});
+			}
+			$('#'+onclickid).css({'display':'block'});
+			displayid = onclickid;
+		}else{
+			$('#'+onclickid).css({'display':'none'});
+		}
+	}
+	
+	function displayOnclick(onclickid){
+		if($('#'+onclickid).css("display") == 'none'){
+			if(displayid!=''){
+				$('#'+displayid).css({'display':'none'});
+			}
+			$('#'+onclickid).css({'display':'block'});
+			displayid = onclickid;
+		}else{
+			$('#'+onclickid).css({'display':'none'});
+		}
+	}
+	
+	function cancel(onclickid){
+		$('#'+onclickid).css({'display':'none'});
+	}
+	
+	//时间控件
+	function timeOnclick(onclickid){
+		if(displayid!=''){
+			$('#'+displayid).css({'display':'none'});
+		}
+		$('#kpiId_'+kpiId).css({'color':'','background':'#f5f7f7'});
+		kpiId = onclickid;
+		
+		$('#kpiId_'+kpiId).css({'color':'#ffffff','background':'#5776a3'});
+		$('#timeChoice'+onclickid).css({'display':'none'});//隐藏弹出面板
+		
+		if(kpiId == 1008){ //季度
+			startTime = $('#startTime'+onclickid+'_1').val(); //年
+			startTime2 = $('#startTime'+onclickid+'_2').val(); //开始季
+			endTime2 =  $('#endTime'+onclickid+'_2').val(); //结束季
+			if(startTime == ''||startTime2 == '' || endTime2 == ''){
+				layer.alert('请填写日期条件！');
+				return;
+			}
+			//判断结束季是否小于开始季：
+			if(endTime2 < startTime2){
+				layer.alert('结束季必须小于等于开始季！');
+				return;
+			}
+			$('#displaytimevalue').html(startTime+'_'+$('#startTime'+onclickid+'_2'+' option:selected').text()+' ~ '+$('#endTime'+onclickid+'_2'+' option:selected').text());
+		}else{
+			startTime = $('#startTime'+onclickid).val();
+			endTime = $('#endTime'+onclickid).val();
+			if(startTime > endTime){
+				layer.alert('开始日期不能大于结束日期！');
+				return;
+			}
+			$('#displaytimevalue').html(startTime+' ~ '+endTime);//设置显示值
+		}
+		getData();
+	}
+	</script>
+</head>
+<body id="body" style="background: rgb(153, 153, 153); width: 1620px;">
+	<div id="divBody" style="margin-left: 15px; margin-right: 15px; height: 100%; width: 1590px;">
+	
+		<!-- 景区 -->
+		<div style=" z-index:99;margin: -52px 0px 15px 0px;" class="relative l">
+			<a class="time" onclick="displayOnclick(&#39;scenesChoice&#39;);">
+				<span><font style="width:182px;font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;" class="calendar" id="displayscenesvalue">临安市</font></span>
+			</a>
+			<div id="scenesChoice" style="width: 400px; left: 0;" class="timetxt hide panone">
+				<div style="margin:10px;" id="sceneslist"><table style="text-align:center;"><tbody><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="50px;" style="text-align:left;cursor: pointer;" onclick="setScenes(&#39;scenesAll&#39;)" id="sceneslist_all">全选</td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(0)" id="sceneslist_0"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="100" value="临安市"> <label class="lbl" for="100" title="临安市">临安市</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(1)" id="sceneslist_1"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="101" value="白水涧"> <label class="lbl" for="101" title="白水涧">白水涧</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(2)" id="sceneslist_2"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="102" value="大明山"> <label class="lbl" for="102" title="大明山">大明山</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(3)" id="sceneslist_3"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="103" value="东天目山"> <label class="lbl" for="103" title="东天目山">东天目山</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(4)" id="sceneslist_4"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="104" value="河桥古镇"> <label class="lbl" for="104" title="河桥古镇">河桥古镇</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(5)" id="sceneslist_5"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="105" value="红叶指南"> <label class="lbl" for="105" title="红叶指南">红叶指南</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(6)" id="sceneslist_6"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="106" value="临安八百里风情岛"> <label class="lbl" for="106" title="临安八百里风情岛">临安八百里..</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(7)" id="sceneslist_7"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="107" value="玲珑山"> <label class="lbl" for="107" title="玲珑山">玲珑山</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(8)" id="sceneslist_8"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="108" value="柳溪江"> <label class="lbl" for="108" title="柳溪江">柳溪江</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(9)" id="sceneslist_9"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="109" value="龙井峡"> <label class="lbl" for="109" title="龙井峡">龙井峡</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(10)" id="sceneslist_10"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="110" value="钱王陵园"> <label class="lbl" for="110" title="钱王陵园">钱王陵园</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(11)" id="sceneslist_11"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="111" value="青山湖"> <label class="lbl" for="111" title="青山湖">青山湖</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(12)" id="sceneslist_12"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="112" value="清凉峰旅游度假区"> <label class="lbl" for="112" title="清凉峰旅游度假区">清凉峰旅游..</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(13)" id="sceneslist_13"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="113" value="瑞晶石花洞"> <label class="lbl" for="113" title="瑞晶石花洞">瑞晶石花洞</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(14)" id="sceneslist_14"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="114" value="神龙川"> <label class="lbl" for="114" title="神龙川">神龙川</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(15)" id="sceneslist_15"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="115" value="十门峡"> <label class="lbl" for="115" title="十门峡">十门峡</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(16)" id="sceneslist_16"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="116" value="太湖源"> <label class="lbl" for="116" title="太湖源">太湖源</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(17)" id="sceneslist_17"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="117" value="天目大峡谷"> <label class="lbl" for="117" title="天目大峡谷">天目大峡谷</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(18)" id="sceneslist_18"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="118" value="天目源"> <label class="lbl" for="118" title="天目源">天目源</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(19)" id="sceneslist_19"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="119" value="湍口众安氡温泉"> <label class="lbl" for="119" title="湍口众安氡温泉">湍口众安氡..</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(20)" id="sceneslist_20"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="120" value="西径山"> <label class="lbl" for="120" title="西径山">西径山</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(21)" id="sceneslist_21"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="121" value="天目山"> <label class="lbl" for="121" title="天目山">天目山</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(22)" id="sceneslist_22"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="122" value="月亮湾"> <label class="lbl" for="122" title="月亮湾">月亮湾</label></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(23)" id="sceneslist_23"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="123" value="浙西大龙湾"> <label class="lbl" for="123" title="浙西大龙湾">浙西大龙湾</label></td></tr><tr style="font-family: 微软雅黑, 宋体, 黑体;"><td width="70px;" style="text-align:left;"></td><td width="100px;" style="text-align:left;height:28px;white-space:nowrap;cursor: pointer;" onclick="setScenes(24)" id="sceneslist_24"> <input type="checkbox" class="ace ace-checkbox-2" name="scenesItems" id="124" value="浙西大峡谷"> <label class="lbl" for="124" title="浙西大峡谷">浙西大峡谷</label></td></tr></tbody></table></div>
+				<div class="opeDiv after">
+					<small class="l" style="display: none; margin-left: 30px;"></small>
+					<a class="r Confirm" onclick="scenesOnclick(&#39;scenesChoice&#39;);">确定</a>
+					<a class="r Cancel" onclick="cancel(&#39;scenesChoice&#39;);">取消</a>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 时间控件选择区 -->
+		<div style="z-index:99;margin:-52px 0px 15px 15px;" class="relative l">
+			<a class="time" onclick="changeKpiid();">
+				<span><font style="width:182px;font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;" class="calendar" id="displaytimevalue">2017-11-22 ~ 2017-11-27</font></span>
+			</a>
+			
+			<!-- 日 -->
+			<div id="timeChoice1006" style="width: 365px; left: 0; " class="timetxt hide panone">
+				<div style="margin:30px;"> 
+					从<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-bottom:0px;margin-left:10px;margin-right:5px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM-dd&#39;,maxDate:&#39;%y-%M-%d&#39;})" id="startTime1006" type="text">
+					到<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-left:10px;margin-bottom:0px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM-dd&#39;,minDate:&#39;#F{$dp.$D(\&#39;startTime1006\&#39;)}&#39;,maxDate:&#39;%y-%M-%d&#39;})" id="endTime1006" type="text">
+						
+				</div>
+				
+				<div class="opeDiv after">
+					<small class="l" style="display: none; margin-left: 30px;"></small>
+					<a class="r Confirm" onclick="timeOnclick(1006);">确定</a>
+					<a class="r Cancel" onclick="cancel(&#39;timeChoice1006&#39;);">取消</a>
+				</div>
+			</div>
+			<!-- 月 -->
+			<div id="timeChoice1007" style="width: 365px; left: 0; " class="timetxt hide panone">
+				<div style="margin:30px;"> 
+					从<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-bottom:0px;margin-left:10px;margin-right:5px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM&#39;,maxDate:&#39;%y-%M&#39;})" id="startTime1007" type="text">
+					到<input class="Wdate" style="font-size: 14px; font-family: 微软雅黑, 宋体, 黑体;width: 100px;height:18px;margin-left:10px;margin-bottom:0px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy-MM&#39;,minDate:&#39;#F{$dp.$D(\&#39;startTime1007\&#39;)}&#39;,maxDate:&#39;%y-%M&#39;})" id="endTime1007" type="text">
+						
+				</div>
+				
+				<div class="opeDiv after">
+					<small class="l" style="display: none; margin-left: 30px;"></small>
+					<a class="r Confirm" onclick="timeOnclick(1007);">确定</a>
+					<a class="r Cancel" onclick="cancel(&#39;timeChoice1007&#39;);">取消</a>
+				</div>
+			</div>
+			<!-- 季 -->
+			<div id="timeChoice1008" style="width: 450px; left: 0; font-family: 微软雅黑, 宋体, 黑体;" class="timetxt hide panone">
+				<div style="margin:30px;"> 
+				<table><tbody><tr>
+					<td><input class="Wdate" style="width: 100px;height:22px;margin-bottom:0px;" onfocus="javascript:WdatePicker({skin:&#39;whyGreen&#39;,dateFmt:&#39;yyyy&#39;,maxDate:&#39;%y&#39;})" id="startTime1008_1" type="text"></td>
+					
+					<td style="padding-left: 5px; padding-right: 5px;">从
+						<select name="startTime1008_2" id="startTime1008_2" style="width:100px;color:#63666d;">
+						  <option value="01" style="color:#63666d;">1季度</option>
+						  <option value="04" style="color:#63666d;">2季度</option>
+						  <option value="07" style="color:#63666d;">3季度</option>
+						  <option value="10" style="color:#63666d;">4季度</option>
+						</select> 
+					</td>
+					
+					<td style="padding-left: 5px; padding-right: 5px;">到
+						<select name="endTime1008_2" id="endTime1008_2" style="width:100px;">
+							<option value="01" style="color:#63666d;">1季度</option>
+							<option value="04" style="color:#63666d;">2季度</option>
+							<option value="07" style="color:#63666d;">3季度</option>
+							<option value="10" style="color:#63666d;">4季度</option>
+						</select>
+					</td>
+					</tr></tbody></table>
+				</div>
+				
+				<div class="opeDiv after">
+					<small class="l" style="display: none; margin-left: 30px;"></small>
+					<a class="r Confirm" onclick="timeOnclick(1008);">确定</a>
+					<a class="r Cancel" onclick="cancel(&#39;timeChoice1008&#39;);">取消</a>
+				</div>
+			</div>
+		</div>
+		
+		<!--  图表  按钮 迁移  -->
+		<div style="width:350px;float:left; margin:-52px 0px 15px 15px;">
+			<table>
+				<tbody><tr>
+					<td style="text-align:center;width:70px;height:36px;background:#5776a3;color:#ffffff;border-radius: 5px 0px 0px 5px;cursor:pointer;border:1px solid #c4cdd8;line-height:36px;font-size: 16px;float:left;" id="kpiId_1006" onclick="timeOnclick(1006);">&nbsp;日&nbsp;</td>
+					<td style="text-align:center;width:70px;height:36px;background:#f5f7f7;cursor:pointer;border:1px solid #c4cdd8;line-height:36px;font-size: 16px;float:left;" id="kpiId_1007" onclick="timeOnclick(1007);">&nbsp;月&nbsp;</td>
+					<td style="text-align:center;width:70px;height:36px;background:#f5f7f7;cursor:pointer;border-radius: 0px 5px 5px 0px;border:1px solid #c4cdd8;line-height:36px; font-size: 16px;float:left;" id="kpiId_1008" onclick="timeOnclick(1008);">&nbsp;季&nbsp;</td>
+				</tr>
+			</tbody></table>
+		</div>
+		
+		<!-- 图形展示区 -->
+		<div style="width:100%;margin-top:65px;height:100%;">
+			<div style="background:#5776a3;width:100%;height:39px;border-radius: 5px 5px 0px 0px;border:1px solid #c4cdd8;">
+				<span style="display:inline-block;width:17px;height:17px;background:url(img/reportForms/line_bg.png) no-repeat;margin: 11px 0 0 12px;"></span>
+				<span style="line-height:39px; margin-left:5px;font-size: 18px; font-family: 微软雅黑, 宋体, 黑体;color:#fff;">历史客流量分析</span>
+				<!--   点击某一个按钮为其添加class  .activeBtn ; 其他兄弟元素去掉class  .activeBtn。  -->
+				<span id="tableBtn" title="统计表格"></span>
+				<span id="lineBtn" class="activeBtn" title="统计图表"></span>
+				
+			</div>
+			<div id="chart" style="height: 650px; width: 100%; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(255, 255, 255) rgb(196, 205, 216) rgb(196, 205, 216); border-image: initial;" data-highcharts-chart="0"><div id="highcharts-ibuvpi5-0" class="highcharts-container " style="position: relative; overflow: hidden; width: 1590px; height: 650px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><svg version="1.1" class="highcharts-root" style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;" xmlns="http://www.w3.org/2000/svg" width="1590" height="650" viewBox="0 0 1590 650"><desc>Created with Highcharts 5.0.14</desc><defs><clippath id="highcharts-ibuvpi5-1"><rect x="0" y="0" width="1472" height="510" fill="none"></rect></clippath></defs><rect fill="#ffffff" class="highcharts-background" x="0" y="0" width="1590" height="650" rx="0" ry="0"></rect><rect fill="none" class="highcharts-plot-background" x="88" y="62" width="1472" height="510"></rect><g class="highcharts-button" style="cursor:pointer;" stroke-linecap="round" transform="translate(1514,10)"><title>Chart context menu</title><rect fill="white" class=" highcharts-button-box" x="0.5" y="0.5" width="66" height="34" rx="2" ry="2" stroke="none" stroke-width="1"></rect><path fill="#E0E0E0" d="M 6 6.5 L 20 6.5 M 6 11.5 L 20 11.5 M 6 16.5 L 20 16.5" stroke="#666" stroke-width="3"></path><text x="33" style="font-weight:normal;color:#333333;fill:#333333;" y="20">导出</text></g><g class="highcharts-plot-lines-0"><path fill="none" stroke="#808080" stroke-width="1" d="M 88 572.5 L 1560 572.5"></path></g><g class="highcharts-grid highcharts-xaxis-grid "><path fill="none" class="highcharts-grid-line" d="M 578.5 62 L 578.5 572" opacity="1"></path><path fill="none" class="highcharts-grid-line" d="M 1068.5 62 L 1068.5 572" opacity="1"></path><path fill="none" class="highcharts-grid-line" d="M 1559.5 62 L 1559.5 572" opacity="1"></path><path fill="none" class="highcharts-grid-line" d="M 87.5 62 L 87.5 572" opacity="1"></path></g><g class="highcharts-grid highcharts-yaxis-grid "><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 88 572.5 L 1560 572.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 88 499.5 L 1560 499.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 88 426.5 L 1560 426.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 88 353.5 L 1560 353.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 88 281.5 L 1560 281.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 88 208.5 L 1560 208.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 88 135.5 L 1560 135.5" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 88 61.5 L 1560 61.5" opacity="1"></path></g><rect fill="none" class="highcharts-plot-border" x="88" y="62" width="1472" height="510"></rect><g class="highcharts-axis highcharts-xaxis "><path fill="none" class="highcharts-tick" stroke="#ccd6eb" stroke-width="1" d="M 578.5 572 L 578.5 582" opacity="1"></path><path fill="none" class="highcharts-tick" stroke="#ccd6eb" stroke-width="1" d="M 1068.5 572 L 1068.5 582" opacity="1"></path><path fill="none" class="highcharts-tick" stroke="#ccd6eb" stroke-width="1" d="M 1560.5 572 L 1560.5 582" opacity="1"></path><path fill="none" class="highcharts-tick" stroke="#ccd6eb" stroke-width="1" d="M 87.5 572 L 87.5 582" opacity="1"></path><path fill="none" class="highcharts-axis-line" stroke="#ccd6eb" stroke-width="1" d="M 88 572.5 L 1560 572.5"></path></g><g class="highcharts-axis highcharts-yaxis "><text x="26.1875" text-anchor="middle" transform="translate(0,0) rotate(270 26.1875 317)" class="highcharts-axis-title" style="color:#666666;fill:#666666;" y="317"><tspan>客流量</tspan></text><path fill="none" class="highcharts-axis-line" d="M 88 62 L 88 572"></path></g><g class="highcharts-series-group"><g class="highcharts-series highcharts-series-0 highcharts-spline-series highcharts-color-0 highcharts-series-hover" transform="translate(88,62) scale(1 1)" clip-path="url(http://218.205.68.159/laly/dataanalysis/mobileLskll/index.do#highcharts-ibuvpi5-1)"><path fill="none" d="M 245.33333333333 156.33685714285713 C 245.33333333333 156.33685714285713 539.733333333332 156.33685714285713 736 143.33185714285713 C 932.2666666666798 130.32685714285714 1226.6666666667 43.867285714285686 1226.6666666667 43.867285714285686" class="highcharts-graph" stroke="#7cb5ec" stroke-width="2.0157084194356845" stroke-linejoin="round" stroke-linecap="round"></path><path fill="none" d="M 235.33333333333 156.33685714285713 L 245.33333333333 156.33685714285713 C 245.33333333333 156.33685714285713 539.733333333332 156.33685714285713 736 143.33185714285713 C 932.2666666666798 130.32685714285714 1226.6666666667 43.867285714285686 1226.6666666667 43.867285714285686 L 1236.6666666667 43.867285714285686" stroke-linejoin="round" visibility="visible" stroke="rgba(192,192,192,0.0001)" stroke-width="22" class="highcharts-tracker" style="cursor:pointer;"></path></g><g class="highcharts-markers highcharts-series-0 highcharts-spline-series highcharts-color-0 highcharts-tracker highcharts-series-hover" transform="translate(88,62) scale(1 1)" style="cursor:pointer;"><path fill="#7cb5ec" d="M 746 143.33185714285713 A 10 10 0 1 1 745.9999950000005 143.3218571445238 Z" class="highcharts-halo highcharts-color-0" fill-opacity="0.25"></path><path fill="#7cb5ec" d="M 742 143 A 6 6 0 1 1 741.9999970000002 142.994000001 Z" stroke="#ffffff" stroke-width="1" visibility="visible"></path></g></g><text x="795" text-anchor="middle" class="highcharts-title" style="color:#333333;font-size:18px;fill:#333333;" y="24"><tspan style="font-size: 24px;font-weight:bold;">【临安市】2017-11-22至2017-11-27客流量分析图(日)</tspan></text><g class="highcharts-legend" transform="translate(759,606)"><rect fill="none" class="highcharts-legend-box" rx="0" ry="0" x="0" y="0" width="73" height="29" visibility="visible"></rect><g><g><g class="highcharts-legend-item highcharts-spline-series highcharts-color-0 highcharts-series-0" transform="translate(8,3)"><path fill="none" d="M 0 11 L 16 11" class="highcharts-graph" stroke="#7cb5ec" stroke-width="2"></path><text x="21" style="color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;" text-anchor="start" y="15"><tspan>临安市</tspan></text></g></g></g></g><g class="highcharts-axis-labels highcharts-xaxis-labels "><text x="333.33333333333337" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="middle" transform="translate(0,0)" y="591" opacity="1"><tspan>2017-11-22</tspan></text><text x="824.0000000000001" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="middle" transform="translate(0,0)" y="591" opacity="1"><tspan>2017-11-23</tspan></text><text x="1314.6666666666667" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="middle" transform="translate(0,0)" y="591" opacity="1"><tspan>2017-11-24</tspan></text></g><g class="highcharts-axis-labels highcharts-yaxis-labels "><text x="73" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="end" transform="translate(0,0)" y="576" opacity="1"><tspan>0</tspan></text><text x="73" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="end" transform="translate(0,0)" y="503" opacity="1"><tspan>10000</tspan></text><text x="73" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="end" transform="translate(0,0)" y="430" opacity="1"><tspan>20000</tspan></text><text x="73" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="end" transform="translate(0,0)" y="357" opacity="1"><tspan>30000</tspan></text><text x="73" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="end" transform="translate(0,0)" y="285" opacity="1"><tspan>40000</tspan></text><text x="73" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="end" transform="translate(0,0)" y="212" opacity="1"><tspan>50000</tspan></text><text x="73" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="end" transform="translate(0,0)" y="139" opacity="1"><tspan>60000</tspan></text><text x="73" style="color:#000000;cursor:default;font-size:11px;fill:#000000;" text-anchor="end" transform="translate(0,0)" y="66" opacity="1"><tspan>70000</tspan></text></g><text x="1580" class="highcharts-credits" text-anchor="end" style="cursor:pointer;color:#999999;font-size:9px;fill:#999999;" y="645"></text><g class="highcharts-label highcharts-tooltip highcharts-color-0" style="cursor:default;pointer-events:none;white-space:nowrap;" transform="translate(742,123)" opacity="1" visibility="visible"><path fill="none" class="highcharts-label-box highcharts-tooltip-box" d="M 5.5 0.5 L 160.5 0.5 C 165.5 0.5 165.5 0.5 165.5 5.5 L 165.5 61.5 C 165.5 66.5 165.5 66.5 160.5 66.5 L 87.5 66.5 81.5 72.5 75.5 66.5 5.5 66.5 C 0.5 66.5 0.5 66.5 0.5 61.5 L 0.5 5.5 C 0.5 0.5 0.5 0.5 5.5 0.5" isShadow="true" stroke="#000000" stroke-opacity="0.049999999999999996" stroke-width="5" transform="translate(1, 1)"></path><path fill="none" class="highcharts-label-box highcharts-tooltip-box" d="M 5.5 0.5 L 160.5 0.5 C 165.5 0.5 165.5 0.5 165.5 5.5 L 165.5 61.5 C 165.5 66.5 165.5 66.5 160.5 66.5 L 87.5 66.5 81.5 72.5 75.5 66.5 5.5 66.5 C 0.5 66.5 0.5 66.5 0.5 61.5 L 0.5 5.5 C 0.5 0.5 0.5 0.5 5.5 0.5" isShadow="true" stroke="#000000" stroke-opacity="0.09999999999999999" stroke-width="3" transform="translate(1, 1)"></path><path fill="none" class="highcharts-label-box highcharts-tooltip-box" d="M 5.5 0.5 L 160.5 0.5 C 165.5 0.5 165.5 0.5 165.5 5.5 L 165.5 61.5 C 165.5 66.5 165.5 66.5 160.5 66.5 L 87.5 66.5 81.5 72.5 75.5 66.5 5.5 66.5 C 0.5 66.5 0.5 66.5 0.5 61.5 L 0.5 5.5 C 0.5 0.5 0.5 0.5 5.5 0.5" isShadow="true" stroke="#000000" stroke-opacity="0.15" stroke-width="1" transform="translate(1, 1)"></path><path fill="#999999" class="highcharts-label-box highcharts-tooltip-box" d="M 5.5 0.5 L 160.5 0.5 C 165.5 0.5 165.5 0.5 165.5 5.5 L 165.5 61.5 C 165.5 66.5 165.5 66.5 160.5 66.5 L 87.5 66.5 81.5 72.5 75.5 66.5 5.5 66.5 C 0.5 66.5 0.5 66.5 0.5 61.5 L 0.5 5.5 C 0.5 0.5 0.5 0.5 5.5 0.5" stroke="ffffff" stroke-width="1"></path></g></svg><div class="highcharts-label highcharts-tooltip highcharts-color-0" style="position: absolute; left: 742px; top: 123px; opacity: 1; pointer-events: none; visibility: visible;"><span style="font-family: &quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif; font-size: 12px; position: absolute; white-space: nowrap; color: rgb(51, 51, 51); margin-left: 0px; margin-top: 0px; left: 8px; top: 8px;" transform="translate(0,0)"><div style="color:#ffffff"><div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">		<span style="margin-left:7px;">时间：</span>		<span style="heigt:8px;font-size:13px;margin-left:5px;">2017-11-23</span>	</div></div><div style="height:20px;background:#666666;border-radius: 10px;line-height:20px;margin:0px 0px 5px 0px;">	<div style="width:60%;float:left;height:8px;margin:0px 8px 8px 8px;">		<span style="margin-left:7px;">临安市</span>		<span style="display:inline-block;margin-top:5px;margin-left:10px;line-height:30px;width:10px;height:10px;background:#7cb5ec;">&nbsp;</span>		<span style="heigt:8px;font-size:13px;margin-left:5px;">50,327</span>	</div></div></div></span></div></div></div>
+			<!-- 表格展示区 -->
+			<div id="tableDiv" style="width:100%;display: none;height:82%;">
+				<div style="width:100%;margin:0px;padding:0px;max-height:100%;overflow-x: hidden;overflow-y: auto;">
+					<div id="alldata" class="row-fluid" style="width: 1590px; height: 100%; margin: 0px; padding: 0px;">
+						<div class="span12" id="data"><table style="border:1px solid #c4cdd8; " class="table table-bordered table-hover "><thead><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center; ">时间 / 地区</td><td style="text-align:center;">临安市</td></tr></thead><tbody><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">2017-11-22</td><td style="text-align:center;">48,542</td></tr><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">2017-11-23</td><td style="text-align:center;">50,327</td></tr><tr style="font-size: 16px; font-family: 微软雅黑, 宋体, 黑体;"><td style="text-align:center;">2017-11-24</td><td style="text-align:center;">63,979</td></tr></tbody></table></div>
+					</div>
+				</div>
+				<!-- 表格分页 -->
+				<div id="bbpage" style="background: url(&quot;img/sys/thbg.png&quot;); width: 1590px; height: 39px; border-radius: 0px; border: 1px solid rgb(196, 205, 216); display: block;">
+					<span id="pageNum" style="float:right;line-height:39px; font-size: 14px;margin-right:15px;"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript" src="./mobileLskll.js.下载"></script>
+<script type="text/javascript">
+
+	//设置初始时间
+	//日
+	var currdate = new Date();
+	currdate.setDate(currdate.getDate()-1);
+	endTime = currdate.format("yyyy-MM-dd");	
+	var currdate1 = new Date();
+	currdate1.setDate(currdate1.getDate()-6);
+	startTime = currdate1.format("yyyy-MM-dd");
+	$('#displaytimevalue').html(startTime+' ~ '+endTime);	
+	$('#startTime1006').val(startTime);
+	$('#endTime1006').val(endTime);
+	//月
+	var sdate = new Date();
+	var edate = new Date();
+	sdate.setMonth(sdate.getMonth() - 5, 1);
+	edate.setMonth(edate.getMonth() - 1, 1);
+	$('#startTime1007').val(sdate.format("yyyy-MM"));
+	$('#endTime1007').val(edate.format("yyyy-MM"));
+	//季度
+	var now = new Date(); //当前日期
+	var nowDay = now.getDate(); //当前日
+	var nowMonth = now.getMonth(); //当前月
+	var nowYear = now.getFullYear(); //当前年
+	$('#startTime1008_1').val(nowYear);
+	if (nowMonth >= 2 && nowMonth <= 4) { //第一季度
+		$('#startTime1008_1').val(nowYear);
+		$('#startTime1008_2').val('01'); //01
+		$('#endTime1008_2').val('01');
+
+	} else if (nowMonth >= 5 && nowMonth <= 7) { //第二季度
+		$('#startTime1008_1').val(nowYear);
+		$('#startTime1008_2').val('01'); //04
+		$('#endTime1008_2').val('04');
+
+	} else if (nowMonth >= 8 && nowMonth <= 10) { //第三季度
+		$('#startTime1008_1').val(nowYear);
+		$('#startTime1008_2').val('01'); //07
+		$('#endTime1008_2').val('07');
+
+	} else if (nowMonth >= 11 || nowMonth <= 1) { //第四季度
+		$('#startTime1008_1').val(nowYear);
+		$('#startTime1008_2').val('01'); //10
+		$('#endTime1008_2').val('10');
+	}
+
+	var scenes = {"result":[{"scenesName":"临安市","scenesId":"5718"},{"scenesName":"白水涧","scenesId":"571801"},{"scenesName":"大明山","scenesId":"571802"},{"scenesName":"东天目山","scenesId":"571803"},{"scenesName":"河桥古镇","scenesId":"571804"},{"scenesName":"红叶指南","scenesId":"571805"},{"scenesName":"临安八百里风情岛","scenesId":"571806"},{"scenesName":"玲珑山","scenesId":"571807"},{"scenesName":"柳溪江","scenesId":"571808"},{"scenesName":"龙井峡","scenesId":"571809"},{"scenesName":"钱王陵园","scenesId":"571810"},{"scenesName":"青山湖","scenesId":"571811"},{"scenesName":"清凉峰旅游度假区","scenesId":"571812"},{"scenesName":"瑞晶石花洞","scenesId":"571813"},{"scenesName":"神龙川","scenesId":"571814"},{"scenesName":"十门峡","scenesId":"571815"},{"scenesName":"太湖源","scenesId":"571816"},{"scenesName":"天目大峡谷","scenesId":"571817"},{"scenesName":"天目源","scenesId":"571818"},{"scenesName":"湍口众安氡温泉","scenesId":"571819"},{"scenesName":"西径山","scenesId":"571820"},{"scenesName":"天目山","scenesId":"571821"},{"scenesName":"月亮湾","scenesId":"571822"},{"scenesName":"浙西大龙湾","scenesId":"571823"},{"scenesName":"浙西大峡谷","scenesId":"571854"}]};
+	var scenesYkrsList = {"result":{"临安市":[{"scenesName":"临安市","counts":48542,"shijian":"2017-11-22"},{"scenesName":"临安市","counts":50327,"shijian":"2017-11-23"},{"scenesName":"临安市","counts":63979,"shijian":"2017-11-24"}]},"xData":["2017-11-22","2017-11-23","2017-11-24"],"tabledata":[{"obj0":"时间 / 地区","obj1":"临安市"},{"obj0":"2017-11-22","obj1":"48542"},{"obj0":"2017-11-23","obj1":"50327"},{"obj0":"2017-11-24","obj1":"63979"}],"count":2};
+
+	$("#tableBtn").click(function() {
+		$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+		$("#tableDiv").css({
+			'display' : 'block'
+		});
+		$("#chart").css({
+			'display' : 'none'
+		});
+	});
+	$("#lineBtn").click(function() {
+		$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+		$("#chart").css({
+			'display' : 'block'
+		});
+		$("#tableDiv").css({
+			'display' : 'none'
+		});
+	});
+
+	//控制页最小放缩大小
+	function changeSize() {
+		var bwidth = document.documentElement.clientWidth;
+		var hmain = document.getElementById("body");
+		var divmain = document.getElementById("divBody");
+		//var divdata = document.getElementById("data");
+		var alldata = document.getElementById("alldata");
+		hmain.style.width = bwidth + 'px';
+		divmain.style.width = (bwidth - 30) + 'px';
+		//divdata.style.width = (bwidth-60)+'px';
+		alldata.style.width = (bwidth - 30) + 'px';
+		document.getElementById("bbpage").style.width = (bwidth - 30) + 'px';
+		if ($(window).height() - 300 > 350) {
+			$('#chart').height($(window).height() - 300);
+		} else {
+			$('#chart').height(350);
+		}
+	}
+	changeSize();
+	window.onresize = function() {
+		changeSize();
+	};
+</script>
+
+</body></html>

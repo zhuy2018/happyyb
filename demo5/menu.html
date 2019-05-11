@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>中航紫金云熙 - 列表页</title>
+<link href="css/basic.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+$(function (){
+	$('body').append('<div class="goTop"></div>');
+	$(window).scroll(function(){
+		var curTop = $(window).scrollTop();
+		if(curTop>100){
+			$('.goTop').fadeIn("fast")
+		}else{
+			$('.goTop').fadeOut("fast")
+		}
+	});
+	$(".goTop").click(function() {
+		$("html,body").animate({scrollTop: 0}, 500);
+	});
+});
+</script>
+</head>
+
+<body>
+<!--主体-->
+<div class="main">
+  <div class="menu">
+    <a href="index.html"><img src="image/menu01.jpg" /></a>
+    <a href="brand.html"><img src="image/menu02.jpg" /></a>
+    <a href="champion.html"><img src="image/menu03.jpg" /></a>
+    <a href="work.html"><img src="image/menu04.jpg" /></a>
+    <a href="introduction.html"><img src="image/menu05.jpg" /></a>
+    <a href="resources.html"><img src="image/menu06.jpg" /></a>
+    <a href="property.html"><img src="image/menu07.jpg" /></a>
+    <a href="decoration.html"><img src="image/menu08.jpg" /></a>
+    <a href="design.html"><img src="image/menu09.jpg" /></a>
+    <a href="panoramic.html"><img src="image/menu11.jpg" /></a>
+    <a href="apartment.html"><img src="image/menu10.jpg" /></a>
+  </div>
+  <footer id="footer">
+    <div class="footer">
+      <p>@2014版权所有：龙岩紫金中航房地产开发有限公司</p>
+      <p>全程策划：<a href="http://m.juzhen.com/" target="_blank">矩阵互动</a></p>
+    </div>
+  </footer>
+</div>
+<!--主体 end-->
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>消费专题</title>
+<link rel="stylesheet" type="text/css" href="../css/plugins/animate.min.css"/><!--动画 样式表-->
+<link rel="stylesheet" type="text/css" href="../css/common.css"/><!--公共 清除默认 样式表-->
+<link rel="stylesheet" type="text/css" href="../css/topBar.css"/><!--头部导航栏样式表-->
+<link rel="stylesheet" type="text/css" href="../css/consume.css"/>
+</head>
+<body>
+	<!--上方导航 开始-->
+	<div class="top_bar">
+		<h3 class="top_title">临安旅游大数据平台</h3>
+		<ul class="top_main"> 
+			<li><a href="../index.html">综合信息</a></li>
+			<li class="active"><a href="subject.html">专题分析</a></li>
+			<li><a href="villageSubject.html">乡村旅游</a></li>
+			<span class="bot_line"></span>
+		</ul>
+		<div class="login_box">
+			<div class="user_name">
+				你好,管理员
+				<!--<img src="" alt="" />-->
+			</div>
+			<div class="choose_box">
+				<span class="exit_box">退出</span>
+				<!--<span class="edit_box">修改资料</span>-->
+			</div>
+		</div>
+	</div>	
+	<!--上方导航 结束-->
+	<div class="content_wrap">
+		<div class="JQueryiframe"></div>
+		<div class="content_main">
+			<div class="title">消费专题</div>
+			<div class="main_left">
+				<div class="l_top">
+					<div class="per_title">省内游客消费榜单</div>
+					<div class="billboard_wrap">
+						<div id="map_chart">
+							<!--<img src="img/consume/1.png" alt="" />-->
+						</div>
+						<div class="tab_wrap">
+							<!-- 选中添加class名.active -->
+							<div class="tab active">月份</div>
+							<div class="tab">节假日</div>
+						</div>
+						<div class="year_choose">2017年</div>
+						<div class="billboard">
+							<div class="bill_title">省内游客消费榜单(元)</div>
+							<div class="bill_table">
+								<!-- 人均消费 增长 添加class名.up ;结果减少 添加class名 .down -->
+								<div class="per_table">
+									<div class="bill_num">1</div>
+									<div class="bill_area">衢州</div>
+									<div class="per_consume">人均消费 : 359</div>
+									<div class="up_down up">↑ 28</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">2</div>
+									<div class="bill_area">杭州</div>
+									<div class="per_consume">人均消费 : 289</div>
+									<div class="up_down down">↓ 15</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">3</div>
+									<div class="bill_area">衢州</div>
+									<div class="per_consume">人均消费 : 359</div>
+									<div class="up_down up">↑ 28</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">4</div>
+									<div class="bill_area">杭州</div>
+									<div class="per_consume">人均消费 : 289</div>
+									<div class="up_down down">↓ 15</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">5</div>
+									<div class="bill_area">衢州</div>
+									<div class="per_consume">人均消费 : 359</div>
+									<div class="up_down up">↑ 28</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">6</div>
+									<div class="bill_area">杭州</div>
+									<div class="per_consume">人均消费 : 289</div>
+									<div class="up_down up">↑ 15</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">7</div>
+									<div class="bill_area">衢州</div>
+									<div class="per_consume">人均消费 : 359</div>
+									<div class="up_down up">↑ 28</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">8</div>
+									<div class="bill_area">杭州</div>
+									<div class="per_consume">人均消费 : 289</div>
+									<div class="up_down down">↓ 15</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">9</div>
+									<div class="bill_area">衢州</div>
+									<div class="per_consume">人均消费 : 359</div>
+									<div class="up_down up">↑ 28</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">10</div>
+									<div class="bill_area">杭州</div>
+									<div class="per_consume">人均消费 : 289</div>
+									<div class="up_down down">↓ 15</div>
+								</div>
+								<div class="per_table">
+									<div class="bill_num">11</div>
+									<div class="bill_area">杭州</div>
+									<div class="per_consume">人均消费 : 289</div>
+									<div class="up_down down">↓ 15</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main_right">
+				<div class="r_top animated slideInRight">
+					<div class="per_title">游客消费水平画像</div>
+					<div class="r_toolbox">
+						<div class="per_box">
+							<span></span>消费水平较高
+						</div>
+						<div class="per_box">
+							<span></span>消费水平中等
+						</div>
+						<div class="per_box">
+							<span></span>消费水平较低
+						</div>
+					</div>
+					<div class="top_percent">
+						<img src="img/consume/top_percent.png" alt="" />
+						<div class="taller">消费水平较高<span id="">20%</span></div>
+						<div class="middle">消费水平中等<span id="">45%</span></div>
+						<div class="lower">消费水平较低<span id="">35%</span></div>
+					</div>
+				</div>
+				<div class="r_bot">
+					<div class="per_title">消费行业分布</div>
+					<div id="trade_spread"></div>
+				</div>
+			</div>
+			<div class="bar_bot">
+				<ul>
+					<li>
+						<a href="realtimeVisitor.html">
+							<span class="">游客专题</span>
+						</a>
+					</li>
+					<li>
+						<a href="figure.html">
+							<span class="">游客画像</span>
+						</a>
+					</li>
+					<li>
+						<a href="destination.html">
+							<span class="">市民出游目的地</span>
+						</a>
+					</li>
+					<li>
+						<a href="consume.html" class="active">
+							<span class="">消费专题</span>
+						</a>
+					</li>
+					<li>
+						<a href="villageTour.html">
+							<span class="">乡村特色旅游</span>
+						</a>
+					</li>
+					<li>
+						<a href="activity.html">
+							<span class="">游客活动轨迹</span>
+						</a>
+					</li>
+					<li>
+						<a href="buyTickit.html">
+							<span class="">景区购票专题</span>
+						</a>
+					</li>
+					<li>
+						<a href="weather.html">
+							<span class="">天气对游客影响</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
+<script type="text/javascript" src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/autoSize.js"></script>
+<script type="text/javascript" src="../js/topBar.js"></script>
+<script type="text/javascript" src="../js/activity.js"></script>
+
+</body>
+</html>

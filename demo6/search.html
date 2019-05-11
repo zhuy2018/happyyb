@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>优安APP - 商品搜索</title>
+<link href="css/basic.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/content_width.js"></script>
+</head>
+
+<body>
+<article class="page">
+  <section class="wrap">
+    <div class="wrap_header">
+      <span onClick="window.history.go(-1)"></span>
+      <a class="wrap_header_jt1" href="javascript:location.reload()"></a>
+      <a class="wrap_header_jt2" href="javascript:;"></a>
+      <span>优安鲜品</span>
+      <ul>
+        <li><a href="productcat.html">商品品类</a></li>
+        <li><a href="search.html">商品搜索</a></li>
+      </ul>
+    </div>
+    <div id="wrap_co" class="wrap_co search">
+      <div class="container_search">
+        <div class="container_search_co">
+          <p><span></span></p>
+          <input class="container_search_co_input" type="text" placeholder="输入商品搜索关键词" />
+          <button type="button">搜索</button>
+        </div>
+      </div>
+      <ul id="ul1">
+        <li class="active">默认</li>
+        <li>销量</li>
+        <li>价格</li>
+      </ul>
+      <div id="search_list_z">
+        <div class="search_list wrap_co" style="display:block;">  
+
+        </div>
+        <div class="search_list wrap_co">  
+          
+        </div>
+        <div class="search_list wrap_co">  
+         
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <footer>
+    <a class="footer" href="javascriupt:;">首页</a>
+    <div class="footer_a">
+      <a class="footer" href="javascriupt:;">优先推荐<em></em></a>
+      <ul>
+        <li><a href="productcat.html">本周热推</a></li>
+        <li><a href="productcat.html">新品热卖</a></li>
+        <li><a href="search.html">新品鉴</a></li>
+      </ul>
+    </div>
+    <a class="footer" href="javascriupt:;">购物车</a>
+    <div class="footer_a">
+      <a class="footer" href="javascriupt:;">个人中心<em></em></a>
+      <ul>
+        <li><a href="productcat.html">会员首页</a></li>
+        <li><a href="productcat.html">订单中心</a></li>
+        <li><a href="search.html">收货地址</a></li>
+      </ul>
+    </div>
+  </footer>
+</article>
+<script type="text/javascript">
+$('#search_list_z:gt(0)').hide();
+var btn=$('.search ul li');
+btn.click(function(){
+	$(this).addClass('active')
+		   .siblings().removeClass();
+	$( '.search_list' ).eq(btn.index(this)).fadeIn(300)
+							   .siblings().fadeOut(100);
+});	
+
+var len=25;
+var sHtml='';
+for(var i=0;i<len;i++){
+	sHtml+=" <dl><dt><a href='goods_details.html'><img src='http://sfs.yaxp.com:8000/F3AF03190CD18A481C5FB8F24DC1280B000095F700C300C3.jpg'></a></dt><dd class='bt'><a href='goods_details.html'>新西兰原灌装进口奥戈尼ogni有机青少年学生全脂牛奶粉 高钙铁锌</a></dd><dd class='gg'>规格：500g/包</dd><dd class='gg'>价格： <span>¥158</span> /袋</dd></dl> ";
+}
+$('.search_list').html( sHtml );	
+</script>
+</body>
+</html>

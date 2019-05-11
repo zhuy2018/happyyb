@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><!-- 告诉IE使用最新的引擎渲染网页， -->
+    <meta name="renderer" content="webkit"><!-- 360安全浏览器，默认打开 极速模式。 -->
+    <!--#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.-->
+    <title>环保行为督察系统</title>
+    <link rel="stylesheet" href="../css/public/common.css">
+    <link rel="stylesheet" href="../css/topBar/topBar.css">
+    <link rel="stylesheet" href="../css/xingwei/xingwei2.css">
+</head>
+<body>
+<div class="content_wrap">
+    <!--头部导航开始-->
+    <div class="topBar">
+		<div class="logo">环保行为督察系统</div>
+		<ul class="topMain">
+			<li><a href="../index.html">首页</a></li>
+			<li><a href="huanbao.html">环保应用</a></li>
+			<li><a href="xingwei.html">行为督察</a></li>
+			<li class="active"><a href="xingwei2.html">人群分析</a></li>
+			<li><a href="#">更多功能</a></li>
+		</ul>
+		<div class="login_box">
+			<div class="user_name">
+				你好,系统管理员
+			</div>
+		</div>
+	</div>
+    <!--头部导结束-->
+    <div class="content_main">
+        <!--<ul class="enter">
+            <li><a href="xingwei.html">行为督察指数</a></li>
+            <li class="now_active"><a href="xingwei2.html">人群结构分析</a></li>
+        </ul>-->
+        <div class="content">
+            <!--<img class="img1" src="../img/xingwei/1.png" alt="">
+            <img class="img2" src="../img/xingwei/2.png" alt="">
+            <img class="img3" src="../img/xingwei/3.png" alt="">
+            <img class="img4" src="../img/xingwei/4.png" alt="">-->
+            <ul class="lei_shuju">
+                <li class="active">水源防护</li>
+                <li>森林防护</li>
+                <li>大气防护</li>
+                <li>城市环保</li>
+                <li>土地监测</li>
+                <li>治污减排</li>
+                <li>全部</li>
+            </ul>
+            <div class="main_top">
+                <div class="t_left">
+                    <div class="per_title">男女比例</div>
+                    <div class="sex_percent">
+                        <!--图表dom-->
+                        <div id="sex_percent"></div>
+                        <div class="double_png"></div>
+                    </div>
+                </div>
+                <div class="t_center">
+                    <div class="per_title">来源地分布</div>
+                    <div id="from"></div>
+                    <!--<ul id="citydetail">
+                        <li>福建:&nbsp;10.12%</li>
+                        <li>河南:&nbsp;8.73%</li>
+                        <li>新疆:&nbsp;6.84%</li>
+                        <li>西藏:&nbsp;6.75%</li>
+                        <li>山东:&nbsp;5.85%</li>
+                        <li>云南:&nbsp;3.63%</li>
+                        <li>四川:&nbsp;3.26%</li>
+                        <li>甘肃:&nbsp;2.80%</li>
+                        <li>广东:&nbsp;2.75%</li>
+                        <li>北京:&nbsp;2.62%</li>
+                    </ul>-->
+                </div>
+                <div class="t_right">
+                    <div class="per_title">年龄分布</div>
+                    <div id="age_chart"></div>
+                </div>
+            </div>
+            <div class="main_bot">
+                <div class="b_left">
+                    <div class="per_title">省内/外对比</div>
+                    <div id="source"></div>
+                </div>
+                <div class="b_center">
+                    <div class="per_title">职业分布</div>
+                    <div id="work"></div>
+                </div>
+                <div class="b_right">
+                    <div class="per_title">消费水平</div>
+                    <div id="consume"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/plugins/jquery-1.9.1.min.js"></script>
+<script src="../js/plugins/geoCoord.js"></script>
+<script src="../js/plugins/echarts-all.js"></script>
+<script src="../js/public/autoSize.js"></script>
+<script src="../js/xingwei/xingwei2.js"></script>
+<script>
+    $(".lei_shuju li").click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+</script>
+</body>
+</html>
